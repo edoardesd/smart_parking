@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Smart Parking</string>
+    <string name="password">Password</string>
+    <string name="select">Select Item</string>
+    <string name="googleMapKey">AIzaSyBJYkizjyo1iqL6Flk5kSv8zypy3A0GG5s</string>
+
+
+    <string-array name="campus_location">
+        <item>Room 1.0.1</item>
+        <item>Room 1.0.2</item>
+        <item>Room 1.0.3</item>
+        <item>Room 1.1.1</item>
+        <item>Room 1.1.2</item>
+        <item>Room 1.1.3</item>
+        <item>Room 3.1.1</item>
+        <item>Room 3.1.2</item>
+        <item>Room 3.1.3</item>
+    </string-array>
+
+    <string-array name="countries">
+        <item>USA</item>
+        <item>Canada</item>
+        <item>UK</item>
+        <item>Germany</item>
+        <item>Switzerland</item>
+        <item>Wales</item>
+    </string-array>
+
+
+</resources>
