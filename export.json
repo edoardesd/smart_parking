@@ -1,0 +1,128 @@
+{
+    "__collections__":
+    {
+        "rooms":
+        {
+            "4.0.1":
+            {
+                "building": 4,
+                "location":
+                {
+                    "__datatype__": "geopoint",
+                    "value":
+                    {
+                        "_latitude": 46.027128,
+                        "_longitude": 8.488572
+                    }
+                },
+                "room": "Room 4.0.1"
+            },
+
+            "5.0.1":
+            {
+                "building": 5,
+                "location":
+                {
+                    "__datatype__": "geopoint",
+                    "value":
+                    {
+                        "_latitude": 45.47771275199468, 
+                        "_longitude": 9.228771027279832
+                    }
+                },
+                "room": "Room 5.0.1",
+                "plus_code": "F6HH+2F Milan, Metropolitan City of Milan"
+            },
+
+            "22.1.1":
+            {
+                "building": 22,
+                "location":
+                {
+                    "__datatype__": "geopoint",
+                    "value":
+                    {
+                        "_latitude": 45.47811143966341, 
+                        "_longitude": 9.23460752183241
+                    }
+                },
+                "room": "Room 22.1.1",
+                "plus_code": "F6HM+6R Milan, Metropolitan City of Milan"
+            },
+
+            "room 2.4.2":
+            {
+                "name": "Room 2.4.2",
+                "__collections__":
+                {}
+            }
+        },
+
+        "users":
+        {
+            "0l7eAXzZtYVmjke0WmDo":
+            {
+                "home":
+                {
+                    "__datatype__": "geopoint",
+                    "value":
+                    {
+                        "_latitude": 45.6624,
+                        "_longitude": 8.7921
+                    }
+                },
+                "calendar":
+                {
+                    "room": "1.2.1",
+                    "timestamp":
+                    {
+                        "__datatype__": "timestamp",
+                        "value":
+                        {
+                            "_seconds": 1652868900,
+                            "_nanoseconds": 0
+                        }
+                    },
+                    "location":
+                    {
+                        "__datatype__": "geopoint",
+                        "value":
+                        {
+                            "_latitude": 46.8027,
+                            "_longitude": 9.836
+                        }
+                    }
+                },
+                "vehicle":
+                {
+                    "bike": "pinarello",
+                    "car": "panda"
+                },
+                "name": "user1",
+                "__collections__":
+                {}
+            },
+            "0riMTpffZ3ltsbSAoEmQ":
+            {
+                "emojis": "💕💕",
+                "displayName": "bundazo",
+                "__collections__":
+                {}
+            },
+            "F4scCjNdXuWStgG3s3Vk":
+            {
+                "emojis": "cane",
+                "displayName": "dio",
+                "__collections__":
+                {}
+            },
+            "gAHuk7QRkBRp5GCLdewW":
+            {
+                "displayName": "madonna",
+                "emojis": "😂",
+                "__collections__":
+                {}
+            }
+        }
+    }
+}

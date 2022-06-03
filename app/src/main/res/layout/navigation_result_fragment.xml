@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.parking.navigation.result.NavigationResultFragment">
+
+
+    <TextView
+        android:id="@+id/tv_destination_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="55dp"
+        android:textSize="40sp"
+        android:text="Destination:" />
+
+    <TextView
+        android:id="@+id/tv_destination_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="55dp"
+        android:textSize="40sp"
+        android:text="Loading..." />
+
+    <TextView
+        android:id="@+id/tv_car_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginEnd="55dp"
+        android:textSize="20sp"
+        android:text="Car estimated time:" />
+
+    <TextView
+        android:id="@+id/tv_car_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="220dp"
+        android:layout_marginEnd="55dp"
+        android:textSize="25sp"
+        android:text="Loading..." />
+
+    <TextView
+        android:id="@+id/tv_bike_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="280dp"
+        android:layout_marginEnd="55dp"
+        android:textSize="20sp"
+        android:text="Bike estimated time:" />
+
+    <TextView
+        android:id="@+id/tv_bike_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="320dp"
+        android:layout_marginEnd="55dp"
+        android:textSize="25sp"
+        android:text="Loading..." />
+</FrameLayout>

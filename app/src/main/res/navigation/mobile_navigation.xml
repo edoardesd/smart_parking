@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigationFragment">
+
+    <fragment
+        android:id="@+id/navigationFragment"
+        android:name="com.example.smartparking.ui.parking.navigation.choice.NavigationChoiceFragment"
+        android:label="navigation_fragment"
+        tools:layout="@layout/navigation_choice_fragment" >
+        <action
+            android:id="@+id/actionResult"
+            app:destination="@id/navigationResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigationResultFragment"
+        android:name="com.example.smartparking.ui.parking.navigation.result.NavigationResultFragment"
+        android:label="navigation_result_fragment"
+        tools:layout="@layout/navigation_result_fragment" >
+<!--        <argument-->
+<!--            android:name="epochString"-->
+<!--            app:argType="string"-->
+<!--            android:defaultValue="now" />-->
+<!--        <argument-->
+<!--            android:name="roomString"-->
+<!--            app:argType="string" />-->
+        <argument
+            android:name="navigationDetails"
+            app:argType="com.example.smartparking.data.NavigationDetails" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/controlFragment"
+        android:name="com.example.smartparking.ui.parking.control.ControlFragment"
+        android:label="control_fragment"
+        tools:layout="@layout/control_fragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.smartparking.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
+
+</navigation>
