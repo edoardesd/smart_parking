@@ -2,6 +2,7 @@ package com.example.smartparking.data
 
 
 import android.os.Parcelable
+import com.example.smartparking.data.db.RoomDetails
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

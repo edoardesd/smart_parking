@@ -1,4 +1,4 @@
-package com.example.smartparking.data.response
+package com.example.smartparking.data.network.response
 
 
 import com.google.gson.annotations.SerializedName

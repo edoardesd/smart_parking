@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android-extensions'
-//    id "kotlin-kapt"
+    id "kotlin-kapt"
     id "androidx.navigation.safeargs"
     id 'com.google.gms.google-services'
 }
@@ -71,6 +71,17 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx:20.0.5'
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.1'
     implementation 'com.google.firebase:firebase-firestore-ktx'
+
+    // Room
+    implementation "androidx.room:room-runtime:2.4.2"
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
+    implementation 'androidx.room:room-common:2.4.2'
+    kapt "androidx.room:room-compiler:2.4.2"
+
+    // Preference
+    implementation "androidx.preference:preference:1.0.0"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

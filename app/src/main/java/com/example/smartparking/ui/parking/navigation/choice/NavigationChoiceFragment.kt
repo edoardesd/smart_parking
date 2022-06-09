@@ -15,24 +15,40 @@ import androidx.navigation.Navigation
 import com.example.smartparking.R
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
-import com.example.smartparking.data.RoomDetails
+import com.example.smartparking.data.db.RoomDetails
+import com.example.smartparking.data.provider.UnitProvider
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.navigation_choice_fragment.*
+import kotlinx.coroutines.*
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 
 class NavigationChoiceFragment : Fragment() {
 
     private var db = Firebase.firestore
+    private var roomsCollectionRef = Firebase.firestore.collection("rooms")
+//    private var my_locations : ArrayList<RoomDetails> = arrayListOf<RoomDetails>()
+    var roomsArrayList : ArrayList<String> = arrayListOf<String>()
+    var roomsDetailsArrayList : ArrayList<RoomDetails> = arrayListOf<RoomDetails>()
+
+    var selectedLocation : RoomDetails? = null
+
+//    val roomsRef = db.collection("rooms")
+
     lateinit var bindingView: View
 
     private var timeButton: Button? = null
     private var goButton: Button? = null
     private var date = MyDate()
     private var item_index : Int = 0
-//    private var locations : List<RoomDetails>
+
+//    private lateinit var locations : List<RoomDetails>
 
 //    private var hour : Int = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
 //    private var minute : Int = Calendar.getInstance().get(Calendar.MINUTE)
@@ -41,15 +57,24 @@ class NavigationChoiceFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         bindingView = inflater.inflate(R.layout.navigation_choice_fragment,container,false)
         return bindingView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initTextView(getAllRooms(db))
+//        val locations : List<RoomDetails>
+
+
+//        readData { roomsList -> Log.d(TAG, "$roomsList") }
+//        retrieveRooms()
+        getAllRooms(db)
         initTimePicker()
         initGoButton()
+//        initTextView(getAllRooms(db))
+        initTextView()
+
     }
 
     private fun initGoButton() {
@@ -58,11 +83,44 @@ class NavigationChoiceFragment : Fragment() {
             showNavigationDetails(view)
         }
     }
+    private fun retrieveRooms() = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val querySnapshot = roomsCollectionRef.get().addOnCompleteListener { result ->
+                for (document in result.getResult()) {
+                    val room = RoomDetails(
+                        document.data.getValue("room").toString(),
+                        document.data.getValue("building").toString().toInt(),
+                        document.getGeoPoint("location")!!.latitude,
+                        document.getGeoPoint("location")!!.longitude)
 
+                    Log.d(TAG, "log query snapshot ${document.data.getValue("room").toString()}")
+                    Log.d(TAG, room.toString())
+
+                    roomsArrayList.add(room.name)
+                    roomsDetailsArrayList.add(room)
+
+                }
+//                Log.d(TAG, "Rooms inside: $roomsArrayList")
+//                Log.d(TAG, "rooms ${roomsArrayList.map { x -> x.name }}")
+
+            }
+//            for (document in querySnapshot) {
+//                val myRoom = document.toObject<RoomDetails>()
+//                Log.d(TAG, myRoom)
+//            }
+
+//            withContext(Dispatchers.Main) {
+//                Log.d(TAG, "context")
+//            }
+        } catch(e: Exception) {
+            withContext(Dispatchers.Main) {
+                Log.d(TAG, "error")
+            }
+        }
+    }
     private fun showNavigationDetails(view: View) {
         Log.d(TAG, timeButton?.text.toString().lowercase())
-        var room = RoomDetails("2.1.1", 2, 45.47811143966341,9.23460752183241)
-        val navigationDetail = NavigationDetails(room, date.epoch)
+        val navigationDetail = NavigationDetails(selectedLocation!!, date.epoch)
         val actionDetail = NavigationChoiceFragmentDirections.actionResult(navigationDetail)
 
         with(Navigation) {
@@ -78,19 +136,19 @@ class NavigationChoiceFragment : Fragment() {
         }
     }
 
-    private fun initTextView(locations: ArrayList<RoomDetails>) {
+    private fun initTextView() {
         val adapter = ArrayAdapter(
             requireView().context,
             R.layout.list_item,
-            locations
-//            getLocations()
-//            getAllRooms(db)
+            roomsArrayList
         )
-        tv_auto_complete_text_view.setAdapter(adapter)
-    }
 
-    private fun getLocations() : Array<out String> {
-        return resources.getStringArray(R.array.campus_location)
+        tv_auto_complete_text_view.setAdapter(adapter)
+        tv_auto_complete_text_view.setOnItemClickListener { adapterView, view, position, id ->
+//            selectedLocation = adapterView.getItemAtPosition(position) as RoomDetails
+            Log.d(TAG, "selected this item: ${  position}")
+            selectedLocation = roomsDetailsArrayList[position]
+        }
     }
 
     private fun openTimePicker(){
@@ -124,28 +182,55 @@ class NavigationChoiceFragment : Fragment() {
         )
     }
 
-    private fun getAllRooms(database : FirebaseFirestore): ArrayList<RoomDetails> {
-        var roomsArrayList : ArrayList<RoomDetails> = arrayListOf<RoomDetails>()
+    fun getAllRooms(database : FirebaseFirestore) {
+//        var roomsArrayList : ArrayList<RoomDetails> = arrayListOf<RoomDetails>()
+        database.collection("rooms").get(Source.DEFAULT)
+            .addOnCompleteListener { result ->
+                for (document in result.getResult()) {
+                    val room = RoomDetails(
+                        document.data.getValue("room").toString(),
+                        document.data.getValue("building").toString().toInt(),
+                        document.getGeoPoint("location")!!.latitude,
+                        document.getGeoPoint("location")!!.longitude)
 
-        database.collection("rooms").get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val name = document.data.getValue("room").toString()
-                    Log.d(TAG, name)
-
-                    val building = document.data.getValue("building").toString().toInt()
-                    val location = document.getGeoPoint("location")
-                    val room = RoomDetails(name, building, location!!.latitude, location!!.longitude)
-
-//                    room.print_me()
-                    roomsArrayList.add(room)
+                    roomsDetailsArrayList.add(room)
+                    roomsArrayList.add(room.name)
                 }
-                Log.d(TAG, "Rooms: $roomsArrayList")
+                Log.d(TAG, "Rooms inside: $roomsArrayList")
+                Log.d(TAG, "rooms ${roomsDetailsArrayList.map { x -> x.name }}")
+
             }
             .addOnFailureListener { exception ->
                 Log.d(TAG, "Error getting documents: ", exception)
             }
 
-        return roomsArrayList
     }
+
+//    fun interface FirestoreCallback {
+//        fun onCallback(roomList: ArrayList<RoomDetails?>?)
+//    }
+
+//    fun readData(firestoreCallback: FirestoreCallback) {
+//        db.collection("rooms").get(Source.DEFAULT)
+//            .addOnCompleteListener { result ->
+//                for (document in result.getResult()) {
+//                    val room = RoomDetails(
+//                        document.data.getValue("room").toString(),
+//                        document.data.getValue("building").toString().toInt(),
+//                        document.getGeoPoint("location")!!.latitude,
+//                        document.getGeoPoint("location")!!.longitude)
+//
+//                    my_locations.add(room)
+//                }
+//                firestoreCallback(my_locations)
+//                Log.d(TAG, "Rooms: $my_locations")
+////                Log.d(TAG, "rooms ${roomsArrayList.map { x -> x.name }}")
+//
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.d(TAG, "Error getting documents: ", exception)
+//            }
+//    }
+
+
 }

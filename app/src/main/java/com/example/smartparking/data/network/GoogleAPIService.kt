@@ -1,6 +1,6 @@
-package com.example.smartparking.data
+package com.example.smartparking.data.network
 
-import com.example.smartparking.data.response.GoogleDirectionResponse
+import com.example.smartparking.data.network.response.GoogleDirectionResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
