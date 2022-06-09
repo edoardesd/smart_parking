@@ -26,7 +26,9 @@ interface GoogleAPIService {
     ): Deferred<GoogleDirectionResponse>
 
     companion object{
-        operator fun invoke(): GoogleAPIService? {
+        operator fun invoke(
+            connectivityInterceptor: ConnectivityInterceptor
+        ): GoogleAPIService? {
             val requestInterceptor = Interceptor { chain ->
 
                 val url = chain.request()
@@ -42,7 +44,9 @@ interface GoogleAPIService {
                 return@Interceptor chain.proceed(request)
             }
             val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(requestInterceptor).build()
+                .addInterceptor(requestInterceptor)
+                .addInterceptor(connectivityInterceptor)
+                .build()
 
             return Retrofit.Builder()
                 .client(okHttpClient)

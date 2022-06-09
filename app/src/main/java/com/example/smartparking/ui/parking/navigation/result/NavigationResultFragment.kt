@@ -10,9 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.example.smartparking.R
 import com.example.smartparking.data.NavigationDetails
-import com.example.smartparking.data.network.GoogleAPIService
+import com.example.smartparking.data.network.*
 import com.example.smartparking.data.provider.UnitProvider
 import com.example.smartparking.internal.NavigationDetailsNotFoundException
 import kotlinx.android.synthetic.main.navigation_result_fragment.*
@@ -66,25 +67,32 @@ class NavigationResultFragment : Fragment() {
     }
 
     private fun bindUI(navDetails: NavigationDetails) {
-        val apiService = GoogleAPIService()
+        val apiService = GoogleAPIService(ConnectivityInterceptorImpl(this.requireContext()))
+        val navigationNetworkDataSourceCar = apiService?.let { NavigationNetworkDataSourceImpl(it) }
+        val navigationNetworkDataSourceBike = apiService?.let { NavigationNetworkDataSourceImpl(it) }
+
+        navigationNetworkDataSourceCar?.downloadedNavigation?.observe(viewLifecycleOwner, Observer {
+            tv_car_result.text = it?.rows?.first()?.elements?.first()?.duration?.text
+        })
+
+        navigationNetworkDataSourceBike?.downloadedNavigation?.observe(viewLifecycleOwner, Observer {
+            tv_bike_result.text = it?.rows?.first()?.elements?.first()?.duration?.text
+        })
 
         GlobalScope.launch(Dispatchers.Main) {
-            val carAPIResponse = apiService?.getGoogleDirection("46.79542968182268,9.8245288366505",
+            navigationNetworkDataSourceCar?.fetchedNavigation(
+                "46.79542968182268,9.8245288366505",
                 "${navDetails.room.latitude},${navDetails.room.longitude}",
                 "false", "metrics",
                 "driving")
-                ?.await()
 
-            val bikeAPIResponse = apiService?.getGoogleDirection("46.79542968182268,9.8245288366505",
+            navigationNetworkDataSourceBike?.fetchedNavigation(
+                "46.79542968182268,9.8245288366505",
                 "${navDetails.room.latitude},${navDetails.room.longitude}",
                 "false", "metrics",
                 "bicycling")
-                ?.await()
 
             // TODO: check if response is not null
-            Log.d(TAG, carAPIResponse.toString())
-            tv_car_result.text = carAPIResponse?.rows?.first()?.elements?.first()?.duration?.text
-            tv_bike_result.text = bikeAPIResponse?.rows?.first()?.elements?.first()?.duration?.text
         }
         tv_destination_result.setText(navDetails.room.name).toString()
     }
