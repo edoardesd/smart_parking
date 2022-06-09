@@ -1,86 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    tools:context=".ui.parking.navigation.choice.NavigationChoiceFragment">-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.parking.navigation.choice.NavigationChoiceFragment">
 
-<!--&lt;!&ndash;    <androidx.constraintlayout.widget.Group&ndash;&gt;-->
-<!--&lt;!&ndash;        android:id="@+id/group_loading"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_width="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_marginEnd="8dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:constraint_referenced_ids="progressBar_loading, textView_loading"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintTop_toTopOf="parent" />&ndash;&gt;-->
 
-<!--&lt;!&ndash;    <ProgressBar&ndash;&gt;-->
-<!--&lt;!&ndash;        android:id="@+id/progressBar_loading"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_width="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_marginStart="8dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_marginTop="8dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_marginEnd="8dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_marginBottom="8dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:indeterminate="true"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintBottom_toBottomOf="parent"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintTop_toTopOf="parent" />&ndash;&gt;-->
+    <data>
+        <variable
+            name="navigationChoiceViewModel"
+            type="com.example.smartparking.ui.parking.navigation.choice.NavigationChoiceViewModel" />
 
-<!--&lt;!&ndash;    <TextView&ndash;&gt;-->
-<!--&lt;!&ndash;        android:id="@+id/textView_loading"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_width="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_marginStart="8dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_marginTop="8dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_marginEnd="8dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_marginBottom="8dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:text="Loading"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintBottom_toBottomOf="parent"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintTop_toBottomOf="@+id/progressBar_loading"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:layout_constraintVertical_bias="0.0" />&ndash;&gt;-->
+    </data>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <!--    <androidx.constraintlayout.widget.Group-->
+    <!--        android:id="@+id/group_loading"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        app:constraint_referenced_ids="progressBar_loading, textView_loading"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:id="@+id/textInputLayout"-->
-<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="232dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.906"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:startIconDrawable="@drawable/ic_location">-->
+    <!--    <ProgressBar-->
+    <!--        android:id="@+id/progressBar_loading"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:layout_marginBottom="8dp"-->
+    <!--        android:indeterminate="true"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--        <AutoCompleteTextView-->
-<!--            android:id="@+id/tv_auto_complete_text_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Location"-->
-<!--            android:inputType="text"-->
-<!--            tools:layout_editor_absoluteX="16dp"-->
-<!--            tools:layout_editor_absoluteY="85dp" />-->
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView_loading"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:layout_marginBottom="8dp"-->
+    <!--        android:text="Loading"-->
+    <!--        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/progressBar_loading"-->
+    <!--        app:layout_constraintVertical_bias="0.0" />-->
 
-<!--    <Button-->
-<!--        android:id="@+id/btn_time"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="55dp"-->
-<!--        android:layout_marginTop="500dp"-->
-<!--        android:layout_marginEnd="55dp"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        android:width="300dp"-->
-<!--        android:height="100dp"-->
-<!--        android:onClick="popTimePicker"-->
-<!--        android:text="Select time"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-<!--</FrameLayout>-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="232dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.906"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:startIconDrawable="@drawable/ic_location">
+
+            <AutoCompleteTextView
+                android:id="@+id/tv_auto_complete_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location"
+                android:inputType="text"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="85dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="350dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginBottom="8dp"
+        android:width="200dp"
+        android:height="100dp"
+        android:text="Select time" />
+
+    <Button
+        android:id="@+id/btn_go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginBottom="8dp"
+        android:width="300dp"
+        android:height="100dp"
+        android:text="Go" />
+    </FrameLayout>
+</layout>

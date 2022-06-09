@@ -10,10 +10,10 @@ import kotlinx.android.parcel.RawValue
 @Entity(tableName = "Rooms")
 @Parcelize
 data class RoomDetails(
-    val name : String,
-    val building : Int,
-    val latitude : Double,
-    val longitude : Double
+    val name : String = "",
+    val building : Int = 0,
+    val latitude : Double = 0.0,
+    val longitude : Double = 0.0,
 ) : Parcelable {
     @PrimaryKey(autoGenerate = false)
     var id : String = name
