@@ -73,7 +73,6 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.1'
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
-
     // Room
     implementation "androidx.room:room-runtime:2.4.2"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
@@ -82,6 +81,12 @@ dependencies {
 
     // Preference
     implementation "androidx.preference:preference:1.0.0"
+
+    // Kodein
+//    implementation "org.kodein.di:kodein-di:7.12.0"
+//    implementation "org.kodein.di:kodein-di-framework-android-x:7.12.0"
+    implementation "org.kodein.di:kodein-di-generic-jvm:6.3.2"
+    implementation "org.kodein.di:kodein-di-framework-android-x:6.3.2"
 
     // Lifecycle
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'

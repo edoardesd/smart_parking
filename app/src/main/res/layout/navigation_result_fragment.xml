@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.parking.navigation.result.NavigationResultFragment">
+
 
 
     <TextView
@@ -26,32 +28,115 @@
         android:textSize="40sp"
         android:text="Loading..." />
 
-    <TextView
-        android:id="@+id/tv_car_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="180dp"
-        android:layout_marginEnd="55dp"
-        android:textSize="20sp"
-        android:text="Car estimated time:" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="220dp">
 
-    <TextView
-        android:id="@+id/tv_car_result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="220dp"
-        android:layout_marginEnd="55dp"
-        android:textSize="25sp"
-        android:text="Loading..." />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_car"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:onClick="expand"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp"
+            app:contentPadding="20dp">
 
-    <TextView
+            
+            <LinearLayout
+                android:id="@+id/ll_details_car"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_car_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Car estimated time:"
+                    android:textColor="@color/purple_500"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_car_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading..."
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/tv_car_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Details..."
+                    android:textSize="20sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_expandable_car"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="70dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_car_opt1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1) Walk for 4 minutes"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_car_opt2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2) Drive for 20 minutes"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_car_opt3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3) Walk for 3 minutes"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="120dp"
+                android:background="#888888" />
+
+            <Button
+                android:id="@+id/btn_expand_car"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="125dp"
+                android:background="@drawable/ripple_effect"
+                android:text="EXPAND"
+                android:textColor="@color/purple_500" />
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+        <TextView
         android:id="@+id/tv_bike_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="490dp"
         android:layout_marginEnd="55dp"
         android:textSize="20sp"
         android:text="Bike estimated time:" />
@@ -61,7 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="500dp"
         android:layout_marginEnd="55dp"
         android:textSize="25sp"
         android:text="Loading..." />
@@ -72,6 +157,6 @@
         android:layout_height="wrap_content"
         android:text="Navigate"
         android:layout_marginStart="160dp"
-        android:layout_marginTop="520dp"
+        android:layout_marginTop="620dp"
         android:layout_marginEnd="55dp" />
 </FrameLayout>

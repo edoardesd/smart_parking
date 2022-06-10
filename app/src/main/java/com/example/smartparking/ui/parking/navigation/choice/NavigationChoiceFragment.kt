@@ -18,15 +18,21 @@ import com.example.smartparking.R
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.db.RoomDetails
+import com.example.smartparking.data.network.FirestoreService
+import com.example.smartparking.data.network.choice.DatabaseNetworkDataSourceImpl
 import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
 import kotlinx.android.synthetic.main.navigation_choice_fragment.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.collections.ArrayList
 
 class NavigationChoiceFragment : Fragment() {
 
    private lateinit var binding: NavigationChoiceFragmentBinding
     private val navigationChoiceViewModel: NavigationChoiceViewModel by viewModels()
-    var selectedLocation : RoomDetails? = null
+    private var allLocations: ArrayList<RoomDetails> = ArrayList()
 
     private var timeButton: Button? = null
     private var goButton: Button? = null
@@ -39,6 +45,16 @@ class NavigationChoiceFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.navigation_choice_fragment, container, false)
+//        val firestoreService = FirestoreService()
+//        val databaseNetworkDataSource = DatabaseNetworkDataSourceImpl(firestoreService)
+////        firestoreService
+//        databaseNetworkDataSource.downloadedLocations.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+//            allLocations = it
+//            Log.d(TAG, allLocations.toString())
+//        })
+////        GlobalScope.launch(Dispatchers.Main) {
+//            databaseNetworkDataSource.fetchLocations()
+//        }
         return binding.root
     }
 

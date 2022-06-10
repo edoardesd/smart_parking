@@ -4,6 +4,8 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +43,22 @@ class NavigationResultFragment : Fragment() {
 
         bindUI(navDetails)
         initMapsButton(navDetails)
+        initExpandButtons(navDetails)
 
+    }
+
+    private fun initExpandButtons(navDetails: NavigationDetails) {
+        btn_expand_car.setOnClickListener {
+            if(ll_expandable_car.visibility == View.GONE) {
+                TransitionManager.beginDelayedTransition(cv_car, AutoTransition())
+                ll_expandable_car.visibility = View.VISIBLE
+                btn_expand_car.text = "COLLAPSE"
+            } else {
+                TransitionManager.beginDelayedTransition(cv_car, AutoTransition())
+                ll_expandable_car.visibility = View.GONE
+                btn_expand_car.text = "EXPAND"
+            }
+        }
     }
 
     private fun initMapsButton(navDetails: NavigationDetails) {

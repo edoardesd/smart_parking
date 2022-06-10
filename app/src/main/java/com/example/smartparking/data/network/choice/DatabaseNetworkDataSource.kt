@@ -6,5 +6,5 @@ import com.example.smartparking.data.db.RoomDetails
 interface DatabaseNetworkDataSource {
     val downloadedLocations: LiveData<ArrayList<RoomDetails>>
 
-    suspend fun fetchLocations()
+    fun fetchLocations()
 }

@@ -1,6 +1,9 @@
 package com.example.smartparking.ui.parking.navigation.choice
 
+import android.content.ContentValues
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel;
 import com.example.smartparking.data.db.RoomDetails
 import com.example.smartparking.data.network.FirestoreService
@@ -12,9 +15,11 @@ class NavigationChoiceViewModel : ViewModel(){
 
     init {
         val firestoreService = FirestoreService()
-//        val databaseNetworkDataSource = DatabaseNetworkDataSourceImpl(firestoreService)
-//        databaseNetworkDataSource.downloadedLocations
-        _rooms.value = firestoreService
+        val databaseNetworkDataSource = DatabaseNetworkDataSourceImpl(firestoreService)
+        databaseNetworkDataSource.downloadedLocations.observeForever(Observer {
+            _rooms.value = it
+        })
+        databaseNetworkDataSource.fetchLocations()
     }
 
     internal fun getSelectedLocation(index : Int): RoomDetails{

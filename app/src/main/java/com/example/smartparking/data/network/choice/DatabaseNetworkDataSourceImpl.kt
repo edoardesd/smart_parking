@@ -1,5 +1,6 @@
 package com.example.smartparking.data.network.choice
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,8 +15,9 @@ class DatabaseNetworkDataSourceImpl(
     override val downloadedLocations: LiveData<ArrayList<RoomDetails>>
         get() = _downloadedLocations
 
-    override suspend fun fetchLocations() {
+     override fun fetchLocations() {
         try {
+            Log.d(TAG, "fetching Locations")
             val fetchedLocations = firestoreService
             _downloadedLocations.postValue(fetchedLocations)
         }
