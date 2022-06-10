@@ -17,5 +17,9 @@ data class RoomDetails(
 ) : Parcelable {
     @PrimaryKey(autoGenerate = false)
     var id : String = name
+
+    override fun toString(): String {
+        return "$name"
+    }
 }
 

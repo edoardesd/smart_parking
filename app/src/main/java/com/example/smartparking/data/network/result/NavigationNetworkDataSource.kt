@@ -1,4 +1,4 @@
-package com.example.smartparking.data.network
+package com.example.smartparking.data.network.result
 
 import androidx.lifecycle.LiveData
 import com.example.smartparking.data.network.response.GoogleDirectionResponse

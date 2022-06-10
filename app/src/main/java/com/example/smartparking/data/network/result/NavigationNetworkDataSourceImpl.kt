@@ -1,8 +1,9 @@
-package com.example.smartparking.data.network
+package com.example.smartparking.data.network.result
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.smartparking.data.network.GoogleAPIService
 import com.example.smartparking.data.network.response.GoogleDirectionResponse
 import com.example.smartparking.internal.NoConnectivityException
 

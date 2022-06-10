@@ -14,7 +14,7 @@ import androidx.lifecycle.Observer
 import com.example.smartparking.R
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.network.*
-import com.example.smartparking.data.provider.UnitProvider
+import com.example.smartparking.data.network.result.NavigationNetworkDataSourceImpl
 import com.example.smartparking.internal.NavigationDetailsNotFoundException
 import kotlinx.android.synthetic.main.navigation_result_fragment.*
 import kotlinx.coroutines.Dispatchers
