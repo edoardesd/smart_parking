@@ -6,53 +6,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.parking.navigation.result.NavigationResultFragment">
 
-
-
     <TextView
         android:id="@+id/tv_destination_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="55dp"
-        android:textSize="40sp"
+        android:textSize="30sp"
         android:text="Destination:" />
 
     <TextView
         android:id="@+id/tv_destination_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="55dp"
-        android:textSize="40sp"
+        android:textSize="30sp"
         android:text="Loading..." />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="220dp">
+        android:layout_marginTop="120dp">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cv_car"
+            android:id="@+id/car_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:onClick="expand"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="10dp"
-            app:contentPadding="20dp">
+            android:layout_margin="8dp"
+            android:layout_marginTop="120dp">
 
-            
             <LinearLayout
-                android:id="@+id/ll_details_car"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -63,100 +50,172 @@
                     android:text="Car estimated time:"
                     android:textColor="@color/purple_500"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginStart="12dp"
+                    />
+
 
                 <TextView
                     android:id="@+id/tv_car_result"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Loading..."
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:id="@+id/tv_car_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Details..."
-                    android:textSize="20sp"
-                    android:visibility="gone" />
-            </LinearLayout>
+                    android:textSize="25sp"
+                    android:layout_marginStart="12dp"
+                    />
 
             <LinearLayout
-                android:id="@+id/ll_expandable_car"
+                android:id="@+id/expandable_l_car"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="12dp"
                 android:orientation="vertical"
-                android:layout_marginTop="70dp"
                 android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_car_opt1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1) Walk for 4 minutes"
-                    android:textSize="10sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_car_opt2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="2) Drive for 20 minutes"
-                    android:textSize="10sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_car_opt3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="3) Walk for 3 minutes"
-                    android:textSize="10sp" />
+                    android:textSize="15sp" />
 
             </LinearLayout>
-
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginTop="120dp"
-                android:background="#888888" />
+                android:background="#88888888"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"/>
 
             <Button
-                android:id="@+id/btn_expand_car"
+                android:id="@+id/car_expand_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="125dp"
-                android:background="@drawable/ripple_effect"
                 android:text="EXPAND"
-                android:textColor="@color/purple_500" />
+                android:textColor="#6200EA"
+                android:background="@drawable/ripple_effect"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="4dp"/>
+
+        </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
-        <TextView
-        android:id="@+id/tv_bike_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="490dp"
-        android:layout_marginEnd="55dp"
-        android:textSize="20sp"
-        android:text="Bike estimated time:" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="350dp">
 
-    <TextView
-        android:id="@+id/tv_bike_result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="500dp"
-        android:layout_marginEnd="55dp"
-        android:textSize="25sp"
-        android:text="Loading..." />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bike_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginTop="120dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bike_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bicycling estimated time:"
+                    android:textColor="@color/purple_500"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="12dp"
+                    />
+
+
+                <TextView
+                    android:id="@+id/tv_bike_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading..."
+                    android:textSize="25sp"
+                    android:layout_marginStart="12dp"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/expandable_l_bike"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_bike_opt1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="1) Walk for 4 minutes"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_bike_opt2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="2) Ride for 20 minutes"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_bike_opt3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="3) Walk for 1 minute"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#88888888"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"/>
+
+                <Button
+                    android:id="@+id/bike_expand_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="EXPAND"
+                    android:textColor="#6200EA"
+                    android:background="@drawable/ripple_effect"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="4dp"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btn_googleMaps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Navigate"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="620dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="520dp"
         android:layout_marginEnd="55dp" />
 </FrameLayout>

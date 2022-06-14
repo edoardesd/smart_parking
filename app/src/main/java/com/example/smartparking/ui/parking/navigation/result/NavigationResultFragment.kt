@@ -48,15 +48,27 @@ class NavigationResultFragment : Fragment() {
     }
 
     private fun initExpandButtons(navDetails: NavigationDetails) {
-        btn_expand_car.setOnClickListener {
-            if(ll_expandable_car.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(cv_car, AutoTransition())
-                ll_expandable_car.visibility = View.VISIBLE
-                btn_expand_car.text = "COLLAPSE"
+        car_expand_btn.setOnClickListener {
+            if(expandable_l_car.visibility == View.GONE) {
+                TransitionManager.beginDelayedTransition(car_card_view, AutoTransition())
+                expandable_l_car.visibility = View.VISIBLE
+                car_expand_btn.text = "COLLAPSE"
             } else {
-                TransitionManager.beginDelayedTransition(cv_car, AutoTransition())
-                ll_expandable_car.visibility = View.GONE
-                btn_expand_car.text = "EXPAND"
+                TransitionManager.beginDelayedTransition(car_card_view, AutoTransition())
+                expandable_l_car.visibility = View.GONE
+                car_expand_btn.text = "EXPAND"
+            }
+        }
+
+        bike_expand_btn.setOnClickListener {
+            if(expandable_l_bike.visibility == View.GONE) {
+                TransitionManager.beginDelayedTransition(bike_card_view, AutoTransition())
+                expandable_l_bike.visibility = View.VISIBLE
+                bike_expand_btn.text = "COLLAPSE"
+            } else {
+                TransitionManager.beginDelayedTransition(bike_card_view, AutoTransition())
+                expandable_l_bike.visibility = View.GONE
+                bike_expand_btn.text = "EXPAND"
             }
         }
     }
