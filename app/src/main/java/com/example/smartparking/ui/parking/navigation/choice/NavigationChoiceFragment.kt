@@ -30,9 +30,9 @@ import kotlin.collections.ArrayList
 
 class NavigationChoiceFragment : Fragment() {
 
-   private lateinit var binding: NavigationChoiceFragmentBinding
+    private lateinit var binding: NavigationChoiceFragmentBinding
     private val navigationChoiceViewModel: NavigationChoiceViewModel by viewModels()
-    private var allLocations: ArrayList<RoomDetails> = ArrayList()
+//    private var allLocations: ArrayList<RoomDetails> = ArrayList()
 
     private var timeButton: Button? = null
     private var goButton: Button? = null
@@ -44,6 +44,7 @@ class NavigationChoiceFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+
         binding = DataBindingUtil.inflate(inflater, R.layout.navigation_choice_fragment, container, false)
 //        val firestoreService = FirestoreService()
 //        val databaseNetworkDataSource = DatabaseNetworkDataSourceImpl(firestoreService)

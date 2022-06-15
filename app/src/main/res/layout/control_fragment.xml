@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.parking.control.ControlFragment">
 
+    <data>
+        <variable
+            name="controlViewModel"
+            type="com.example.smartparking.ui.parking.control.ControlViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <TextView
         android:id="@+id/txt_control"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:text="Control" />
 
     <ImageView
         android:id="@+id/iv_mqtt"
         android:layout_width="match_parent"
-        android:layout_height="491dp"
-        android:layout_marginTop="200dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
         tools:src="@tools:sample/avatars" />
+    </FrameLayout>
 
-
-</FrameLayout>
+</layout>

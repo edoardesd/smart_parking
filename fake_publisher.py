@@ -21,6 +21,6 @@ while True:
         client.publish("smart/parking/polimi", encoded_string, qos=2, retain=True)
 
     print("published")
-    time.sleep(20)
+    time.sleep(5)
 
 client.loop_forever()

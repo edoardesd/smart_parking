@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.parking.navigation.choice.NavigationChoiceFragment">
 
-
     <data>
         <variable
             name="navigationChoiceViewModel"
