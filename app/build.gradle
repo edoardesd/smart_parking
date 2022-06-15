@@ -9,7 +9,6 @@ plugins {
 
 android {
     compileSdk 32
-
     defaultConfig {
         applicationId "com.example.smartparking"
         minSdk 21
@@ -99,6 +98,9 @@ dependencies {
     // paho mqtt
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.4'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+    implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -3,17 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable/ripple_effect.xml" value="0.298" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2979583740234375" />
-        <entry key="app/src/main/res/layout/blank_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/control_fragment.xml" value="0.18697916666666667" />
-        <entry key="app/src/main/res/layout/fragment_navigation.xml" value="0.18697916666666667" />
-        <entry key="app/src/main/res/layout/list_item.xml" value="0.30570652173913043" />
-        <entry key="app/src/main/res/layout/navigation_choice_fragment.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/navigation_result_fragment.xml" value="0.3728179931640625" />
-        <entry key="app/src/main/res/layout/navigation_view_fragment.xml" value="0.18697916666666667" />
-        <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.18697916666666667" />
-        <entry key="app/src/main/res/xml/preferences.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/layout/navigation_result_fragment.xml" value="0.15942028985507245" />
       </map>
     </option>
   </component>

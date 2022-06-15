@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.parking.control.ControlFragment">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/txt_control"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
         android:text="Control" />
+
+    <ImageView
+        android:id="@+id/iv_mqtt"
+        android:layout_width="match_parent"
+        android:layout_height="491dp"
+        android:layout_marginTop="200dp"
+        tools:src="@tools:sample/avatars" />
+
 
 </FrameLayout>

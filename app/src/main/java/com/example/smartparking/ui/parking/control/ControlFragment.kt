@@ -14,11 +14,6 @@ import org.eclipse.paho.client.mqttv3.*
 
 class ControlFragment : Fragment() {
 
-    companion object {
-        const val TAG = "AndroidMqttClient"
-    }
-
-    private lateinit var mqttClient: MqttAndroidClient
     private lateinit var viewModel: ControlViewModel
 
     override fun onCreateView(
