@@ -13,18 +13,37 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/txt_control"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Control" />
 
-    <ImageView
-        android:id="@+id/iv_mqtt"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        tools:src="@tools:sample/avatars" />
+        <TextView
+            android:id="@+id/txt_street"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Via Ponzio 34"
+            android:textSize="20sp"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Available parking spots: "
+            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/txt_free_parking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="230dp"/>
+
+        <ImageView
+            android:id="@+id/iv_mqtt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
+            tools:src="@tools:sample/avatars" />
     </FrameLayout>
 
 </layout>

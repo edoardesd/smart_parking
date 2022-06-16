@@ -5,31 +5,10 @@ import android.content.Context
 import android.util.Log
 import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
-import java.util.*
 
-class MQTTManager(val connectionParams: MQTTConnectionParams, val context: Context) {
+class MQTTManager(private val connectionParams: MQTTConnectionParams, val context: Context) {
 
-    private var mqttClient = MqttAndroidClient(context, connectionParams.host,connectionParams.clientId + id(context))
-    private var uniqueID : String? = null
-    private val PREF_UNIQUE_ID = "PREF_UNIQUE_ID"
-
-    init {
-        mqttClient.setCallback(object: MqttCallbackExtended {
-            override fun connectComplete(b:Boolean, s:String) {
-                Log.d(TAG, "Connection completed $s")
-            }
-            override fun connectionLost(cause : Throwable?) {
-                Log.d(TAG, "Connection lost ${cause.toString()}")
-            }
-            override fun messageArrived(topic:String, mqttMessage: MqttMessage) {
-                Log.d(TAG, "Received message from topic: $topic")
-//                handleMessage(mqttMessage)
-
-            }
-            override fun deliveryComplete(iMqttDeliveryToken: IMqttDeliveryToken) {
-            }
-        })
-    }
+    private var mqttClient = MqttAndroidClient(context, connectionParams.host, connectionParams.clientId)
 
     fun connect(){
         val mqttConnectOptions = MqttConnectOptions()
@@ -103,24 +82,12 @@ class MQTTManager(val connectionParams: MQTTConnectionParams, val context: Conte
 
     }
 
-    @Synchronized fun id(context:Context):String {
-        if (uniqueID == null) {
-            val sharedPrefs = context.getSharedPreferences(
-                PREF_UNIQUE_ID, Context.MODE_PRIVATE)
-            uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null)
-            if (uniqueID == null)
-            {
-                uniqueID = UUID.randomUUID().toString()
-                val editor = sharedPrefs.edit()
-                editor.putString(PREF_UNIQUE_ID, uniqueID)
-                editor.commit()
-            }
-        }
-        return uniqueID!!
+    fun getMQTTClient() : MqttAndroidClient {
+        return mqttClient
     }
 
 }
 
-data class MQTTConnectionParams(val clientId:String, val host: String, val topic: String, val qos: Int, val username: String, val password: String){
+data class MQTTConnectionParams(val clientId:String, val host: String, val topic: String, val qos: Int){
 
 }
