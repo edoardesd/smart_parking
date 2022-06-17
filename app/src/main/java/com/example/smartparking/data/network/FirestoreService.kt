@@ -15,16 +15,9 @@ var roomsArrayList : ArrayList<RoomDetails> = arrayListOf()
 
 interface FirestoreService {
 
-//    fun getLocationsDatabase():ArrayList<RoomDetails>
-
     companion object{
-//        private fun initFirebase(){
-//            FirebaseDatabase.getInstance().setPersistenceEnabled(true)
-//            firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
-//
-//        }
+
         operator fun invoke(): ArrayList<RoomDetails> {
-//            initFirebase()
             FirebaseDatabase.getInstance().setPersistenceEnabled(true)
             firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
 

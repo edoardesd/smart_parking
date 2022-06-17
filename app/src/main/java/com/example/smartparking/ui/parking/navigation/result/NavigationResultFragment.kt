@@ -11,12 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.smartparking.R
 import com.example.smartparking.data.NavigationDetails
+import com.example.smartparking.data.db.DirectionData
 import com.example.smartparking.data.network.*
 import com.example.smartparking.data.network.result.NavigationNetworkDataSourceImpl
+import com.example.smartparking.databinding.NavigationResultFragmentBinding
 import com.example.smartparking.internal.NavigationDetailsNotFoundException
 import kotlinx.android.synthetic.main.navigation_result_fragment.*
 import kotlinx.coroutines.Dispatchers
@@ -26,20 +30,28 @@ import kotlinx.coroutines.launch
 
 class NavigationResultFragment : Fragment() {
 
+    private lateinit var binding: NavigationResultFragmentBinding
+    private val navigationResultViewModel: NavigationResultViewModel by viewModels()
     private var mapsButton: Button? = null
+    private var requestDirectionData = DirectionData()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.navigation_result_fragment, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.navigation_result_fragment, container, false)
+        return binding.root
+    //        return inflater.inflate(R.layout.navigation_result_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        binding.navigationResultViewModel = navigationResultViewModel
         val safeArgs = arguments?.let { NavigationResultFragmentArgs.fromBundle(it) }
         val navDetails = safeArgs?.navigationDetails ?: throw NavigationDetailsNotFoundException()
         Log.d(TAG, "Navigation data: ${navDetails.room}")
+        requestDirectionData.origins = "46.79542968182268,9.8245288366505"
+        requestDirectionData.destinations = "${navDetails.room.latitude},${navDetails.room.longitude}"
 
         bindUI(navDetails)
         initMapsButton(navDetails)
@@ -96,33 +108,14 @@ class NavigationResultFragment : Fragment() {
     }
 
     private fun bindUI(navDetails: NavigationDetails) {
-        val apiService = GoogleAPIService(ConnectivityInterceptorImpl(this.requireContext()))
-        val navigationNetworkDataSourceCar = apiService?.let { NavigationNetworkDataSourceImpl(it) }
-        val navigationNetworkDataSourceBike = apiService?.let { NavigationNetworkDataSourceImpl(it) }
+        navigationResultViewModel.getDataCar(requestDirectionData)
+        navigationResultViewModel.navigationDataCar.observe(viewLifecycleOwner,
+            Observer { navigationTime -> tv_car_result.text = navigationTime })
 
-        navigationNetworkDataSourceCar?.downloadedNavigation?.observe(viewLifecycleOwner, Observer {
-            tv_car_result.text = it?.rows?.first()?.elements?.first()?.duration?.text
-        })
+        navigationResultViewModel.getDataBicycle(requestDirectionData)
+        navigationResultViewModel.navigationDataBike.observe(viewLifecycleOwner,
+            Observer { navigationTime -> tv_bike_result.text = navigationTime })
 
-        navigationNetworkDataSourceBike?.downloadedNavigation?.observe(viewLifecycleOwner, Observer {
-            tv_bike_result.text = it?.rows?.first()?.elements?.first()?.duration?.text
-        })
-
-        GlobalScope.launch(Dispatchers.Main) {
-            navigationNetworkDataSourceCar?.fetchedNavigation(
-                "46.79542968182268,9.8245288366505",
-                "${navDetails.room.latitude},${navDetails.room.longitude}",
-                "false", "metrics",
-                "driving")
-
-            navigationNetworkDataSourceBike?.fetchedNavigation(
-                "46.79542968182268,9.8245288366505",
-                "${navDetails.room.latitude},${navDetails.room.longitude}",
-                "false", "metrics",
-                "bicycling")
-
-            // TODO: check if response is not null
-        }
         tv_destination_result.setText(navDetails.room.name).toString()
     }
 

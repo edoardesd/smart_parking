@@ -5,12 +5,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.smartparking.data.db.RoomDetails
-import com.example.smartparking.data.network.FirestoreService
 import com.example.smartparking.internal.NoConnectivityException
 
 class DatabaseNetworkDataSourceImpl(
     private val firestoreService: ArrayList<RoomDetails>
 ) : DatabaseNetworkDataSource {
+
     private val _downloadedLocations: MutableLiveData<ArrayList<RoomDetails>> = MutableLiveData<ArrayList<RoomDetails>>()
     override val downloadedLocations: LiveData<ArrayList<RoomDetails>>
         get() = _downloadedLocations

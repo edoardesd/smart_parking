@@ -46,16 +46,6 @@ class NavigationChoiceFragment : Fragment() {
     ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.navigation_choice_fragment, container, false)
-//        val firestoreService = FirestoreService()
-//        val databaseNetworkDataSource = DatabaseNetworkDataSourceImpl(firestoreService)
-////        firestoreService
-//        databaseNetworkDataSource.downloadedLocations.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-//            allLocations = it
-//            Log.d(TAG, allLocations.toString())
-//        })
-////        GlobalScope.launch(Dispatchers.Main) {
-//            databaseNetworkDataSource.fetchLocations()
-//        }
         return binding.root
     }
 

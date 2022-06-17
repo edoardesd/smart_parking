@@ -5,6 +5,8 @@ import com.example.smartparking.data.db.RoomsDatabase
 import com.example.smartparking.data.network.ConnectivityInterceptor
 import com.example.smartparking.data.network.ConnectivityInterceptorImpl
 import com.example.smartparking.data.network.GoogleAPIService
+import com.example.smartparking.data.network.choice.DatabaseNetworkDataSource
+import com.example.smartparking.data.network.choice.DatabaseNetworkDataSourceImpl
 import com.example.smartparking.data.network.result.NavigationNetworkDataSource
 import com.example.smartparking.data.network.result.NavigationNetworkDataSourceImpl
 import com.example.smartparking.data.repository.LocationRepository
@@ -27,6 +29,7 @@ class SmartParkingApplication : Application(), KodeinAware {
         bind() from singleton { GoogleAPIService(instance())!! }
         bind<NavigationNetworkDataSource>() with singleton { NavigationNetworkDataSourceImpl(instance()) }
         bind<LocationRepository>() with singleton { LocationRepositoryImpl(instance(), instance()) }
+        bind<DatabaseNetworkDataSource>() with singleton { DatabaseNetworkDataSourceImpl(instance()) }
 
     }
 }
