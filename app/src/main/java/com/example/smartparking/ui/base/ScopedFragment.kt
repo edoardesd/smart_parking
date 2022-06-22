@@ -1,7 +1,9 @@
 package com.example.smartparking.ui.base
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.smartparking.internal.LoadingDialog
 import com.squareup.okhttp.Dispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,4 +25,5 @@ abstract class ScopedFragment : Fragment(), CoroutineScope {
         super.onDestroy()
         job.cancel()
     }
+
 }

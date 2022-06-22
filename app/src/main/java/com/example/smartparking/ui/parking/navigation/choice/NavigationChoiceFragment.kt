@@ -3,6 +3,7 @@ package com.example.smartparking.ui.parking.navigation.choice
 import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,6 +22,8 @@ import com.example.smartparking.data.db.RoomDetails
 import com.example.smartparking.data.network.FirestoreService
 import com.example.smartparking.data.network.choice.DatabaseNetworkDataSourceImpl
 import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
+import com.example.smartparking.internal.LoadingDialog
+import com.example.smartparking.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.navigation_choice_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -28,11 +31,11 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
-class NavigationChoiceFragment : Fragment() {
+class NavigationChoiceFragment : ScopedFragment() {
 
+    private lateinit var loadingDialog : LoadingDialog
     private lateinit var binding: NavigationChoiceFragmentBinding
     private val navigationChoiceViewModel: NavigationChoiceViewModel by viewModels()
-//    private var allLocations: ArrayList<RoomDetails> = ArrayList()
 
     private var timeButton: Button? = null
     private var goButton: Button? = null
@@ -52,6 +55,8 @@ class NavigationChoiceFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.navigationChoiceViewModel = navigationChoiceViewModel
+
+        initProgressBar(requireContext())
 
         initTimePicker()
         initGoButton()
@@ -86,15 +91,20 @@ class NavigationChoiceFragment : Fragment() {
     private fun initTextView() {
         navigationChoiceViewModel.rooms.observe(viewLifecycleOwner,
             androidx.lifecycle.Observer {
-                    rooms -> tv_auto_complete_text_view.setAdapter(
-                        ArrayAdapter(requireView().context,
-                        R.layout.list_item,
-                        rooms))
-                })
+                if (it == null) return@Observer
 
-        tv_auto_complete_text_view.setOnItemClickListener { adapterView, view, position, id ->
+                loadingDialog.dismiss()
+
+                tv_auto_complete_text_view.setAdapter(
+                    ArrayAdapter(requireView().context,
+                    R.layout.list_item,
+                    it))
+
+            })
+
+        tv_auto_complete_text_view.setOnItemClickListener { _, _, position, _ ->
           selectedIndex = position
-            Log.d(TAG, "Selected item at position: ${position}")
+            Log.d(TAG, "Selected item at position: $position")
         }
     }
 
@@ -128,4 +138,10 @@ class NavigationChoiceFragment : Fragment() {
             _minute,
         )
     }
+
+    private fun initProgressBar(context: Context) {
+        loadingDialog = LoadingDialog(context)
+        loadingDialog.startLoading()
+    }
+
 }

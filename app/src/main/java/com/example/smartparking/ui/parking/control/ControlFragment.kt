@@ -1,5 +1,6 @@
 package com.example.smartparking.ui.parking.control
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,11 +11,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.smartparking.R
 import com.example.smartparking.databinding.ControlFragmentBinding
+import com.example.smartparking.internal.LoadingDialog
+import com.example.smartparking.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.control_fragment.*
 
 
-class ControlFragment : Fragment() {
+class ControlFragment : ScopedFragment() {
 
+    private lateinit var loadingDialog : LoadingDialog
     private lateinit var binding: ControlFragmentBinding
     private val controlViewModel: ControlViewModel by viewModels()
 
@@ -30,16 +34,23 @@ class ControlFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         binding.controlViewModel = controlViewModel
 
+        initProgressBar(requireContext())
         initStream()
 
     }
 
     private fun initStream() {
         controlViewModel.bitmap.observe(viewLifecycleOwner, Observer { bitmap ->
-            if ( bitmap != null) {
-                iv_mqtt.setImageBitmap(bitmap)
-            }
+            if ( bitmap == null) return@Observer
+
+            loadingDialog.dismiss()
+            iv_mqtt.setImageBitmap(bitmap)
         })
+    }
+
+    private fun initProgressBar(context: Context) {
+        loadingDialog = LoadingDialog(context)
+        loadingDialog.startLoading()
     }
 
 }

@@ -11,11 +11,14 @@ import com.example.smartparking.data.network.result.NavigationNetworkDataSource
 import com.example.smartparking.data.network.result.NavigationNetworkDataSourceImpl
 import com.example.smartparking.data.repository.LocationRepository
 import com.example.smartparking.data.repository.LocationRepositoryImpl
+import com.example.smartparking.ui.parking.navigation.result.NavigationResultViewModelFactory
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
 
@@ -30,6 +33,12 @@ class SmartParkingApplication : Application(), KodeinAware {
         bind<NavigationNetworkDataSource>() with singleton { NavigationNetworkDataSourceImpl(instance()) }
         bind<LocationRepository>() with singleton { LocationRepositoryImpl(instance(), instance()) }
         bind<DatabaseNetworkDataSource>() with singleton { DatabaseNetworkDataSourceImpl(instance()) }
+        bind() from provider { NavigationResultViewModelFactory()}
 
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        AndroidThreeTen.init(this)
     }
 }

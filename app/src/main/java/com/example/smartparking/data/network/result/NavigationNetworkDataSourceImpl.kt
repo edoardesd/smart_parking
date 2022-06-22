@@ -19,7 +19,7 @@ class NavigationNetworkDataSourceImpl(
 
     override suspend fun fetchedNavigation(directionData: DirectionData, navigationMode: String) {
         try {
-            Log.d(TAG, directionData.toString())
+            Log.d(TAG, "${directionData}, $navigationMode")
             val fetchedNavigation = googleAPIService!!
                 .getGoogleDirection(directionData.origins,
                                 directionData.destinations,

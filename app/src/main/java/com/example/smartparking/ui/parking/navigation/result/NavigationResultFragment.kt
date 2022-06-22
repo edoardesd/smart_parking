@@ -1,6 +1,10 @@
 package com.example.smartparking.ui.parking.navigation.result
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,25 +19,39 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.smartparking.R
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.db.DirectionData
 import com.example.smartparking.data.network.*
 import com.example.smartparking.data.network.result.NavigationNetworkDataSourceImpl
 import com.example.smartparking.databinding.NavigationResultFragmentBinding
+import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.internal.NavigationDetailsNotFoundException
+import com.example.smartparking.ui.base.ScopedFragment
+import kotlinx.android.synthetic.main.control_fragment.*
 import kotlinx.android.synthetic.main.navigation_result_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
+import org.kodein.di.generic.instance
 
 
-class NavigationResultFragment : Fragment() {
+class NavigationResultFragment : ScopedFragment() {
 
+//    override val kodein by closestKodein()
+//    private val viewModelFactory : NavigationResultViewModelFactory by instance()
+
+//    private lateinit var viewModel: NavigationResultViewModel
     private lateinit var binding: NavigationResultFragmentBinding
     private val navigationResultViewModel: NavigationResultViewModel by viewModels()
     private var mapsButton: Button? = null
     private var requestDirectionData = DirectionData()
+    private lateinit var loadingDialog : LoadingDialog
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,14 +67,23 @@ class NavigationResultFragment : Fragment() {
         binding.navigationResultViewModel = navigationResultViewModel
         val safeArgs = arguments?.let { NavigationResultFragmentArgs.fromBundle(it) }
         val navDetails = safeArgs?.navigationDetails ?: throw NavigationDetailsNotFoundException()
+
         Log.d(TAG, "Navigation data: ${navDetails.room}")
         requestDirectionData.origins = "46.79542968182268,9.8245288366505"
         requestDirectionData.destinations = "${navDetails.room.latitude},${navDetails.room.longitude}"
+
+        initProgressBar(requireContext())
+
 
         bindUI(navDetails)
         initMapsButton(navDetails)
         initExpandButtons(navDetails)
 
+    }
+
+    private fun initProgressBar(context: Context) {
+        loadingDialog = LoadingDialog(context)
+        loadingDialog.startLoading()
     }
 
     private fun initExpandButtons(navDetails: NavigationDetails) {
@@ -107,14 +134,32 @@ class NavigationResultFragment : Fragment() {
         }
     }
 
-    private fun bindUI(navDetails: NavigationDetails) {
-        navigationResultViewModel.getDataCar(requestDirectionData)
-        navigationResultViewModel.navigationDataCar.observe(viewLifecycleOwner,
-            Observer { navigationTime -> tv_car_result.text = navigationTime })
+    private fun bindUI(navDetails: NavigationDetails) = launch {
+        navigationResultViewModel.getNavigationData(requestDirectionData)
+        navigationResultViewModel.navigationDataAll.observe(viewLifecycleOwner,
+            Observer {
+                if ((it.driving == null) && (it.bicycling == null)) {
+                    Log.d(TAG, "Null")
+                    return@Observer
+                }
 
-        navigationResultViewModel.getDataBicycle(requestDirectionData)
-        navigationResultViewModel.navigationDataBike.observe(viewLifecycleOwner,
-            Observer { navigationTime -> tv_bike_result.text = navigationTime })
+                Log.d(TAG, "visibility gone")
+                group_loading_result.visibility = View.GONE
+                loadingDialog.dismiss()
+
+                tv_car_result.text = it.driving
+                tv_bike_result.text = it.bicycling
+
+
+            })
+
+//        navigationResultViewModel.getDataCar(requestDirectionData)
+//        navigationResultViewModel.navigationDataCar.observe(viewLifecycleOwner,
+//            Observer { navigationTime -> tv_car_result.text = navigationTime })
+//
+//        navigationResultViewModel.getDataBicycle(requestDirectionData)
+//        navigationResultViewModel.navigationDataBike.observe(viewLifecycleOwner,
+//            Observer { navigationTime -> tv_bike_result.text = navigationTime })
 
         tv_destination_result.setText(navDetails.room.name).toString()
     }

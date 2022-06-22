@@ -10,9 +10,16 @@
             type="com.example.smartparking.ui.parking.navigation.choice.NavigationChoiceViewModel" />
 
     </data>
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
@@ -21,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="232dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.906"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:startIconDrawable="@drawable/ic_location">
@@ -36,28 +42,32 @@
                 tools:layout_editor_absoluteY="85dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/btn_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="350dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginBottom="8dp"
-        android:width="200dp"
-        android:height="100dp"
-        android:text="Select time" />
+        <Button
+            android:id="@+id/btn_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="83dp"
+            android:width="200dp"
+            android:height="100dp"
+            android:text="Select time"
+            app:layout_constraintBottom_toTopOf="@+id/btn_go"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/btn_go"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="500dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginBottom="8dp"
-        android:width="300dp"
-        android:height="100dp"
-        android:text="Go" />
-    </FrameLayout>
+        <Button
+            android:id="@+id/btn_go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:width="300dp"
+            android:height="100dp"
+            android:text="Go"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
