@@ -15,7 +15,7 @@ class MyDate{
     var day: Int = calendar.get(Calendar.DAY_OF_MONTH)
     var year : Int = calendar.get(Calendar.YEAR)
     var minutes: Int = calendar.get(Calendar.MINUTE)
-    var hour: Int = calendar.get(Calendar.HOUR)
+    var hour: Int = calendar.get(Calendar.HOUR_OF_DAY)
 
     var epoch : String = "now"
 

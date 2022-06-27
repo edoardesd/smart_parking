@@ -5,3 +5,4 @@ import java.lang.Exception
 
 class NoConnectivityException: IOException()
 class NavigationDetailsNotFoundException: Exception()
+class LocationPermissionNotGrantedException: Exception()

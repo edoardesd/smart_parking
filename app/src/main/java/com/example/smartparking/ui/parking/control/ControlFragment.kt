@@ -36,13 +36,19 @@ class ControlFragment : ScopedFragment() {
 
         initProgressBar(requireContext())
         initStream()
+        initFreeSlots()
+    }
 
+    private fun initFreeSlots() {
+        controlViewModel.slotsPrediction.observe(viewLifecycleOwner, Observer { freeSlots ->
+            if(freeSlots == null) return@Observer
+            txt_free_slots.text = freeSlots.toString()
+        })
     }
 
     private fun initStream() {
         controlViewModel.bitmap.observe(viewLifecycleOwner, Observer { bitmap ->
             if ( bitmap == null) return@Observer
-
             loadingDialog.dismiss()
             iv_mqtt.setImageBitmap(bitmap)
         })

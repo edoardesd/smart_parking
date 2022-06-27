@@ -46,7 +46,7 @@
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <TextView
-            android:id="@+id/txt_free_parking"
+            android:id="@+id/txt_free_slots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"

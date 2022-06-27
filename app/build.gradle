@@ -101,6 +101,8 @@ dependencies {
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
     implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
 
+    // Location
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
 
     // Better dateTime-time support even on older Android versions
     implementation "com.jakewharton.threetenabp:threetenabp:1.1.0"

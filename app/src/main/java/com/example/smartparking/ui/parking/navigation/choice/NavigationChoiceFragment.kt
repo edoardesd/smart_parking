@@ -90,16 +90,16 @@ class NavigationChoiceFragment : ScopedFragment() {
 
     private fun initTextView() {
         navigationChoiceViewModel.rooms.observe(viewLifecycleOwner,
-            androidx.lifecycle.Observer {
-                if (it == null) return@Observer
+            androidx.lifecycle.Observer { roomsList ->
+                if (roomsList == null) return@Observer
 
                 loadingDialog.dismiss()
 
                 tv_auto_complete_text_view.setAdapter(
-                    ArrayAdapter(requireView().context,
-                    R.layout.list_item,
-                    it))
-
+                    ArrayAdapter(
+                        requireView().context,
+                        R.layout.list_item,
+                        roomsList))
             })
 
         tv_auto_complete_text_view.setOnItemClickListener { _, _, position, _ ->
@@ -110,7 +110,7 @@ class NavigationChoiceFragment : ScopedFragment() {
 
     private fun openTimePicker(){
         val onTimeSetListener =
-            TimePickerDialog.OnTimeSetListener { _timePicker, selectedHour, selectedMinute ->
+            TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
                 date.minutes = selectedMinute
                 date.hour = selectedHour
                 updateText(selectedHour, selectedMinute)

@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,18 +27,14 @@ import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.db.DirectionData
 import com.example.smartparking.data.network.*
 import com.example.smartparking.data.network.result.NavigationNetworkDataSourceImpl
+import com.example.smartparking.data.provider.LocationProvider
 import com.example.smartparking.databinding.NavigationResultFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.internal.NavigationDetailsNotFoundException
 import com.example.smartparking.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.control_fragment.*
 import kotlinx.android.synthetic.main.navigation_result_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.x.closestKodein
-import org.kodein.di.generic.instance
 
 
 class NavigationResultFragment : ScopedFragment() {
@@ -51,6 +48,7 @@ class NavigationResultFragment : ScopedFragment() {
     private var mapsButton: Button? = null
     private var requestDirectionData = DirectionData()
     private lateinit var loadingDialog : LoadingDialog
+    private lateinit var originPosition : String
 
 
     override fun onCreateView(
@@ -69,11 +67,9 @@ class NavigationResultFragment : ScopedFragment() {
         val navDetails = safeArgs?.navigationDetails ?: throw NavigationDetailsNotFoundException()
 
         Log.d(TAG, "Navigation data: ${navDetails.room}")
-        requestDirectionData.origins = "46.79542968182268,9.8245288366505"
         requestDirectionData.destinations = "${navDetails.room.latitude},${navDetails.room.longitude}"
 
         initProgressBar(requireContext())
-
 
         bindUI(navDetails)
         initMapsButton(navDetails)
@@ -120,17 +116,19 @@ class NavigationResultFragment : ScopedFragment() {
                 .authority("www.google.com")
                 .path("maps/dir/")
                 .appendQueryParameter("api", "1")
-                .appendQueryParameter("origin","46.79542968182268,9.8245288366505")
+                .appendQueryParameter("origin", originPosition)
                 .appendQueryParameter("destination", "${navDetails.room.latitude},${navDetails.room.longitude}")
-                .appendQueryParameter("travelmode", "bicycling")
+                .appendQueryParameter("travelmode", "driving")
+                .appendQueryParameter("arrival_time", navDetails.time)
+                .appendQueryParameter("traffic_mode", "pessimistic")
 
             val addressUri = builder.build()
 
             Log.d(TAG, "My url $addressUri")
 
             val intent = Intent(Intent.ACTION_VIEW, addressUri)
+            intent.setPackage("com.android.chrome")
             startActivity(intent)
-
         }
     }
 
@@ -138,28 +136,23 @@ class NavigationResultFragment : ScopedFragment() {
         navigationResultViewModel.getNavigationData(requestDirectionData)
         navigationResultViewModel.navigationDataAll.observe(viewLifecycleOwner,
             Observer {
-                if ((it.driving == null) && (it.bicycling == null)) {
-                    Log.d(TAG, "Null")
+                if ((it.driving == null) || (it.bicycling == null)) {
                     return@Observer
                 }
 
-                Log.d(TAG, "visibility gone")
+                Log.d(TAG, "Enable navigation result view")
+
                 group_loading_result.visibility = View.GONE
                 loadingDialog.dismiss()
 
                 tv_car_result.text = it.driving
                 tv_bike_result.text = it.bicycling
 
-
             })
 
-//        navigationResultViewModel.getDataCar(requestDirectionData)
-//        navigationResultViewModel.navigationDataCar.observe(viewLifecycleOwner,
-//            Observer { navigationTime -> tv_car_result.text = navigationTime })
-//
-//        navigationResultViewModel.getDataBicycle(requestDirectionData)
-//        navigationResultViewModel.navigationDataBike.observe(viewLifecycleOwner,
-//            Observer { navigationTime -> tv_bike_result.text = navigationTime })
+        navigationResultViewModel.gpsOrigin.observe(viewLifecycleOwner,
+            Observer { gpsPos -> originPosition = gpsPos
+        })
 
         tv_destination_result.setText(navDetails.room.name).toString()
     }
