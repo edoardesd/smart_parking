@@ -12,8 +12,12 @@ import kotlinx.android.parcel.RawValue
 data class RoomDetails(
     val name : String = "",
     val building : Int = 0,
+    val parking : String = "",
+    val walking_distance: Int = 0,
     val latitude : Double = 0.0,
     val longitude : Double = 0.0,
+    val parking_latitude : Double = 0.0,
+    val parking_longitude : Double = 0.0
 ) : Parcelable {
     @PrimaryKey(autoGenerate = false)
     var id : String = name

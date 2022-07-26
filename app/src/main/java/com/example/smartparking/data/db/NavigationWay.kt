@@ -1,7 +1,9 @@
 package com.example.smartparking.data.db
 
+import kotlin.time.Duration
+
 data class NavigationWay(
-    var driving : String? = null,
-    var bicycling : String? = null,
-    var walking : String? = null
+    var driving : Duration? = null,
+    var bicycling : Duration? = null,
+    var walking : Duration? = null
 )

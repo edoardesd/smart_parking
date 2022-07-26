@@ -137,21 +137,21 @@
                         android:id="@+id/tv_car_opt1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1) Walk for 4 minutes"
+                        android:text="1) Drive for 20 minutes"
                         android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_car_opt2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="2) Drive for 20 minutes"
+                        android:text="2) Park in Via Ponzio. Parking probability: 20%"
                         android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_car_opt3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="3) Walk for 3 minutes"
+                        android:text="3) Walk for 6 minutes"
                         android:textSize="15sp" />
 
                 </LinearLayout>
@@ -186,14 +186,14 @@
                 android:layout_marginStart="120dp"
                 android:layout_marginTop="400dp"
                 android:layout_marginEnd="120dp"
-                android:text="Navigate" />
+                android:text="Navigation Preview" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_bicycling"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="300dp">
+            android:layout_marginTop="350dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/bike_card_view"
@@ -241,14 +241,14 @@
                             android:id="@+id/tv_bike_opt1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="1) Walk for 4 minutes"
+                            android:text="1) Ride for 10 minutes"
                             android:textSize="15sp" />
 
                         <TextView
                             android:id="@+id/tv_bike_opt2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="2) Ride for 20 minutes"
+                            android:text="2) Leave the bike in Via Ponzio. Probability 99%"
                             android:textSize="15sp" />
 
                         <TextView

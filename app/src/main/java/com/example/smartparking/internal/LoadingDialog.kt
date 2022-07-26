@@ -23,24 +23,3 @@ class LoadingDialog(val context: Context) {
         dialog.dismiss()
     }
 }
-//
-//class StartGameDialogFragment : DialogFragment() {
-//
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        return activity?.let {
-//            // Use the Builder class for convenient dialog construction
-//            val builder = AlertDialog.Builder(it)
-//            builder.setMessage("asd")
-//                .setPositiveButton("asd",
-//                    DialogInterface.OnClickListener { dialog, id ->
-//                        // START THE GAME!
-//                    })
-//                .setNegativeButton("osd",
-//                    DialogInterface.OnClickListener { dialog, id ->
-//                        // User cancelled the dialog
-//                    })
-//            // Create the AlertDialog object and return it
-//            builder.create()
-//        } ?: throw IllegalStateException("Activity cannot be null")
-//    }
-//}

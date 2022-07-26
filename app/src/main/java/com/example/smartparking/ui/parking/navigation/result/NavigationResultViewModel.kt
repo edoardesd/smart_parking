@@ -6,24 +6,20 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
 import com.example.smartparking.data.db.DirectionData
 import com.example.smartparking.data.db.NavigationWay
 import com.example.smartparking.data.network.ConnectivityInterceptorImpl
 import com.example.smartparking.data.network.GoogleAPIService
-import com.example.smartparking.data.network.result.NavigationNetworkDataSource
+import com.example.smartparking.data.network.response.GoogleDirectionResponse
 import com.example.smartparking.data.network.result.NavigationNetworkDataSourceImpl
 import com.example.smartparking.data.provider.LocationProvider
 import com.example.smartparking.data.provider.LocationProviderImpl
 import com.example.smartparking.internal.TransportMode
-import com.example.smartparking.internal.UnitSystem
-import com.example.smartparking.internal.lazyDeferred
-import com.example.smartparking.ui.base.ScopedFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 
 class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
@@ -38,34 +34,35 @@ class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
     private val navigationNetworkDataSourceCar = NavigationNetworkDataSourceImpl(apiService)
     private val navigationNetworkDataSourceBike = NavigationNetworkDataSourceImpl(apiService)
     private val locationProvider : LocationProvider = LocationProviderImpl(fusedLocationProviderClient, context)
-//    private var currentLocation : String = ""
 
 
     init {
 
         navigationNetworkDataSourceCar.downloadedNavigation.observeForever(Observer {
             Log.d(TAG, "Car $it")
-            navigationWay.driving = it?.rows?.first()?.elements?.first()?.duration?.text
+
+            navigationWay.driving = it?.rows?.first()?.elements?.first()?.duration?.value?.seconds
             _navigationDataAll.value = navigationWay
         })
 
         navigationNetworkDataSourceBike.downloadedNavigation.observeForever(Observer {
             Log.d(TAG, "Bike $it")
-            navigationWay.bicycling =  it?.rows?.first()?.elements?.first()?.duration?.text
+            navigationWay.bicycling = it?.rows?.first()?.elements?.first()?.duration?.value?.seconds
             _navigationDataAll.value = navigationWay
 
 
         })
     }
 
-    fun getNavigationData(requestDirectionData: DirectionData)  {
+    fun getNavigationData(requestDirectionDataCar: DirectionData, requestDirectionDataBike: DirectionData)  {
         GlobalScope.launch(Dispatchers.Main) {
             _gpsOrigin.value = locationProvider.getPreferredLocation()
-            requestDirectionData.origins = _gpsOrigin.value!!
+            requestDirectionDataCar.origins = _gpsOrigin.value!!
+            requestDirectionDataBike.origins = _gpsOrigin.value!!
             Log.d(TAG, "Current Location: ${_gpsOrigin.value!!}")
-            navigationNetworkDataSourceCar.fetchedNavigation(requestDirectionData,
+            navigationNetworkDataSourceCar.fetchedNavigation(requestDirectionDataCar,
                 TransportMode.DRIVING.name.lowercase())
-             navigationNetworkDataSourceBike.fetchedNavigation(requestDirectionData,
+             navigationNetworkDataSourceBike.fetchedNavigation(requestDirectionDataBike,
                 TransportMode.BICYCLING.name.lowercase())
         }
     }

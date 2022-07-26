@@ -1,8 +1,5 @@
 package com.example.smartparking.ui.parking.navigation.result
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
@@ -15,26 +12,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.example.smartparking.R
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.db.DirectionData
-import com.example.smartparking.data.network.*
-import com.example.smartparking.data.network.result.NavigationNetworkDataSourceImpl
-import com.example.smartparking.data.provider.LocationProvider
 import com.example.smartparking.databinding.NavigationResultFragmentBinding
+import com.example.smartparking.internal.DEFAULT_BIKE_WALK_TIME
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.internal.NavigationDetailsNotFoundException
 import com.example.smartparking.ui.base.ScopedFragment
-import kotlinx.android.synthetic.main.control_fragment.*
 import kotlinx.android.synthetic.main.navigation_result_fragment.*
 import kotlinx.coroutines.launch
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 
 
 class NavigationResultFragment : ScopedFragment() {
@@ -44,9 +36,11 @@ class NavigationResultFragment : ScopedFragment() {
 
 //    private lateinit var viewModel: NavigationResultViewModel
     private lateinit var binding: NavigationResultFragmentBinding
+    private lateinit var navDetails: NavigationDetails
     private val navigationResultViewModel: NavigationResultViewModel by viewModels()
     private var mapsButton: Button? = null
-    private var requestDirectionData = DirectionData()
+    private var requestDirectionDataCar = DirectionData()
+    private var requestDirectionDataBike = DirectionData()
     private lateinit var loadingDialog : LoadingDialog
     private lateinit var originPosition : String
 
@@ -64,11 +58,14 @@ class NavigationResultFragment : ScopedFragment() {
         super.onActivityCreated(savedInstanceState)
         binding.navigationResultViewModel = navigationResultViewModel
         val safeArgs = arguments?.let { NavigationResultFragmentArgs.fromBundle(it) }
-        val navDetails = safeArgs?.navigationDetails ?: throw NavigationDetailsNotFoundException()
+        navDetails = safeArgs?.navigationDetails ?: throw NavigationDetailsNotFoundException()
 
         Log.d(TAG, "Navigation data: ${navDetails.room}")
-        requestDirectionData.destinations = "${navDetails.room.latitude},${navDetails.room.longitude}"
+        requestDirectionDataCar.destinations = "${navDetails.room.parking_latitude},${navDetails.room.parking_longitude}"
+        requestDirectionDataBike.destinations = "${navDetails.room.latitude},${navDetails.room.longitude}"
 
+        Log.d(TAG, "$requestDirectionDataCar")
+        Log.d(TAG, "$requestDirectionDataBike")
         initProgressBar(requireContext())
 
         bindUI(navDetails)
@@ -133,7 +130,7 @@ class NavigationResultFragment : ScopedFragment() {
     }
 
     private fun bindUI(navDetails: NavigationDetails) = launch {
-        navigationResultViewModel.getNavigationData(requestDirectionData)
+        navigationResultViewModel.getNavigationData(requestDirectionDataCar, requestDirectionDataBike)
         navigationResultViewModel.navigationDataAll.observe(viewLifecycleOwner,
             Observer {
                 if ((it.driving == null) || (it.bicycling == null)) {
@@ -145,9 +142,8 @@ class NavigationResultFragment : ScopedFragment() {
                 group_loading_result.visibility = View.GONE
                 loadingDialog.dismiss()
 
-                tv_car_result.text = it.driving
-                tv_bike_result.text = it.bicycling
-
+                setExpandTextCar(it.driving)
+                setExpandTextBike(it.bicycling)
             })
 
         navigationResultViewModel.gpsOrigin.observe(viewLifecycleOwner,
@@ -157,5 +153,21 @@ class NavigationResultFragment : ScopedFragment() {
         tv_destination_result.setText(navDetails.room.name).toString()
     }
 
+    private fun overallTime(googleResult: Duration?, minutes: Duration): Int {
+        var overallTime = googleResult!!.plus(minutes)
+        return overallTime!!.inWholeMinutes.toInt()
+    }
 
+    private fun setExpandTextCar(googleResult: Duration?) {
+        tv_car_result.text = "${overallTime(googleResult, navDetails.room.walking_distance.minutes)} minutes"
+        tv_car_opt1.text = "1) Drive for ${googleResult!!.inWholeMinutes} minutes"
+        tv_car_opt2.text = "2) Park in ${navDetails.room.parking}. Parking probability: 20%"
+        tv_car_opt3.text = "3) Walk for ${navDetails.room.walking_distance} minutes"
+    }
+
+    private fun setExpandTextBike(googleResult: Duration?) {
+        tv_bike_result.text = "${overallTime(googleResult, DEFAULT_BIKE_WALK_TIME)} minutes"
+        tv_bike_opt1.text = "1) Ride for ${googleResult!!.inWholeMinutes} minutes"
+        tv_bike_opt2.text = "2) Leave the bike in front of ${navDetails.room.name}"
+    }
 }

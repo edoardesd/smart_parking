@@ -28,8 +28,13 @@ interface FirestoreService {
                             val room = RoomDetails(
                                 document.data.getValue("room").toString(),
                                 document.data.getValue("building").toString().toInt(),
+                                document.data.getValue("parking").toString(),
+                                document.data.getValue("walking_distance").toString().toInt(),
                                 document.getGeoPoint("location")!!.latitude,
-                                document.getGeoPoint("location")!!.longitude)
+                                document.getGeoPoint("location")!!.longitude,
+                                document.getGeoPoint("parking_location")!!.latitude,
+                                document.getGeoPoint("parking_location")!!.longitude,
+                            )
 
                             roomsArrayList.add(room)
                         }
