@@ -12,6 +12,12 @@
         <item>Room 3.1.2</item>
         <item>Room 3.1.3</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
+
+    <string-array name="parking_location">
+        <item>DEIB</item>
+        <item>DASTU</item>
+        <item>B6</item>
+    </string-array>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
