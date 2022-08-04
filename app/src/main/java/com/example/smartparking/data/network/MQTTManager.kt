@@ -48,8 +48,7 @@ class MQTTManager(private val connectionParams: MQTTConnectionParams, val contex
         }
     }
 
-    // Subscribe to topic
-    fun subscribe(topic: String, qos: Int = 1){
+    fun subscribe(topic: Array<String>, qos: IntArray){
         try {
             mqttClient.subscribe(topic, qos, null, object:IMqttActionListener {
                 override fun onSuccess(asyncActionToken:IMqttToken) {
@@ -64,8 +63,7 @@ class MQTTManager(private val connectionParams: MQTTConnectionParams, val contex
         }
     }
 
-    // Unsubscribe the topic
-    fun unsubscribe(topic: String){
+    fun unsubscribe(topic: Array<String>){
         try {
             mqttClient.unsubscribe(topic,null,object :IMqttActionListener{
                 override fun onSuccess(asyncActionToken: IMqttToken?) {
@@ -88,6 +86,6 @@ class MQTTManager(private val connectionParams: MQTTConnectionParams, val contex
 
 }
 
-data class MQTTConnectionParams(val clientId:String, val host: String, val topic: String, val qos: Int){
+data class MQTTConnectionParams(val clientId:String, val host: String, val topic: Array<String>, val qos: IntArray){
 
 }

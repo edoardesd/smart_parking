@@ -60,39 +60,23 @@ class ControlFragment : ScopedFragment() {
 
         actv_parking_location.setOnItemClickListener { _, _, position, _ ->
             selectedIndexParking = position
-            Log.d(ContentValues.TAG, "Selected parking at position: $position")
+            controlViewModel.getSelectedParking(parkingLocations[position])
+            Log.d(TAG, "Selected parking at position: ${parkingLocations[position]} $position")
         }
     }
 
     private fun initFreeSlots() {
         controlViewModel.slotsPrediction.observe(viewLifecycleOwner, Observer { freeSlots ->
             if(freeSlots == null) return@Observer
-            txt_free_slots.text = freeSlots.toString()
+            txt_free_slots.text = "$freeSlots /7"
         })
     }
 
     private fun initStream() {
-        controlViewModel.bitmapDASTU.observe(viewLifecycleOwner, Observer { bitmap ->
+        controlViewModel.bitmap.observe(viewLifecycleOwner, Observer { bitmap ->
             if ( bitmap == null) return@Observer
-            if (selectedIndexParking == 1){
                 loadingDialog.dismiss()
                 iv_mqtt.setImageBitmap(bitmap)
-                Log.d(TAG, "GET dastu")
-                Log.d(TAG, "$bitmap")
-                Log.d(TAG, "selected parking $selectedIndexParking")
-            }
-        })
-
-        controlViewModel.bitmapDEIB.observe(viewLifecycleOwner, Observer { bitmap ->
-            if ( bitmap == null) return@Observer
-            if (selectedIndexParking == 0) {
-                loadingDialog.dismiss()
-                iv_mqtt.setImageBitmap(bitmap)
-                Log.d(TAG, "GET deib")
-                Log.d(TAG, "$bitmap")
-                Log.d(TAG, "selected parking $selectedIndexParking")
-
-            }
         })
     }
 

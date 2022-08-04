@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.util.Log
@@ -70,7 +71,7 @@ class NavigationResultFragment : ScopedFragment() {
 
         bindUI(navDetails)
         initMapsButton(navDetails)
-        initExpandButtons(navDetails)
+//        initExpandButtons(navDetails)
 
     }
 
@@ -79,31 +80,31 @@ class NavigationResultFragment : ScopedFragment() {
         loadingDialog.startLoading()
     }
 
-    private fun initExpandButtons(navDetails: NavigationDetails) {
-        car_expand_btn.setOnClickListener {
-            if(expandable_l_car.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(car_card_view, AutoTransition())
-                expandable_l_car.visibility = View.VISIBLE
-                car_expand_btn.text = "COLLAPSE"
-            } else {
-                TransitionManager.beginDelayedTransition(car_card_view, AutoTransition())
-                expandable_l_car.visibility = View.GONE
-                car_expand_btn.text = "EXPAND"
-            }
-        }
+//    private fun initExpandButtons(navDetails: NavigationDetails) {
+//        car_expand_btn.setOnClickListener {
+//            if(expandable_l_car.visibility == View.GONE) {
+//                TransitionManager.beginDelayedTransition(car_card_view, AutoTransition())
+//                expandable_l_car.visibility = View.VISIBLE
+//                car_expand_btn.text = "COLLAPSE"
+//            } else {
+//                TransitionManager.beginDelayedTransition(car_card_view, AutoTransition())
+//                expandable_l_car.visibility = View.GONE
+//                car_expand_btn.text = "EXPAND"
+//            }
+//        }
 
-        bike_expand_btn.setOnClickListener {
-            if(expandable_l_bike.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(bike_card_view, AutoTransition())
-                expandable_l_bike.visibility = View.VISIBLE
-                bike_expand_btn.text = "COLLAPSE"
-            } else {
-                TransitionManager.beginDelayedTransition(bike_card_view, AutoTransition())
-                expandable_l_bike.visibility = View.GONE
-                bike_expand_btn.text = "EXPAND"
-            }
-        }
-    }
+//        bike_expand_btn.setOnClickListener {
+//            if(expandable_l_bike.visibility == View.GONE) {
+//                TransitionManager.beginDelayedTransition(bike_card_view, AutoTransition())
+//                expandable_l_bike.visibility = View.VISIBLE
+//                bike_expand_btn.text = "COLLAPSE"
+//            } else {
+//                TransitionManager.beginDelayedTransition(bike_card_view, AutoTransition())
+//                expandable_l_bike.visibility = View.GONE
+//                bike_expand_btn.text = "EXPAND"
+//            }
+//        }
+//    }
 
     private fun initMapsButton(navDetails: NavigationDetails) {
         mapsButton = view?.findViewById(R.id.btn_googleMaps)
@@ -159,15 +160,17 @@ class NavigationResultFragment : ScopedFragment() {
     }
 
     private fun setExpandTextCar(googleResult: Duration?) {
-        tv_car_result.text = "${overallTime(googleResult, navDetails.room.walking_distance.minutes)} minutes"
+        tv_car_result.text = "${overallTime(googleResult, navDetails.room.walking_distance.minutes) + 15} minutes"
         tv_car_opt1.text = "1) Drive for ${googleResult!!.inWholeMinutes} minutes"
-        tv_car_opt2.text = "2) Park in ${navDetails.room.parking}. Parking probability: 20%"
+        tv_car_opt2.text = "2) Park in ${navDetails.room.parking}."
+        tv_car_opt2bis.text = Html.fromHtml("Parking expectation: <font color='#D22B2B'>low</font>. Time to find a free parking space: 10-15 min")
         tv_car_opt3.text = "3) Walk for ${navDetails.room.walking_distance} minutes"
     }
 
     private fun setExpandTextBike(googleResult: Duration?) {
         tv_bike_result.text = "${overallTime(googleResult, DEFAULT_BIKE_WALK_TIME)} minutes"
-        tv_bike_opt1.text = "1) Ride for ${googleResult!!.inWholeMinutes} minutes"
-        tv_bike_opt2.text = "2) Leave the bike in front of ${navDetails.room.name}"
+//        tv_bike_opt1.text = "1) Ride for ${googleResult!!.inWholeMinutes} minutes"
+        var myString = "Leave the bike in front of ${navDetails.room.name}. \nParking expectation: <font color='#228B22'>very high</font>."
+        tv_bike_opt2.text = Html.fromHtml(myString)
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.parking.navigation.result.NavigationResultFragment">
 
@@ -11,10 +12,8 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_result"
@@ -62,225 +61,233 @@
             app:layout_constraintTop_toBottomOf="@+id/progressBar_loading_result"
             app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/tv_destination_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Destination:"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toTopOf="@+id/rl_car"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        end of loading bar-->
 
-        <TextView
-            android:id="@+id/tv_destination_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="48dp"
-            android:text="Loading..."
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_destination_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_destination_text"
-            app:layout_constraintVertical_bias="0.0" />
 
-        <RelativeLayout
-            android:id="@+id/rl_car"
+        <LinearLayout
+            android:id="@+id/ll_car"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="150dp">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="18dp"
+            android:background="@drawable/rectangle_border"
+            android:orientation="vertical"
+            android:paddingLeft="18dp"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/car_card_view"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_destination_result"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_marginTop="120dp">
+                android:text="Loading..."
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/tv_destination_building"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Building 20 Leonardo"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:paddingTop="25dp">
 
                 <TextView
                     android:id="@+id/tv_car_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="Car estimated time:"
-                    android:textColor="@color/purple_500"
-                    android:textSize="20sp"
+                    android:text="Car estimated time: "
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
-
 
                 <TextView
                     android:id="@+id/tv_car_result"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
                     android:text="Loading..."
-                    android:textSize="25sp" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/expandable_l_car"
+            <LinearLayout
+                android:id="@+id/text_direction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp">
+
+                <TextView
+                    android:id="@+id/tv_car_opt1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="12dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:text="1) Drive for 20 minutes"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
 
-                    <TextView
-                        android:id="@+id/tv_car_opt1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="1) Drive for 20 minutes"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/tv_car_opt2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="2) Park in Via Ponzio. Parking probability: 20%"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/tv_car_opt3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="3) Walk for 6 minutes"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <View
+                <TextView
+                    android:id="@+id/tv_car_opt2"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="#88888888" />
+                    android:layout_height="wrap_content"
+                    android:text="2) Park in Via Ponzio."
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
 
-                <Button
-                    android:id="@+id/car_expand_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/ripple_effect"
-                    android:text="EXPAND"
-                    android:textColor="#6200EA" />
+                <TextView
+                    android:id="@+id/tv_car_opt2bis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Parking expectation: low.
+                    \nTime to find a free parking space: 10-15 min"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_car_opt3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="3) Walk for 6 minutes"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_googleMaps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="120dp"
-                android:layout_marginTop="400dp"
-                android:layout_marginEnd="120dp"
-                android:text="Navigation Preview" />
-        </RelativeLayout>
+                android:backgroundTint="@color/userInteraction5G"
+                android:elevation="10dp"
+                android:stateListAnimator="@null"
+                android:text="Navigate"
+                android:textStyle="bold"
+                app:cornerRadius="10dp" />
 
-        <RelativeLayout
-            android:id="@+id/rl_bicycling"
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_others"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="350dp">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="18dp"
+            android:background="@drawable/rectangle_border"
+            android:backgroundTint="@color/mediumBlue5G"
+            android:orientation="vertical"
+            android:paddingLeft="18dp"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_car">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/bike_card_view"
+            <TextView
+                android:id="@+id/tv_green_mobility"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Green Mobility"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+<!--            bicyling-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_marginTop="120dp">
+                android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bicycling: "
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tv_bike_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading..."
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/expandable_l_bike"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="6dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_bike_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bicycling estimated time:"
-                        android:textColor="@color/purple_500"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:layout_marginStart="12dp"
-                        />
-
+<!--                    <TextView-->
+<!--                        android:id="@+id/tv_bike_opt1"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="1) Ride for 10 minutes"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="15sp" />-->
 
                     <TextView
-                        android:id="@+id/tv_bike_result"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Loading..."
-                        android:textSize="25sp"
-                        android:layout_marginStart="12dp"
-                        />
-
-                    <LinearLayout
-                        android:id="@+id/expandable_l_bike"
+                        android:id="@+id/tv_bike_opt2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginStart="12dp"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:text="Park the bike in Via Ponzio, secure area.
+                        \nParking expectation: very high."
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
 
-                        <TextView
-                            android:id="@+id/tv_bike_opt1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="1) Ride for 10 minutes"
-                            android:textSize="15sp" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/tv_bike_opt3"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="3) Walk for 1 minute"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="15sp" />-->
 
-                        <TextView
-                            android:id="@+id/tv_bike_opt2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="2) Leave the bike in Via Ponzio. Probability 99%"
-                            android:textSize="15sp" />
+            </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tv_bike_opt3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="3) Walk for 1 minute"
-                            android:textSize="15sp" />
+            </LinearLayout>
 
-                    </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="#88888888"
-                        android:layout_marginTop="18dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"/>
 
-                    <Button
-                        android:id="@+id/bike_expand_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:text="EXPAND"
-                        android:textColor="#6200EA"
-                        android:background="@drawable/ripple_effect"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginStart="4dp"/>
+            <!--            walking-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Walking:"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
 
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
+
+        </LinearLayout>
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -17,28 +17,34 @@ import java.io.UnsupportedEncodingException
 import java.util.*
 
 const val serverURI = "tcp://broker.hivemq.com:1883"
-const val TOPIC_IMAGE = "smart/parking/polimi/deib/image"
-const val TOPIC_PREDICTION = "smart/parking/polimi/deib/prediction"
-const val TOPIC_IMAGE_DASTU = "smart/parking/polimi/dastu/image"
-const val TOPIC_PREDICTION_DASTU = "smart/parking/polimi/dastu/prediction"
+const val TOPIC_IMAGE = "smart/parking/polimi/+/image"
+const val TOPIC_PREDICTION = "smart/parking/polimi/+/prediction"
+const val BASE_TOPIC = "smart/parking/polimi/"
 
+const val STARTUP_PARKING = "deib"
+const val IMAGE_TAG = "image"
+const val PREDICTION_TAG = "prediction"
 
 class ControlViewModel(app: Application) : AndroidViewModel(app){
 
-    private var _bitmapDEIB: MutableLiveData<Bitmap> = MutableLiveData<Bitmap>()
-    private var _bitmapDASTU: MutableLiveData<Bitmap> = MutableLiveData<Bitmap>()
+    private var _bitmap: MutableLiveData<Bitmap> = MutableLiveData<Bitmap>()
     private var _slotsPrediction: MutableLiveData<Int> = MutableLiveData<Int>()
     private val context = getApplication<Application>().applicationContext
     private val uniqueID : String = "parking" + UUID.randomUUID().toString()
-    private val connectionParams = MQTTConnectionParams(uniqueID, serverURI, TOPIC_IMAGE,2)
+    private var currentTopics = arrayOf("$BASE_TOPIC$STARTUP_PARKING/image", "$BASE_TOPIC$STARTUP_PARKING/prediction")
+    private val connectionParams = MQTTConnectionParams(uniqueID, serverURI,
+            currentTopics,
+            intArrayOf(2, 2))
     private val mqttManager: MQTTManager = MQTTManager(connectionParams, context)
+    private var selectedParking : String = STARTUP_PARKING
+
 
     init {
         mqttManager.connect()
         mqttManager.getMQTTClient().setCallback(object: MqttCallbackExtended {
             override fun connectComplete(b:Boolean, s:String) {
                 Log.d(TAG, "Connection completed $s")
-                subscribe(connectionParams.topic, connectionParams.qos)
+                mqttManager.subscribe(connectionParams.topic, connectionParams.qos)
 
             }
             override fun connectionLost(cause : Throwable?) {
@@ -46,80 +52,58 @@ class ControlViewModel(app: Application) : AndroidViewModel(app){
             }
             override fun messageArrived(topic:String, mqttMessage: MqttMessage) {
                 Log.d(TAG, "Received message from topic: $topic")
-                if (topic == TOPIC_IMAGE) {
-                    decodeMessage(mqttMessage, topic)
-                }
-                if (topic == TOPIC_PREDICTION){
-                    _slotsPrediction.value = mqttMessage.toString().toInt()
-                }
 
-                if (topic == TOPIC_IMAGE_DASTU) {
-                    decodeMessage(mqttMessage, topic)
-                    Log.d(TAG, "image dastu")
-                }
-                if (topic == TOPIC_PREDICTION_DASTU){
-//                    _slotsPrediction.value = mqttMessage.toString().toInt()
-                    Log.d(TAG, "prediction dastu")
-                }
-
+                selectMessageToParse(topic, mqttMessage)
             }
             override fun deliveryComplete(iMqttDeliveryToken: IMqttDeliveryToken) {
             }
         })
     }
 
-    fun subscribe(topic: String, qos: Int = 1){
+    private fun selectMessageToParse(topic: String, mqttMessage: MqttMessage) {
+        if (topic.contains(IMAGE_TAG)){
+            if (topic.contains(selectedParking)) {
+                Log.d(TAG, "Selected: $topic")
+                decodeMessage(mqttMessage)
+            }
+        }
+
+        if (topic.contains(PREDICTION_TAG)){
+            if (topic.contains(selectedParking)) {
+                _slotsPrediction.value = mqttMessage.toString().toInt()
+            }
+        }
+    }
+
+    private fun decodeMessage(message: MqttMessage?) {
+        val messageJson = Gson().fromJson(message.toString(), MQTTMessage::class.java)
+        val decodedImageBytes: ByteArray
         try {
-            mqttManager.getMQTTClient().subscribe(arrayOf(topic, TOPIC_PREDICTION, TOPIC_IMAGE_DASTU, TOPIC_PREDICTION_DASTU), intArrayOf(qos, 2, 2, 2), null, object:IMqttActionListener {
-                override fun onSuccess(asyncActionToken:IMqttToken) {
-                    Log.d(TAG, "Subscribed to $topic")                }
-                override fun onFailure(asyncActionToken:IMqttToken, exception:Throwable) {
-                    Log.d(TAG, "Failed to subscribe $topic")
-                }
-            })
+            decodedImageBytes = Base64.decode(messageJson.image.toByteArray(), Base64.DEFAULT)
+        } catch (e: UnsupportedEncodingException) {
+            Log.d(TAG, "This is not a base64 data", e)
+            return
+        } catch (e: IllegalArgumentException) {
+            Log.d(TAG, "This is not a base64 data", e)
+            return
         }
-        catch (e:MqttException) {
-            e.printStackTrace()
-        }
+
+        Log.d(TAG, "Image decoded.")
+        val tmpBitmap : Bitmap = BitmapFactory.decodeByteArray(decodedImageBytes, 0, decodedImageBytes.size)
+
+        _bitmap.value = tmpBitmap
     }
 
-        fun decodeMessage(message: MqttMessage?, topic: String) {
-            val messageJson = Gson().fromJson(message.toString(), MQTTMessage::class.java)
-            val decodedImageBytes: ByteArray
-            try {
-                decodedImageBytes = Base64.decode(messageJson.image.toByteArray(), Base64.DEFAULT)
-            } catch (e: UnsupportedEncodingException) {
-                Log.d(TAG, "This is not a base64 data", e)
-                return
-            } catch (e: IllegalArgumentException) {
-                Log.d(TAG, "This is not a base64 data", e)
-                return
-            }
-
-            Log.d(TAG, "Image decoded.")
-            val tmpBitmap : Bitmap = BitmapFactory.decodeByteArray(decodedImageBytes, 0, decodedImageBytes.size)
-
-            if (topic == TOPIC_IMAGE) {
-                _bitmapDEIB.value = tmpBitmap
-                Log.d(TAG, "bitmap deib")
-            }
-
-            if (topic == TOPIC_IMAGE_DASTU) {
-                _bitmapDASTU.value = tmpBitmap
-                Log.d(TAG, "bitmap dastu")
-
-            }
-
-            Log.d(TAG, "Image passed to view.")
+    fun getSelectedParking(parkingName : String){
+        selectedParking = parkingName.lowercase()
+        mqttManager.unsubscribe(currentTopics)
+        currentTopics = arrayOf("$BASE_TOPIC$selectedParking/image", "$BASE_TOPIC$selectedParking/prediction")
+        mqttManager.subscribe(currentTopics, intArrayOf(2,2))
     }
 
-    internal var bitmapDEIB : MutableLiveData<Bitmap>
-        get() {return _bitmapDEIB}
-        set(value) {_bitmapDEIB = value}
-
-    internal var bitmapDASTU : MutableLiveData<Bitmap>
-        get() {return _bitmapDASTU}
-        set(value) {_bitmapDASTU = value}
+    internal var bitmap : MutableLiveData<Bitmap>
+        get() {return _bitmap}
+        set(value) {_bitmap = value}
 
     internal var slotsPrediction : MutableLiveData<Int>
         get() {return _slotsPrediction}
