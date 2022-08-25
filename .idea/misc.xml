@@ -4,12 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/bottom_navigation_selector.xml" value="0.212" />
+        <entry key="app/src/main/res/drawable/button_recent.xml" value="0.2895" />
+        <entry key="app/src/main/res/drawable/custom_bottom.xml" value="0.2895" />
         <entry key="app/src/main/res/drawable/rectangle_border.xml" value="0.2665" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23229166666666667" />
         <entry key="app/src/main/res/layout/control_fragment.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/dropdown_parking.xml" value="0.3572916666666667" />
+        <entry key="app/src/main/res/layout/list_item.xml" value="0.2296195652173913" />
         <entry key="app/src/main/res/layout/loading_item.xml" value="0.23229166666666667" />
-        <entry key="app/src/main/res/layout/navigation_choice_fragment.xml" value="0.33416290283203126" />
+        <entry key="app/src/main/res/layout/navigation_choice_fragment.xml" value="0.3110504150390625" />
         <entry key="app/src/main/res/layout/navigation_result_fragment.xml" value="0.3516047380972599" />
         <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.23229166666666667" />
         <entry key="app/src/main/res/xml/preferences.xml" value="0.24003623188405798" />

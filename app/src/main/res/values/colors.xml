@@ -12,6 +12,8 @@
     <color name="userInteraction5G">#F29F05</color>
     <color name="whiteAlpha5G">#80FFFFFF</color>
     <color name="mediumBlue5G">#ADBCC7</color>
+    <color name="mediumGray5G">#666666</color>
+    <color name="clearGray5G">#999999</color>
     <color name="colorAccent">#ED2173</color>
 
 </resources>

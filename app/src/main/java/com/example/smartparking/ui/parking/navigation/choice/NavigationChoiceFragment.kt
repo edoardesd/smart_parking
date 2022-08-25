@@ -5,31 +5,26 @@ import android.app.TimePickerDialog
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.smartparking.R
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
-import com.example.smartparking.data.db.RoomDetails
-import com.example.smartparking.data.network.FirestoreService
-import com.example.smartparking.data.network.choice.DatabaseNetworkDataSourceImpl
 import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.navigation_choice_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class NavigationChoiceFragment : ScopedFragment() {
 
@@ -39,9 +34,14 @@ class NavigationChoiceFragment : ScopedFragment() {
 
     private var timeButton: Button? = null
     private var goButton: Button? = null
+    private var eventLayout : View? = null
     private var date = MyDate()
+    private var nextEventLocation : String = "Room 22.1.1"
+    private var nextEventStartTime = MyDate()
 
     private var selectedIndex : Int = 0
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +61,16 @@ class NavigationChoiceFragment : ScopedFragment() {
         initTimePicker()
         initGoButton()
         initTextView()
+
+        eventLayout = view?.findViewById(R.id.ll_event)
+        eventLayout?.setOnClickListener {
+            Log.d(TAG, "Next event clicked")
+            tv_auto_complete_text_view.setText(nextEventLocation)
+            selectedIndex = 1
+            nextEventStartTime.hour = 10
+            nextEventStartTime.minutes = 15
+            timeButton!!.setText("${nextEventStartTime.hour}:${nextEventStartTime.minutes}")
+        }
     }
 
     private fun initGoButton() {

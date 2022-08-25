@@ -160,17 +160,18 @@ class NavigationResultFragment : ScopedFragment() {
     }
 
     private fun setExpandTextCar(googleResult: Duration?) {
-        tv_car_result.text = "${overallTime(googleResult, navDetails.room.walking_distance.minutes) + 15} minutes"
+        tv_car_result.text = "${overallTime(googleResult, navDetails.room.walking_distance.minutes) + 2} minutes"
         tv_car_opt1.text = "1) Drive for ${googleResult!!.inWholeMinutes} minutes"
         tv_car_opt2.text = "2) Park in ${navDetails.room.parking}."
-        tv_car_opt2bis.text = Html.fromHtml("Parking expectation: <font color='#D22B2B'>low</font>. Time to find a free parking space: 10-15 min")
+//        tv_car_opt2bis.text = Html.fromHtml("Parking expectation: <font color='#D22B2B'>low</font>. Time to find a free parking space: 10-15 min")
+        tv_car_opt2bis.text = Html.fromHtml("Parking expectation: <font color='#00FF00'>high</font>. Time to find a free parking space: 1-2 min")
         tv_car_opt3.text = "3) Walk for ${navDetails.room.walking_distance} minutes"
     }
 
     private fun setExpandTextBike(googleResult: Duration?) {
         tv_bike_result.text = "${overallTime(googleResult, DEFAULT_BIKE_WALK_TIME)} minutes"
 //        tv_bike_opt1.text = "1) Ride for ${googleResult!!.inWholeMinutes} minutes"
-        var myString = "Leave the bike in front of ${navDetails.room.name}. \nParking expectation: <font color='#228B22'>very high</font>."
+        var myString = "Leave the bike in front of ${navDetails.room.name}. \nParking expectation: <font color='#00FF00'>very high</font>."
         tv_bike_opt2.text = Html.fromHtml(myString)
     }
 }
