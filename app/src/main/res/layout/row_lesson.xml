@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/row_box"
+    android:layout_marginTop="6dp"
+    android:background="@drawable/button_recent"
+    android:elevation="10dp"
+    android:paddingLeft="15dp"
+    android:clickable="true">
+
+    <RelativeLayout
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/tv_lesson_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lesson name"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat" />
+
+        <TextView
+            android:id="@+id/tv_room_details"
+            android:layout_width="304.5dp"
+            android:layout_height="20.5dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="28dp"
+            android:text="room_123___building_1"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:fontFamily="@font/montserrat"/>
+
+        <TextView android:id="@+id/tv_prof_name"
+            android:textSize="11sp"
+            android:textColor="@color/white"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="45dp"
+            android:layout_width="304.5dp"
+            android:layout_height="20.5dp"
+            android:text="prof name"
+            android:fontFamily="@font/montserrat"
+            />
+
+        <TextView
+            android:id="@+id/tv_time_details"
+            android:layout_width="304.5dp"
+            android:layout_height="20.5dp"
+            android:layout_marginTop="62dp"
+            android:text="time details"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:fontFamily="@font/montserrat"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

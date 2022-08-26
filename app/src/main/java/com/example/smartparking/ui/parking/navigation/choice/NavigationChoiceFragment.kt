@@ -10,12 +10,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.LinearLayout
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.OrientationHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
@@ -24,6 +25,7 @@ import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.navigation_choice_fragment.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class NavigationChoiceFragment : ScopedFragment() {
@@ -35,6 +37,7 @@ class NavigationChoiceFragment : ScopedFragment() {
     private var timeButton: Button? = null
     private var goButton: Button? = null
     private var eventLayout : View? = null
+    private var listViewLessons : ListView? = null
     private var date = MyDate()
     private var nextEventLocation : String = "Room 22.1.1"
     private var nextEventStartTime = MyDate()
@@ -62,15 +65,43 @@ class NavigationChoiceFragment : ScopedFragment() {
         initGoButton()
         initTextView()
 
-        eventLayout = view?.findViewById(R.id.ll_event)
-        eventLayout?.setOnClickListener {
-            Log.d(TAG, "Next event clicked")
-            tv_auto_complete_text_view.setText(nextEventLocation)
-            selectedIndex = 1
-            nextEventStartTime.hour = 10
-            nextEventStartTime.minutes = 15
-            timeButton!!.setText("${nextEventStartTime.hour}:${nextEventStartTime.minutes}")
+        val bubbles: ArrayList<String> = ArrayList()
+
+        for (i in 1..8){
+            bubbles.add("bubble $i")
         }
+
+        rv_bubbles.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        rv_bubbles.adapter = BubbleListAdapter(bubbles)
+
+
+        listViewLessons = view?.findViewById<ListView>(R.id.lv_lessons)
+        var listLesson = mutableListOf<LessonListModel>()
+
+        listLesson.add(LessonListModel("Lesson blbla", "room 2", "monday 10-15"))
+        listLesson.add(LessonListModel("Lesson blbla 2", "room 1", "monday 12-15"))
+        listLesson.add(LessonListModel("Lesson blbla 3", "room 4", "monday 16-18"))
+        listLesson.add(LessonListModel("Lesson blbla 4", "room 5", "monday 10-15"))
+        listLesson.add(LessonListModel("Lesson blbla 5", "room 21", "monday 10-15"))
+        listLesson.add(LessonListModel("Lesson blbla 6", "room 23", "monday 10-15"))
+        listLesson.add(LessonListModel("Lesson blbla 7", "room 45", "monday 10-15"))
+
+
+
+        listViewLessons?.adapter = LessonListAdapter(requireContext(), R.layout.row_lesson, listLesson)
+
+//        listViewLessons?.setOnClickListener{
+//            Log.d(TAG, "list clicked")
+//        }
+//        eventLayout = view?.findViewById(R.id.ll_event)
+//        eventLayout?.setOnClickListener {
+//            Log.d(TAG, "Next event clicked")
+//            tv_auto_complete_text_view.setText(nextEventLocation)
+//            selectedIndex = 1
+//            nextEventStartTime.hour = 10
+//            nextEventStartTime.minutes = 15
+//            timeButton!!.setText("${nextEventStartTime.hour}:${nextEventStartTime.minutes}")
+//        }
     }
 
     private fun initGoButton() {
