@@ -10,18 +10,25 @@
         android:layout_height="80dp"
         app:cardElevation="1dp"
         app:cardMaxElevation="2dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
         android:layout_centerInParent="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/user5G"
+       >
+
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/bubble_icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="16dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/bar"
+            android:background="@drawable/circle" />
 
         <TextView
             android:id="@+id/tv_bubble_name"
@@ -31,13 +38,11 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:autoSizeMaxTextSize="15sp"
-            android:autoSizeMinTextSize="8sp"
-            android:autoSizeTextType="uniform"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
             android:text="Library"
-            android:textColor="@color/black" />
+            android:textSize="11sp"
+            android:textColor="@color/mediumGray5G" />
 
     </RelativeLayout>
 

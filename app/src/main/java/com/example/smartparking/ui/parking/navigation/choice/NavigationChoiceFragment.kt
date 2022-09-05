@@ -4,8 +4,8 @@ import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +15,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
 import com.example.smartparking.data.MyDate
@@ -25,7 +24,6 @@ import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.navigation_choice_fragment.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class NavigationChoiceFragment : ScopedFragment() {
@@ -36,11 +34,16 @@ class NavigationChoiceFragment : ScopedFragment() {
 
     private var timeButton: Button? = null
     private var goButton: Button? = null
-    private var eventLayout : View? = null
+//    private val bubbleList = ArrayList
+//    private var eventLayout : View? = null
     private var listViewLessons : ListView? = null
+    private var listViewBubbles : RecyclerView? = null
+    private val selectedBubbles: ArrayList<Int> = ArrayList()
+
+    private lateinit var bubbleAdapter : BubbleListAdapter
     private var date = MyDate()
-    private var nextEventLocation : String = "Room 22.1.1"
-    private var nextEventStartTime = MyDate()
+//    private var nextEventLocation : String = "Room 22.1.1"
+//    private var nextEventStartTime = MyDate()
 
     private var selectedIndex : Int = 0
 
@@ -65,14 +68,58 @@ class NavigationChoiceFragment : ScopedFragment() {
         initGoButton()
         initTextView()
 
-        val bubbles: ArrayList<String> = ArrayList()
+//        val bubbles: ArrayList<String> = ArrayList()
+//
+//        for (i in 1..8){
+//            bubbles.add("bubble $i")
+//        }
+//
+//        rv_bubbles.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+//        rv_bubbles.adapter = BubbleListAdapter(bubbles)
 
-        for (i in 1..8){
-            bubbles.add("bubble $i")
-        }
 
-        rv_bubbles.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-        rv_bubbles.adapter = BubbleListAdapter(bubbles)
+
+        var listBubbles = ArrayList<BubbleListModel>()
+
+        listBubbles.add(BubbleListModel("Bar", R.drawable.bar))
+        listBubbles.add(BubbleListModel("Library",R.drawable.library))
+        listBubbles.add(BubbleListModel("Microwaves", R.drawable.microwaves))
+        listBubbles.add(BubbleListModel("Park", R.drawable.park))
+        listBubbles.add(BubbleListModel("Study Room", R.drawable.study_room))
+        listBubbles.add(BubbleListModel("Toilets", R.drawable.toilets))
+
+        bubbleAdapter = BubbleListAdapter(listBubbles)
+
+
+        val recyclerBubbles = view?.findViewById<RecyclerView>(R.id.rv_bubbles)
+        val bubblesLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        recyclerBubbles?.layoutManager = bubblesLayoutManager
+        recyclerBubbles?.adapter = bubbleAdapter
+        bubbleAdapter.setOnItemClickListener(object : BubbleListAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+
+                val clicked_item:BubbleListModel = listBubbles[position]
+
+
+                clicked_item.isSelected = !clicked_item.isSelected
+                Log.d(TAG, "Item clicked on pos ${clicked_item.title}")
+
+                if(clicked_item.isSelected){
+                    Log.d(TAG, "is selected")
+                    recyclerBubbles?.getChildAt(recyclerBubbles.indexOfChild(view))?.setBackgroundColor(Color.YELLOW)
+
+                }
+                else {
+                    recyclerBubbles?.getChildAt(recyclerBubbles.indexOfChild(view))?.setBackgroundColor(Color.BLACK)
+
+                }
+            }
+
+
+        })
+
+
+
 
 
         listViewLessons = view?.findViewById<ListView>(R.id.lv_lessons)
@@ -87,7 +134,7 @@ class NavigationChoiceFragment : ScopedFragment() {
         listLesson.add(LessonListModel("Lesson blbla 7", "room 45", "monday 10-15"))
 
 
-
+//        listViewBubbles?.adapter = BubbleListAdapter(requireContext(), R.layout.bubble_list, listBubbles)
         listViewLessons?.adapter = LessonListAdapter(requireContext(), R.layout.row_lesson, listLesson)
 
 //        listViewLessons?.setOnClickListener{
@@ -136,17 +183,17 @@ class NavigationChoiceFragment : ScopedFragment() {
 
                 loadingDialog.dismiss()
 
-                tv_auto_complete_text_view.setAdapter(
-                    ArrayAdapter(
-                        requireView().context,
-                        R.layout.list_item,
-                        roomsList))
+//                tv_auto_complete_text_view.setAdapter(
+//                    ArrayAdapter(
+//                        requireView().context,
+//                        R.layout.list_item,
+//                        roomsList))
             })
 
-        tv_auto_complete_text_view.setOnItemClickListener { _, _, position, _ ->
-          selectedIndex = position
-            Log.d(TAG, "Selected item at position: $position")
-        }
+//        tv_auto_complete_text_view.setOnItemClickListener { _, _, position, _ ->
+//          selectedIndex = position
+//            Log.d(TAG, "Selected item at position: $position")
+//        }
     }
 
     private fun openTimePicker(){
