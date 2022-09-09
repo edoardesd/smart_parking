@@ -30,4 +30,17 @@
         <item name="android:shadowRadius">4</item>
     </style>
 
+    <style name="Theme.SmartParking.textTitle">
+        <item name="android:fontFamily"> @font/montserrat </item>
+        <item name="android:textColor"> @color/black </item>
+        <item name="android:textStyle"> bold </item>
+        <item name="android:textSize"> 17sp </item>
+    </style>
+
+    <style name="Theme.SmartParking.textStandard">
+        <item name="android:fontFamily"> @font/montserrat </item>
+        <item name="android:textColor"> @color/mediumGray5G </item>
+        <item name="android:textSize"> 12sp </item>
+    </style>
+
 </resources>

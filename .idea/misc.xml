@@ -8,20 +8,30 @@
         <entry key="app/src/main/res/drawable/circle.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/circle_selected.xml" value="0.2875" />
         <entry key="app/src/main/res/drawable/custom_bottom.xml" value="0.2895" />
+        <entry key="app/src/main/res/drawable/ic_parking.xml" value="0.247" />
+        <entry key="app/src/main/res/drawable/ic_parking_white.xml" value="0.247" />
+        <entry key="app/src/main/res/drawable/lesson.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/lesson_list.xml" value="0.2755" />
+        <entry key="app/src/main/res/drawable/lesson_selected.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/rectangle_bike.xml" value="0.247" />
         <entry key="app/src/main/res/drawable/rectangle_border.xml" value="0.2665" />
+        <entry key="app/src/main/res/drawable/rectangle_car.xml" value="0.195" />
         <entry key="app/src/main/res/font/montserrat_font.xml" value="0.3875" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.23229166666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/bubble_list.xml" value="0.8086318969726562" />
         <entry key="app/src/main/res/layout/circle.xml" value="0.10185185185185185" />
         <entry key="app/src/main/res/layout/control_fragment.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/dropdown_parking.xml" value="0.3572916666666667" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.2296195652173913" />
         <entry key="app/src/main/res/layout/loading_item.xml" value="0.23229166666666667" />
-        <entry key="app/src/main/res/layout/navigation_choice_fragment.xml" value="0.48905181884765625" />
-        <entry key="app/src/main/res/layout/navigation_result_fragment.xml" value="0.3516047380972599" />
-        <entry key="app/src/main/res/layout/row_lesson.xml" value="0.4389002482096355" />
+        <entry key="app/src/main/res/layout/navigation_choice_fragment.xml" value="0.14206642066420663" />
+        <entry key="app/src/main/res/layout/navigation_result_fragment.xml" value="0.2994161801501251" />
+        <entry key="app/src/main/res/layout/row_lesson.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/search_toolbar.xml" value="0.2932877297990594" />
+        <entry key="app/src/main/res/layout/toolbar.xml" value="0.2932877297990594" />
         <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.23229166666666667" />
+        <entry key="app/src/main/res/menu/menu_item.xml" value="0.23625640869140596" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19" />
         <entry key="app/src/main/res/xml/preferences.xml" value="0.24003623188405798" />
       </map>
     </option>

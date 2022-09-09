@@ -1,28 +1,35 @@
 package com.example.smartparking.ui.parking.navigation.choice
 
-import android.app.AlertDialog
-import android.app.TimePickerDialog
 import android.content.ContentValues.TAG
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.widget.SearchView
 import com.example.smartparking.R
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.ui.base.ScopedFragment
+import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListAdapter
+import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
+import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListAdapter
+import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListModel
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.CalendarConstraints.DateValidator
+import com.google.android.material.datepicker.DateValidatorPointForward
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import kotlinx.android.synthetic.main.navigation_choice_fragment.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -33,17 +40,12 @@ class NavigationChoiceFragment : ScopedFragment() {
     private val navigationChoiceViewModel: NavigationChoiceViewModel by viewModels()
 
     private var timeButton: Button? = null
+    private var dateButton: Button? = null
     private var goButton: Button? = null
-//    private val bubbleList = ArrayList
-//    private var eventLayout : View? = null
-    private var listViewLessons : ListView? = null
-    private var listViewBubbles : RecyclerView? = null
-    private val selectedBubbles: ArrayList<Int> = ArrayList()
 
     private lateinit var bubbleAdapter : BubbleListAdapter
+    private lateinit var lessonAdapter: LessonListAdapter
     private var date = MyDate()
-//    private var nextEventLocation : String = "Room 22.1.1"
-//    private var nextEventStartTime = MyDate()
 
     private var selectedIndex : Int = 0
 
@@ -64,21 +66,42 @@ class NavigationChoiceFragment : ScopedFragment() {
 
         initProgressBar(requireContext())
 
+        initBubbleView()
+        initLessonView()
         initTimePicker()
+        initDatePicker()
         initGoButton()
         initTextView()
+    }
 
-//        val bubbles: ArrayList<String> = ArrayList()
-//
-//        for (i in 1..8){
-//            bubbles.add("bubble $i")
-//        }
-//
-//        rv_bubbles.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-//        rv_bubbles.adapter = BubbleListAdapter(bubbles)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
+        inflater.inflate(R.menu.menu_item, menu)
+        val item = menu.findItem(R.id.search_action)
 
+        val searchView = item.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Not yet implemented")
+            }
 
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                val searchText = newText!!.lowercase(Locale.getDefault())
+                if (searchText.isNotEmpty()){
+                    Log.d("TAG", "dio can $searchText")
+                } else {
+                    Log.d(TAG, "empty")
+                }
+                return false
+            }
+
+        })
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun initBubbleView(){
         var listBubbles = ArrayList<BubbleListModel>()
 
         listBubbles.add(BubbleListModel("Bar", R.drawable.bar))
@@ -90,66 +113,36 @@ class NavigationChoiceFragment : ScopedFragment() {
 
         bubbleAdapter = BubbleListAdapter(listBubbles)
 
-
         val recyclerBubbles = view?.findViewById<RecyclerView>(R.id.rv_bubbles)
         val bubblesLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         recyclerBubbles?.layoutManager = bubblesLayoutManager
         recyclerBubbles?.adapter = bubbleAdapter
-        bubbleAdapter.setOnItemClickListener(object : BubbleListAdapter.onItemClickListener{
-            override fun onItemClick(position: Int) {
-
-                val clicked_item:BubbleListModel = listBubbles[position]
-
-
-                clicked_item.isSelected = !clicked_item.isSelected
-                Log.d(TAG, "Item clicked on pos ${clicked_item.title}")
-
-                if(clicked_item.isSelected){
-                    Log.d(TAG, "is selected")
-                    recyclerBubbles?.getChildAt(recyclerBubbles.indexOfChild(view))?.setBackgroundColor(Color.YELLOW)
-
-                }
-                else {
-                    recyclerBubbles?.getChildAt(recyclerBubbles.indexOfChild(view))?.setBackgroundColor(Color.BLACK)
-
-                }
-            }
-
-
-        })
-
-
-
-
-
-        listViewLessons = view?.findViewById<ListView>(R.id.lv_lessons)
-        var listLesson = mutableListOf<LessonListModel>()
-
-        listLesson.add(LessonListModel("Lesson blbla", "room 2", "monday 10-15"))
-        listLesson.add(LessonListModel("Lesson blbla 2", "room 1", "monday 12-15"))
-        listLesson.add(LessonListModel("Lesson blbla 3", "room 4", "monday 16-18"))
-        listLesson.add(LessonListModel("Lesson blbla 4", "room 5", "monday 10-15"))
-        listLesson.add(LessonListModel("Lesson blbla 5", "room 21", "monday 10-15"))
-        listLesson.add(LessonListModel("Lesson blbla 6", "room 23", "monday 10-15"))
-        listLesson.add(LessonListModel("Lesson blbla 7", "room 45", "monday 10-15"))
-
-
-//        listViewBubbles?.adapter = BubbleListAdapter(requireContext(), R.layout.bubble_list, listBubbles)
-        listViewLessons?.adapter = LessonListAdapter(requireContext(), R.layout.row_lesson, listLesson)
-
-//        listViewLessons?.setOnClickListener{
-//            Log.d(TAG, "list clicked")
-//        }
-//        eventLayout = view?.findViewById(R.id.ll_event)
-//        eventLayout?.setOnClickListener {
-//            Log.d(TAG, "Next event clicked")
-//            tv_auto_complete_text_view.setText(nextEventLocation)
-//            selectedIndex = 1
-//            nextEventStartTime.hour = 10
-//            nextEventStartTime.minutes = 15
-//            timeButton!!.setText("${nextEventStartTime.hour}:${nextEventStartTime.minutes}")
-//        }
     }
+
+    private fun initLessonView(){
+        var listLessons = ArrayList<LessonListModel>()
+
+        listLessons.add(LessonListModel("Lesson blbla", "room 2", "monday 10-15"))
+        listLessons.add(LessonListModel("Lesson blbla 2", "room 1", "monday 12-15"))
+        listLessons.add(LessonListModel("Lesson blbla 3", "room 4", "monday 16-18"))
+        listLessons.add(LessonListModel("Lesson blbla 4", "room 5", "monday 10-15"))
+        listLessons.add(LessonListModel("Lesson blbla 5", "room 21", "monday 10-15"))
+        listLessons.add(LessonListModel("Lesson blbla 6", "room 23", "monday 10-15"))
+        listLessons.add(LessonListModel("Lesson blbla 7", "room 45", "monday 10-15"))
+
+        lessonAdapter = LessonListAdapter(listLessons)
+        var recyclerLessons = view?.findViewById<RecyclerView>(R.id.rv_lessons)
+        val lessonsLayoutManager = LinearLayoutManager(requireContext())
+        recyclerLessons?.layoutManager = lessonsLayoutManager
+        recyclerLessons?.adapter = lessonAdapter
+
+        //capture lesson change
+        lessonAdapter.selectedLesson.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                lesson -> if (lesson == null) return@Observer
+                Log.d(TAG, "selected this $lesson")
+            })
+    }
+
 
     private fun initGoButton() {
         goButton = view?.findViewById(R.id.btn_go)
@@ -176,6 +169,14 @@ class NavigationChoiceFragment : ScopedFragment() {
         }
     }
 
+    private fun initDatePicker() {
+        dateButton = view?.findViewById(R.id.btn_date)
+        dateButton?.setOnClickListener {
+            openDatePicker()
+        }
+    }
+
+
     private fun initTextView() {
         navigationChoiceViewModel.rooms.observe(viewLifecycleOwner,
             androidx.lifecycle.Observer { roomsList ->
@@ -197,27 +198,42 @@ class NavigationChoiceFragment : ScopedFragment() {
     }
 
     private fun openTimePicker(){
-        val onTimeSetListener =
-            TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
-                date.minutes = selectedMinute
-                date.hour = selectedHour
-                updateText(selectedHour, selectedMinute)
-                Log.d(TAG, "epoch: ${date.getEpochAsString()}")
-            }
+        val timePicker = MaterialTimePicker.Builder()
+            .setTimeFormat(TimeFormat.CLOCK_12H)
+            .setHour(date.hour)
+            .setMinute(date.minutes)
+            .setTitleText("Select Departure Time")
+            .build()
 
-        val timePickerDialog =
-            TimePickerDialog(requireView().context,
-                AlertDialog.THEME_HOLO_DARK,  // set theme
-                onTimeSetListener,
-                date.hour,
-                date.minutes,
-                true)
-        timePickerDialog.setTitle("Select Departure Time")
-        timePickerDialog.show()
+        timePicker.show(childFragmentManager, "TAG")
 
+        timePicker.addOnPositiveButtonClickListener {
+            date.minutes = timePicker.hour
+            date.hour = timePicker.minute
+            updateTimeText(timePicker.hour, timePicker.minute)
+            Log.d(TAG, "epoch: ${date.getEpochAsString()}")
+        }
     }
 
-    private fun updateText(_hour: Int, _minute: Int) {
+    private fun openDatePicker(){
+        val dateValidator: DateValidator = DateValidatorPointForward.from(date.timeMillis)
+        val constraintsBuilder = CalendarConstraints.Builder().setValidator(dateValidator)
+
+        val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select Departure Date")
+            .setCalendarConstraints(constraintsBuilder.build())
+            .build()
+
+        datePicker.show(childFragmentManager, "TAG")
+
+        datePicker.addOnPositiveButtonClickListener {
+            val dateSelected = Date(it)
+            val sdf = SimpleDateFormat("dd MMM")
+            dateButton?.text = sdf.format(dateSelected)
+        }
+    }
+
+    private fun updateTimeText(_hour: Int, _minute: Int) {
         Log.d(TAG, "Hour $_hour, Minute $_minute")
         timeButton?.text = String.format(
             Locale.getDefault(),

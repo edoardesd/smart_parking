@@ -16,7 +16,7 @@ class MyDate{
     var year : Int = calendar.get(Calendar.YEAR)
     var minutes: Int = calendar.get(Calendar.MINUTE)
     var hour: Int = calendar.get(Calendar.HOUR_OF_DAY)
-
+    var timeMillis: Long = calendar.timeInMillis
     var epoch : String = "now"
 
     private fun convertToEpoch(): Long {

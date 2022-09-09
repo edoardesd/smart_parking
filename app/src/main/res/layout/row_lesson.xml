@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_lesson_clickable"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/row_box"
     android:layout_marginTop="6dp"
-    android:background="@drawable/button_recent"
+    android:background="@drawable/lesson"
     android:elevation="10dp"
     android:paddingLeft="15dp"
     android:clickable="true">
