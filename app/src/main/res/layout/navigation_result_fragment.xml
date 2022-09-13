@@ -16,60 +16,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/group_loading_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:constraint_referenced_ids="progressBar_loading_result, textView_loading_result"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/progressBar_loading_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:indeterminate="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView_loading_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Loading"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar_loading_result"
-            app:layout_constraintVertical_bias="0.0" />
-
+        <!--        <include  layout="@layout/loading_bar"-->
+        <!--            android:id="@+id/loading_group" />-->
         <!--        end of loading bar-->
 
         <LinearLayout
             android:id="@+id/ll_from"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:orientation="vertical"
             android:layout_marginTop="10dp"
+            android:orientation="vertical"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -79,41 +35,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="From"
-                android:gravity="center"
                 android:layout_weight="1"
+                android:gravity="center"
+                android:text="From"
                 android:theme="@style/Theme.SmartParking.textTitle" />
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/ll_bubble_stops"
-            android:layout_width="match_parent"
-            android:layout_height="133dp"
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            app:layout_constraintTop_toBottomOf="@id/ll_from">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:alpha="0.1"
-                android:background="@android:color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bubble Stops"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:theme="@style/Theme.SmartParking.textTitle"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_bubbles_selected"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp" />
-            </RelativeLayout>
+        <include
+            android:id="@+id/bubble_stops_layout"
+            layout="@layout/bubble_stops_layout"
+            app:layout_constraintTop_toBottomOf="@+id/ll_from" />
 
 
         <LinearLayout
@@ -121,447 +52,45 @@
             android:layout_width="match_parent"
             android:layout_height="600dp"
             android:background="@color/white"
+            android:elevation="8dp"
+            android:orientation="vertical"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:orientation="vertical"
-            android:elevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_bubble_stops">
+            app:layout_constraintTop_toBottomOf="@id/bubble_stops_layout">
 
             <TextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="How to get there"
                 android:layout_marginTop="18dp"
-                android:theme="@style/Theme.SmartParking.textTitle"/>
+                android:text="How to get there"
+                android:theme="@style/Theme.SmartParking.textTitle" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:theme="@style/Theme.SmartParking.textStandard"
-                android:text="Tap a transport method to start a Maps navigation" />
+                android:text="Tap a transport method to start a Maps navigation"
+                android:theme="@style/Theme.SmartParking.textStandard" />
 
-<!--            car section-->
-
-            <LinearLayout
-                android:id="@+id/ll_car_button"
-                android:layout_width="match_parent"
-                android:layout_height="110dp"
-                android:layout_marginTop="16dp"
-                android:elevation="8dp"
-                android:background="@drawable/rectangle_car"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/ll_transport_way_car"
-                        android:layout_width="180dp"
-                        android:layout_height="55dp"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginTop="12dp">
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_car" />
-
-                        <TextView
-                            android:id="@+id/tv_car_result"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="6dp"
-                            android:layout_marginTop="6dp"
-                            android:text="16 MIN"
-                            android:theme="@style/Theme.SmartParking.textTitle"
-                            android:textColor="@color/white" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_availability_car"
-                        android:layout_width="200dp"
-                        android:layout_height="55dp">
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginTop="12dp"
-                            android:src="@drawable/ic_parking_white" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="6dp"
-                            android:layout_marginTop="10dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/montserrat"
-                                android:text="AVAILABILITY"
-                                android:textColor="@color/white"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tv_availability_car"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="LOW"
-                                android:theme="@style/Theme.SmartParking.textTitle"
-                                android:textSize="15sp"
-                                android:textColor="@color/white" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_car_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-45dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:theme="@style/Theme.SmartParking.textStandard"
-                    android:textColor="@color/black"
-                    android:text="Drive 6 minutes, park in Via Ponzio (2/10 available) then walk 10 minutes" />
-
-            </LinearLayout>
+            <!--            car section-->
+            <include
+                android:id="@+id/directions_info_car_layout"
+                layout="@layout/directions_info_car" />
 
             <!--            bike section-->
+            <include
+                android:id="@+id/directions_info_bike_layout"
+                layout="@layout/directions_info_bike" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="110dp"
-                android:layout_marginTop="16dp"
-                android:elevation="8dp"
-                android:background="@drawable/rectangle_bike"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/ll_transport_way_bike"
-                        android:layout_width="180dp"
-                        android:layout_height="55dp"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginTop="12dp">
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_bike" />
-
-                        <TextView
-                            android:id="@+id/tv_bike_result"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="6dp"
-                            android:layout_marginTop="6dp"
-                            android:text="16 MIN"
-                            android:fontFamily="@font/montserrat"
-                            android:textColor="@color/white"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_availability_bike"
-                        android:layout_width="200dp"
-                        android:layout_height="55dp">
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginTop="12dp"
-                            android:src="@drawable/ic_parking_white" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="6dp"
-                            android:layout_marginTop="10dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/montserrat"
-                                android:text="AVAILABILITY"
-                                android:textColor="@color/white"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tv_availability_bike"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="LOW"
-                                android:fontFamily="@font/montserrat"
-                                android:textColor="@color/white"
-                                android:textSize="15sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_bike_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-45dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:theme="@style/Theme.SmartParking.textStandard"
-                    android:textColor="@color/black"
-                    android:text="Drive 6 minutes, park in Via Ponzio (2/10 available) then walk 10 minutes" />
-
-            </LinearLayout>
+            <!--            walk section-->
+            <include
+                android:id="@+id/directions_info_walk_layout"
+                layout="@layout/directions_info_walk" />
 
         </LinearLayout>
-
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/ll_car"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="18dp"-->
-<!--            android:layout_marginRight="18dp"-->
-<!--            android:background="@drawable/rectangle_border"-->
-<!--            android:orientation="vertical"-->
-<!--            android:paddingLeft="18dp"-->
-<!--            android:paddingTop="18dp"-->
-<!--            android:paddingBottom="18dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/ll_howtogetthere">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/tv_destination_result"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Loading..."-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="18sp"-->
-<!--                android:textStyle="bold" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/tv_destination_building"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Building 20 Leonardo"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="18sp" />-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:paddingTop="25dp">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_car_text"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Car estimated time: "-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="18sp"-->
-<!--                    android:textStyle="bold" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_car_result"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Loading..."-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="18sp" />-->
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/text_direction"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:paddingTop="20dp"-->
-<!--                android:paddingBottom="20dp">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_car_opt1"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="1) Drive for 20 minutes"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="15sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_car_opt2"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="2) Park in Via Ponzio."-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="15sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_car_opt2bis"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Parking expectation: low.-->
-<!--                    \nTime to find a free parking space: 10-15 min"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="15sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_car_opt3"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="3) Walk for 6 minutes"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="15sp" />-->
-
-<!--            </LinearLayout>-->
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_googleMaps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/userInteraction5G"
-            android:elevation="10dp"
-            android:stateListAnimator="@null"
-            android:text="Navigate"
-            android:textStyle="bold"
-            app:cornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-<!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/ll_others"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="18dp"-->
-<!--            android:layout_marginTop="30dp"-->
-<!--            android:layout_marginRight="18dp"-->
-<!--            android:background="@drawable/rectangle_border"-->
-<!--            android:backgroundTint="@color/mediumBlue5G"-->
-<!--            android:orientation="vertical"-->
-<!--            android:paddingLeft="18dp"-->
-<!--            android:paddingTop="18dp"-->
-<!--            android:paddingBottom="18dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/ll_car">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/tv_green_mobility"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Green Mobility"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="18sp"-->
-<!--                android:textStyle="bold" />-->
-
-<!--            &lt;!&ndash;            bicyling&ndash;&gt;-->
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:paddingTop="12dp">-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal">-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Bicycling: "-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textStyle="bold" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_bike_result"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Loading..."-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textStyle="bold" />-->
-
-<!--                </LinearLayout>-->
-
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/expandable_l_bike"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:paddingTop="6dp">-->
-
-<!--                    &lt;!&ndash;                    <TextView&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        android:id="@+id/tv_bike_opt1"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        android:text="1) Ride for 10 minutes"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        android:textColor="@color/white"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        android:textSize="15sp" />&ndash;&gt;-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_bike_opt2"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Park the bike in Via Ponzio, secure area.-->
-<!--                        \nParking expectation: very high."-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textSize="15sp" />-->
-
-<!--                    &lt;!&ndash;                    <TextView&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        android:id="@+id/tv_bike_opt3"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        android:text="3) Walk for 1 minute"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        android:textColor="@color/white"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        android:textSize="15sp" />&ndash;&gt;-->
-
-<!--                </LinearLayout>-->
-
-<!--            </LinearLayout>-->
-
-
-<!--            &lt;!&ndash;            walking&ndash;&gt;-->
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:paddingTop="12dp"-->
-<!--                android:paddingBottom="12dp">-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Walking:"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textStyle="bold" />-->
-<!--            </LinearLayout>-->
-
-
-<!--        </LinearLayout>-->
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

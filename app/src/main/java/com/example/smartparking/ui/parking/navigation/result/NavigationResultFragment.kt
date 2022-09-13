@@ -25,11 +25,14 @@ import com.example.smartparking.databinding.NavigationResultFragmentBinding
 import com.example.smartparking.internal.DEFAULT_BIKE_WALK_TIME
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.internal.NavigationDetailsNotFoundException
+import com.example.smartparking.internal.TransportMode
 import com.example.smartparking.ui.base.ScopedFragment
 import com.example.smartparking.ui.parking.navigation.choice.NavigationChoiceFragmentDirections
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
 import com.example.smartparking.ui.parking.navigation.trip.NavigationTripFragment
+import kotlinx.android.synthetic.main.directions_info_bike.*
+import kotlinx.android.synthetic.main.directions_info_car.*
 import kotlinx.android.synthetic.main.navigation_result_fragment.*
 import kotlinx.coroutines.launch
 import java.util.ArrayList
@@ -38,23 +41,19 @@ import kotlin.time.Duration.Companion.minutes
 
 
 class NavigationResultFragment : ScopedFragment() {
-
-//    override val kodein by closestKodein()
-//    private val viewModelFactory : NavigationResultViewModelFactory by instance()
-
-//    private lateinit var viewModel: NavigationResultViewModel
     private lateinit var binding: NavigationResultFragmentBinding
     private lateinit var navDetails: NavigationDetails
     private val navigationResultViewModel: NavigationResultViewModel by viewModels()
     private var mapsButton: Button? = null
     private var carButton: LinearLayout? = null
+    private var bikeButton: LinearLayout? = null
+    private var walkButton: LinearLayout? = null
     private var requestDirectionDataCar = DirectionData()
     private var requestDirectionDataBike = DirectionData()
+    private var selectedBubbles = ArrayList<BubbleListModel>()
     private lateinit var loadingDialog : LoadingDialog
     private lateinit var originPosition : String
     private lateinit var bubbleAdapter : BubbleSelectedAdapter
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,7 +61,6 @@ class NavigationResultFragment : ScopedFragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.navigation_result_fragment, container, false)
         return binding.root
-    //        return inflater.inflate(R.layout.navigation_result_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -75,8 +73,6 @@ class NavigationResultFragment : ScopedFragment() {
         requestDirectionDataCar.destinations = "${navDetails.room.parking_latitude},${navDetails.room.parking_longitude}"
         requestDirectionDataBike.destinations = "${navDetails.room.latitude},${navDetails.room.longitude}"
 
-        Log.d(TAG, "$requestDirectionDataCar")
-        Log.d(TAG, "$requestDirectionDataBike")
         initProgressBar(requireContext())
 
         bindUI(navDetails)
@@ -88,7 +84,17 @@ class NavigationResultFragment : ScopedFragment() {
     private fun initNavigationButtons() {
         carButton = view?.findViewById(R.id.ll_car_button)
         carButton?.setOnClickListener {view ->
-            sendNavigationDetails(view)
+            sendNavigationDetails(view, TransportMode.DRIVING)
+        }
+
+        bikeButton = view?.findViewById(R.id.ll_bike_button)
+        bikeButton?.setOnClickListener {view ->
+            sendNavigationDetails(view, TransportMode.BICYCLING)
+        }
+
+        walkButton = view?.findViewById(R.id.ll_walk_button)
+        walkButton?.setOnClickListener {view ->
+            sendNavigationDetails(view, TransportMode.WALKING)
         }
     }
 
@@ -98,8 +104,6 @@ class NavigationResultFragment : ScopedFragment() {
     }
 
     private fun initBubbleSelected(){
-        var selectedBubbles = ArrayList<BubbleListModel>()
-
         selectedBubbles.add(BubbleListModel("Bar", R.drawable.bar))
         selectedBubbles.add(BubbleListModel("Library",R.drawable.library))
         selectedBubbles.add(BubbleListModel("Microwaves", R.drawable.microwaves))
@@ -112,15 +116,24 @@ class NavigationResultFragment : ScopedFragment() {
     }
 
 
-    private fun sendNavigationDetails(view: View) {
-        val tripDetail = TripDetails("car", "asdasd")
+    private fun sendNavigationDetails(view: View, transportMode: TransportMode) {
+        var infoText : String = when (transportMode) {
+            TransportMode.DRIVING -> tv_car_text.text.toString()
+            TransportMode.BICYCLING -> tv_bike_text.text.toString()
+            TransportMode.WALKING -> "walk a bit"
+            else -> {
+                "undefined"
+            }
+        }
+
+        val tripDetail = TripDetails(transportMode.toString(), infoText, selectedBubbles)
         val actionDetail = NavigationResultFragmentDirections.actionToTrip(tripDetail)
 
         Navigation.findNavController(view).navigate(actionDetail)
     }
 
     private fun initMapsButton(navDetails: NavigationDetails) {
-        mapsButton = view?.findViewById(R.id.btn_googleMaps)
+//        mapsButton = view?.findViewById(R.id.btn_googleMaps)
         mapsButton?.setOnClickListener {
             val builder = Uri.Builder()
             builder.scheme("https")
@@ -153,7 +166,7 @@ class NavigationResultFragment : ScopedFragment() {
 
                 Log.d(TAG, "Enable navigation result view")
 
-                group_loading_result.visibility = View.GONE
+//                loading_group.visibility = View.GONE
                 loadingDialog.dismiss()
 
                 setExpandTextCar(it.driving)
@@ -179,12 +192,8 @@ class NavigationResultFragment : ScopedFragment() {
     }
 
     private fun setExpandTextBike(googleResult: Duration?) {
-        tv_bike_result.text = "${overallTime(googleResult, DEFAULT_BIKE_WALK_TIME)} minutes"
+        tv_bike_result.text = "${overallTime(googleResult, DEFAULT_BIKE_WALK_TIME)} min".uppercase()
         tv_bike_text.text = "Ride ${googleResult!!.inWholeMinutes} minutes, park in ${navDetails.room.parking} " +
                 "(39/50 available) then walk ${DEFAULT_BIKE_WALK_TIME.inWholeMinutes.toInt()} minutes"
-
-//        tv_bike_opt1.text = "1) Ride for ${googleResult!!.inWholeMinutes} minutes"
-//        var myString = "Leave the bike in front of ${navDetails.room.name}. \nParking expectation: <font color='#00FF00'>very high</font>."
-//        tv_bike_opt2.text = Html.fromHtml(myString)
     }
 }
