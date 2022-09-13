@@ -1,36 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.parking.navigation.trip.NavigationTripFragment">
 
-    <RelativeLayout
-        android:id="@+id/ll_bubble_stops"
+    <include
+        android:id="@+id/bubble_stops_layout_trip"
+        layout="@layout/bubble_stops_layout"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_how_to_get_there"
         android:layout_width="match_parent"
-        android:layout_height="133dp"
+        android:layout_height="600dp"
+        android:background="@color/white"
+        android:elevation="8dp"
         android:orientation="vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        app:layout_constraintBaseline_toBottomOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bubble_stops_layout_trip">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Bubble Stops"
+            android:layout_marginTop="18dp"
+            android:text="How to get there"
             android:theme="@style/Theme.SmartParking.textTitle" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_bubbles_selected"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="4dp"
+            android:text="Follow route directions on Google Maps"
+            android:theme="@style/Theme.SmartParking.textStandard" />
+
+    <LinearLayout
+        android:id="@+id/ll_trip_summary"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rectangle_bike"
+        android:elevation="8dp"
+        android:orientation="vertical">
+
+        <ViewStub
+            android:id="@+id/layout_stub"
+            android:inflatedId="@+id/custom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.75" />
+
+        <TextView
+            android:id="@+id/tv_trip_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="-45dp"
+            android:layout_marginRight="12dp"
+            android:text="Drive 6 minutes, park in Via Ponzio (2/10 available) then walk 10 minutes"
+            android:textColor="@color/black"
+            android:theme="@style/Theme.SmartParking.textStandard" />
+    </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Arrive by ..."
+            android:theme="@style/Theme.SmartParking.textTitle" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_map_indoor_background" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/lower_bar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_monitor_parking"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="12dp"
+            android:text="Monitor your parking"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:theme="@style/Theme.SmartParking.textTitle"
+            app:backgroundTint="@color/darkBlue5G"
+            app:cornerRadius="8dp"
+            android:elevation="4dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_leave"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:text="Leave"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:theme="@style/Theme.SmartParking.textTitle"
+            app:backgroundTint="@color/mediumGray5G"
+            app:cornerRadius="8dp"
+            android:elevation="4dp"/>
     </RelativeLayout>
 
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

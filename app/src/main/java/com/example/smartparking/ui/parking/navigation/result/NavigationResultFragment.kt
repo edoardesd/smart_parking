@@ -31,6 +31,7 @@ import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleLis
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
 import kotlinx.android.synthetic.main.directions_info_bike.*
 import kotlinx.android.synthetic.main.directions_info_car.*
+import kotlinx.android.synthetic.main.navigation_result_fragment.*
 import kotlinx.coroutines.launch
 import java.util.ArrayList
 import kotlin.time.Duration
@@ -102,10 +103,6 @@ class NavigationResultFragment : ScopedFragment() {
     }
 
     private fun initBubbleSelected(){
-//        selectedBubbles.add(BubbleListModel("Bar", R.drawable.bar))
-//        selectedBubbles.add(BubbleListModel("Library",R.drawable.library))
-//        selectedBubbles.add(BubbleListModel("Microwaves", R.drawable.microwaves))
-
         bubbleAdapter = BubbleSelectedAdapter(selectedBubbles)
         val recyclerBubbles = view?.findViewById<RecyclerView>(R.id.rv_bubbles_selected)
         val bubblesLayoutManager = LinearLayoutManager(requireContext())
@@ -119,9 +116,6 @@ class NavigationResultFragment : ScopedFragment() {
             TransportMode.DRIVING -> tv_car_text.text.toString()
             TransportMode.BICYCLING -> tv_bike_text.text.toString()
             TransportMode.WALKING -> "walk a bit"
-            else -> {
-                "undefined"
-            }
         }
 
         val tripDetail = TripDetails(transportMode.toString(), infoText, selectedBubbles)
@@ -161,10 +155,6 @@ class NavigationResultFragment : ScopedFragment() {
                 if ((it.driving == null) || (it.bicycling == null)) {
                     return@Observer
                 }
-
-                Log.d(TAG, "Enable navigation result view")
-
-//                loading_group.visibility = View.GONE
                 loadingDialog.dismiss()
 
                 setExpandTextCar(it.driving)

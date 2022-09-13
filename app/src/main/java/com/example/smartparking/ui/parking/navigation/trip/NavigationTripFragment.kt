@@ -1,11 +1,13 @@
 package com.example.smartparking.ui.parking.navigation.trip
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewStub
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
@@ -13,7 +15,9 @@ import com.example.smartparking.data.TripDetails
 import com.example.smartparking.internal.TripDetailsNotFoundException
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
-import java.util.ArrayList
+import kotlinx.android.synthetic.main.navigation_result_fragment.*
+import kotlinx.android.synthetic.main.navigation_trip_fragment.*
+
 
 class NavigationTripFragment : Fragment() {
 
@@ -41,6 +45,14 @@ class NavigationTripFragment : Fragment() {
         val safeArgs = arguments?.let { NavigationTripFragmentArgs.fromBundle(it) }
         tripDetails = safeArgs?.tripDetails ?: throw TripDetailsNotFoundException()
         selectedBubbles = tripDetails.bubbleStops as ArrayList<BubbleListModel>
+
+        ll_trip_summary.setBackgroundResource(R.drawable.rectangle_car)
+
+        val stub = view?.findViewById(R.id.layout_stub) as ViewStub
+        stub.layoutResource = R.layout.directions_info_car
+
+        stub.inflate()
+
         initBubbleSelected()
     }
 
