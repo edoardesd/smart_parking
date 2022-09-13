@@ -11,10 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.SearchView
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.LinearSmoothScroller.SNAP_TO_END
-import androidx.recyclerview.widget.LinearSmoothScroller.SNAP_TO_START
 import com.example.smartparking.R
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
@@ -32,7 +28,6 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import kotlinx.android.synthetic.main.navigation_choice_fragment.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -53,7 +48,7 @@ class NavigationChoiceFragment : ScopedFragment() {
 
     private var selectedIndex : Int = 0
 
-
+    private var bubblesSelected = ArrayList<BubbleListModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,34 +73,31 @@ class NavigationChoiceFragment : ScopedFragment() {
         initTextView()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-        inflater.inflate(R.menu.menu_item, menu)
-        val item = menu.findItem(R.id.search_action)
-
-        val searchView = item.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                TODO("Not yet implemented")
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-
-                val searchText = newText!!.lowercase(Locale.getDefault())
-                if (searchText.isNotEmpty()){
-                    Log.d("TAG", "dio can $searchText")
-                } else {
-                    Log.d(TAG, "empty")
-                }
-                return false
-            }
-
-        })
-
-        super.onCreateOptionsMenu(menu, inflater)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.menu_item, menu)
+//        val item = menu.findItem(R.id.search_action)
+//
+//        val searchView = item.actionView as SearchView
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                val searchText = newText!!.lowercase(Locale.getDefault())
+//                if (searchText.isNotEmpty()){
+//                    Log.d("TAG", "$searchText")
+//                } else {
+//                    Log.d(TAG, "empty")
+//                }
+//                return false
+//            }
+//        })
+//        super.onCreateOptionsMenu(menu, inflater)
+//    }
 
     private fun initBubbleView(){
+        //TODO get from db
         var listBubbles = ArrayList<BubbleListModel>()
 
         listBubbles.add(BubbleListModel("Bar", R.drawable.bar))
@@ -122,8 +114,15 @@ class NavigationChoiceFragment : ScopedFragment() {
         val recyclerBubbles = view?.findViewById<RecyclerView>(R.id.rv_bubbles)
         val bubblesLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         recyclerBubbles?.layoutManager = bubblesLayoutManager
-//        bubblesLayoutManager.scrollToPositionWithOffset(3, 2)
         recyclerBubbles?.adapter = bubbleAdapter
+
+        bubbleAdapter.bubbleSelected.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                bubbles -> if (bubbles == null) return@Observer
+            Log.d(TAG, "selected this $bubbles")
+            bubblesSelected = bubbles
+            Log.d(TAG, "bubble list $bubblesSelected")
+
+        })
     }
 
     private fun initLessonView(){
@@ -144,15 +143,12 @@ class NavigationChoiceFragment : ScopedFragment() {
         recyclerLessons?.adapter = lessonAdapter
 
         //capture lesson change
-        lessonAdapter.selectedLesson.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        lessonAdapter.lessonSelected.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 lesson -> if (lesson == null) return@Observer
                 Log.d(TAG, "selected this $lesson")
-//                    recyclerLessons?.smoothScroll(0)
-
+            // TODO change date/time pass to next fragment
         })
     }
-
-
 
     private fun initGoButton() {
         goButton = view?.findViewById(R.id.btn_go)
@@ -162,15 +158,12 @@ class NavigationChoiceFragment : ScopedFragment() {
     }
 
     private fun sendNavigationDetails(view: View) {
+        Log.d(TAG, "bubble list to send $bubblesSelected")
         val selectedLocation = binding.navigationChoiceViewModel?.getSelectedLocation(selectedIndex)
-        val navigationDetail = NavigationDetails(selectedLocation!!, date.epoch)
+        val navigationDetail = NavigationDetails(selectedLocation!!, date.epoch, bubblesSelected)
         val actionDetail = NavigationChoiceFragmentDirections.actionResult(navigationDetail)
 
-
-
-        with(Navigation) {
-            findNavController(view).navigate(actionDetail)
-        }
+        Navigation.findNavController(view).navigate(actionDetail)
     }
 
     private fun initTimePicker() {
@@ -187,7 +180,6 @@ class NavigationChoiceFragment : ScopedFragment() {
             openDatePicker()
         }
     }
-
 
     private fun initTextView() {
         navigationChoiceViewModel.rooms.observe(viewLifecycleOwner,

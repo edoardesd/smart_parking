@@ -1,7 +1,6 @@
 package com.example.smartparking.ui.parking.navigation.choice.recyclers
 
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
@@ -19,8 +17,8 @@ import com.example.smartparking.R
 internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
         RecyclerView.Adapter<LessonListAdapter.MyViewHolder>(){
 
-    private var _selectedLesson: MutableLiveData<LessonListModel> = MutableLiveData<LessonListModel>()
-    private var mRecyclerView: RecyclerView? = null
+    private var _lessonSelected: MutableLiveData<LessonListModel> = MutableLiveData<LessonListModel>()
+    private var _recyclerView: RecyclerView? = null
     private var scrollPosition = 0
 
 
@@ -35,7 +33,7 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        mRecyclerView = recyclerView
+        _recyclerView = recyclerView
     }
 
     override fun onCreateViewHolder(
@@ -59,7 +57,7 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
 
         holder.lessonClickable.setOnClickListener {
             lessonList[position].isSelected = !lesson.isSelected
-            _selectedLesson.value = lessonList[position]
+            _lessonSelected.value = lessonList[position]
 
             scrollPosition = holder.adapterPosition
             resetSelection(position)
@@ -68,14 +66,14 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
 
         if(lessonList[position].isSelected){
             holder.lessonClickable.setBackgroundResource(R.drawable.lesson_selected)
-            mRecyclerView?.smoothScroll(position+1)
+            _recyclerView?.smoothScroll(position+1)
         }
         else{
             holder.lessonClickable.setBackgroundResource(R.drawable.lesson)
         }
 
         if (lessonList.all { !it.isSelected }){
-            mRecyclerView?.smoothScroll(scrollPosition+1)
+            _recyclerView?.smoothScroll(scrollPosition+1)
         }
     }
 
@@ -112,8 +110,7 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
 
     override fun getItemCount() = lessonList.count()
 
-    internal var selectedLesson : MutableLiveData<LessonListModel>
-        get() {return _selectedLesson }
-        set(value) { _selectedLesson = value}
-
+    internal var lessonSelected : MutableLiveData<LessonListModel>
+        get() {return _lessonSelected }
+        set(value) { _lessonSelected = value}
 }

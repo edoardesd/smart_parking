@@ -48,7 +48,7 @@
 
 
         <LinearLayout
-            android:id="@+id/ll_howtogetthere"
+            android:id="@+id/ll_how_to_get_there"
             android:layout_width="match_parent"
             android:layout_height="600dp"
             android:background="@color/white"

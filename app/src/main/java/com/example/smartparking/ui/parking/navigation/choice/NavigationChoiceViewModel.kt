@@ -11,7 +11,7 @@ import com.example.smartparking.data.network.choice.DatabaseNetworkDataSourceImp
 
 class NavigationChoiceViewModel : ViewModel(){
 
-    private var _rooms: MutableLiveData<ArrayList<RoomDetails>> = MutableLiveData<ArrayList<RoomDetails>>()
+    private var _rooms: MutableLiveData<ArrayList<RoomDetails>> = MutableLiveData<ArrayList<RoomDetails>>() // add arrayListOf() inside ()??
 
     init {
         val firestoreService = FirestoreService()

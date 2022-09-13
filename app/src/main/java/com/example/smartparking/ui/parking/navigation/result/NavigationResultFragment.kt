@@ -27,13 +27,10 @@ import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.internal.NavigationDetailsNotFoundException
 import com.example.smartparking.internal.TransportMode
 import com.example.smartparking.ui.base.ScopedFragment
-import com.example.smartparking.ui.parking.navigation.choice.NavigationChoiceFragmentDirections
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
-import com.example.smartparking.ui.parking.navigation.trip.NavigationTripFragment
 import kotlinx.android.synthetic.main.directions_info_bike.*
 import kotlinx.android.synthetic.main.directions_info_car.*
-import kotlinx.android.synthetic.main.navigation_result_fragment.*
 import kotlinx.coroutines.launch
 import java.util.ArrayList
 import kotlin.time.Duration
@@ -72,6 +69,7 @@ class NavigationResultFragment : ScopedFragment() {
         Log.d(TAG, "Navigation data: ${navDetails.room}")
         requestDirectionDataCar.destinations = "${navDetails.room.parking_latitude},${navDetails.room.parking_longitude}"
         requestDirectionDataBike.destinations = "${navDetails.room.latitude},${navDetails.room.longitude}"
+        selectedBubbles = navDetails.bubbleStops as ArrayList<BubbleListModel>
 
         initProgressBar(requireContext())
 
@@ -104,9 +102,9 @@ class NavigationResultFragment : ScopedFragment() {
     }
 
     private fun initBubbleSelected(){
-        selectedBubbles.add(BubbleListModel("Bar", R.drawable.bar))
-        selectedBubbles.add(BubbleListModel("Library",R.drawable.library))
-        selectedBubbles.add(BubbleListModel("Microwaves", R.drawable.microwaves))
+//        selectedBubbles.add(BubbleListModel("Bar", R.drawable.bar))
+//        selectedBubbles.add(BubbleListModel("Library",R.drawable.library))
+//        selectedBubbles.add(BubbleListModel("Microwaves", R.drawable.microwaves))
 
         bubbleAdapter = BubbleSelectedAdapter(selectedBubbles)
         val recyclerBubbles = view?.findViewById<RecyclerView>(R.id.rv_bubbles_selected)
