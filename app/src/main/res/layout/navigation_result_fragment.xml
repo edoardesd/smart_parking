@@ -85,10 +85,10 @@
                 android:theme="@style/Theme.SmartParking.textTitle" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/ll_bubble_stops"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="133dp"
             android:orientation="vertical"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -108,8 +108,13 @@
                 android:layout_weight="1"
                 android:theme="@style/Theme.SmartParking.textTitle"/>
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_bubbles_selected"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" />
+            </RelativeLayout>
 
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_howtogetthere"
@@ -142,6 +147,7 @@
 <!--            car section-->
 
             <LinearLayout
+                android:id="@+id/ll_car_button"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
                 android:layout_marginTop="16dp"
