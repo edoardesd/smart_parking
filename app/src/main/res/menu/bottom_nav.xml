@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigationFragment"
+        android:id="@+id/navigationChoiceFragment"
         android:icon="@drawable/ic_explore"
         android:title="Navigate"/>
     <item
-        android:id="@+id/controlFragment"
+        android:id="@+id/controlDisabledFragment"
         android:icon="@drawable/ic_control"
         android:title="Control"/>
     <item

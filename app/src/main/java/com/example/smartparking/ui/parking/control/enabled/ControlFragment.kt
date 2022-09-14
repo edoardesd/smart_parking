@@ -1,11 +1,9 @@
-package com.example.smartparking.ui.parking.control
+package com.example.smartparking.ui.parking.control.enabled
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +16,6 @@ import com.example.smartparking.databinding.ControlFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.control_fragment.*
-import kotlinx.android.synthetic.main.navigation_choice_fragment.*
 
 
 class ControlFragment : ScopedFragment() {
@@ -44,39 +41,39 @@ class ControlFragment : ScopedFragment() {
 
         initProgressBar(requireContext())
         initStream()
-        initFreeSlots()
+//        initFreeSlots()
     }
+
 
     override fun onResume() {
         super.onResume()
-        initDropdownMenu()
     }
 
-    private fun initDropdownMenu() {
-        val parkingLocations = resources.getStringArray(R.array.parking_location)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_parking, parkingLocations)
+//    private fun initDropdownMenu() {
+//        val parkingLocations = resources.getStringArray(R.array.parking_location)
+//        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_parking, parkingLocations)
+//
+//        binding.actvParkingLocation.setAdapter(arrayAdapter)
+//
+//        actv_parking_location.setOnItemClickListener { _, _, position, _ ->
+//            selectedIndexParking = position
+//            controlViewModel.getSelectedParking(parkingLocations[position])
+//            Log.d(TAG, "Selected parking at position: ${parkingLocations[position]} $position")
+//        }
+//    }
 
-        binding.actvParkingLocation.setAdapter(arrayAdapter)
-
-        actv_parking_location.setOnItemClickListener { _, _, position, _ ->
-            selectedIndexParking = position
-            controlViewModel.getSelectedParking(parkingLocations[position])
-            Log.d(TAG, "Selected parking at position: ${parkingLocations[position]} $position")
-        }
-    }
-
-    private fun initFreeSlots() {
-        controlViewModel.slotsPrediction.observe(viewLifecycleOwner, Observer { freeSlots ->
-            if(freeSlots == null) return@Observer
-            txt_free_slots.text = "$freeSlots /7"
-        })
-    }
+//    private fun initFreeSlots() {
+//        controlViewModel.slotsPrediction.observe(viewLifecycleOwner, Observer { freeSlots ->
+//            if(freeSlots == null) return@Observer
+//            txt_free_slots.text = "$freeSlots /7"
+//        })
+//    }
 
     private fun initStream() {
         controlViewModel.bitmap.observe(viewLifecycleOwner, Observer { bitmap ->
             if ( bitmap == null) return@Observer
                 loadingDialog.dismiss()
-                iv_mqtt.setImageBitmap(bitmap)
+                iv_parking_pic.setImageBitmap(bitmap)
         })
     }
 

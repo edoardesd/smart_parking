@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigationFragment">
+    app:startDestination="@id/navigationChoiceFragment">
 
     <fragment
-        android:id="@+id/navigationFragment"
+        android:id="@+id/navigationChoiceFragment"
         android:name="com.example.smartparking.ui.parking.navigation.choice.NavigationChoiceFragment"
         android:label="navigation_fragment"
         tools:layout="@layout/navigation_choice_fragment" >
@@ -35,16 +35,32 @@
         <argument
             android:name="tripDetails"
             app:argType="com.example.smartparking.data.TripDetails" />
+        <action
+            android:id="@+id/actionBackNavigation"
+            app:destination="@id/navigationChoiceFragment" />
+        <action
+            android:id="@+id/actionMonitorParking"
+            app:destination="@id/controlFragment" />
+        <action
+            android:id="@+id/action_navigationTripFragment_to_controlDisabledFragment"
+            app:destination="@id/controlDisabledFragment" />
     </fragment>
 
 
     <fragment
         android:id="@+id/controlFragment"
-        android:name="com.example.smartparking.ui.parking.control.ControlFragment"
+        android:name="com.example.smartparking.ui.parking.control.enabled.ControlFragment"
         android:label="control_fragment"
         tools:layout="@layout/control_fragment" />
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.smartparking.ui.settings.SettingsFragment"
         android:label="SettingsFragment" />
+
+    <fragment
+        android:id="@+id/controlDisabledFragment"
+        android:name="com.example.smartparking.ui.parking.control.disabled.ControlDisabledFragment"
+        android:label="control_disabled_fragment"
+        tools:layout="@layout/control_disabled_fragment" />
 </navigation>

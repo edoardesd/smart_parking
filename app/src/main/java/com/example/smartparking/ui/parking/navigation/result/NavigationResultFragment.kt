@@ -21,6 +21,7 @@ import com.example.smartparking.R
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.TripDetails
 import com.example.smartparking.data.db.DirectionData
+import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalIsParking
 import com.example.smartparking.databinding.NavigationResultFragmentBinding
 import com.example.smartparking.internal.DEFAULT_BIKE_WALK_TIME
 import com.example.smartparking.internal.LoadingDialog
@@ -117,10 +118,11 @@ class NavigationResultFragment : ScopedFragment() {
             TransportMode.BICYCLING -> tv_bike_text.text.toString()
             TransportMode.WALKING -> "walk a bit"
         }
+        //activate parking
+        globalIsParking = true
 
         val tripDetail = TripDetails(transportMode.toString(), infoText, selectedBubbles)
         val actionDetail = NavigationResultFragmentDirections.actionToTrip(tripDetail)
-
         Navigation.findNavController(view).navigate(actionDetail)
     }
 

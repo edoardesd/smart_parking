@@ -24,6 +24,7 @@
         <entry key="app/src/main/res/layout/bubble_selected.xml" value="0.2932877297990594" />
         <entry key="app/src/main/res/layout/bubble_stops_layout.xml" value="0.15348439504061565" />
         <entry key="app/src/main/res/layout/circle.xml" value="0.10185185185185185" />
+        <entry key="app/src/main/res/layout/control_disabled_fragment.xml" value="0.2932877297990594" />
         <entry key="app/src/main/res/layout/control_fragment.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/directions_info_bike.xml" value="0.15348439504061565" />
         <entry key="app/src/main/res/layout/directions_info_car.xml" value="0.15348439504061565" />
@@ -34,7 +35,7 @@
         <entry key="app/src/main/res/layout/loading_item.xml" value="0.23229166666666667" />
         <entry key="app/src/main/res/layout/navigation_choice_fragment.xml" value="0.14206642066420663" />
         <entry key="app/src/main/res/layout/navigation_result_fragment.xml" value="0.3843298154040314" />
-        <entry key="app/src/main/res/layout/navigation_trip_fragment.xml" value="0.2866577859514031" />
+        <entry key="app/src/main/res/layout/navigation_trip_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/row_lesson.xml" value="0.39668579101562507" />
         <entry key="app/src/main/res/layout/search_toolbar.xml" value="0.2932877297990594" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.2932877297990594" />

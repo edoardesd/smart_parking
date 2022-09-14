@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity"
-    android:background="@color/user5G">
+    android:background="@color/background5G">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

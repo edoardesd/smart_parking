@@ -1,4 +1,4 @@
-package com.example.smartparking.ui.parking.control
+package com.example.smartparking.ui.parking.control.enabled
 
 import android.app.Application
 import android.content.ContentValues.TAG
