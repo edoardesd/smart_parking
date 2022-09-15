@@ -21,7 +21,6 @@ import com.example.smartparking.R
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.TripDetails
 import com.example.smartparking.data.db.DirectionData
-import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalIsParking
 import com.example.smartparking.databinding.NavigationResultFragmentBinding
 import com.example.smartparking.internal.DEFAULT_BIKE_WALK_TIME
 import com.example.smartparking.internal.LoadingDialog
@@ -32,6 +31,7 @@ import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleLis
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
 import kotlinx.android.synthetic.main.directions_info_bike.*
 import kotlinx.android.synthetic.main.directions_info_car.*
+import kotlinx.android.synthetic.main.directions_info_walk.*
 import kotlinx.android.synthetic.main.navigation_result_fragment.*
 import kotlinx.coroutines.launch
 import java.util.ArrayList
@@ -113,13 +113,18 @@ class NavigationResultFragment : ScopedFragment() {
 
 
     private fun sendNavigationDetails(view: View, transportMode: TransportMode) {
-        var infoText : String = when (transportMode) {
-            TransportMode.DRIVING -> tv_car_text.text.toString()
-            TransportMode.BICYCLING -> tv_bike_text.text.toString()
-            TransportMode.WALKING -> "walk a bit"
+        var infoText : String
+        var timeTrip: String
+        when (transportMode) {
+            TransportMode.DRIVING -> {infoText = tv_car_text.text.toString()
+            timeTrip = tv_car_result.text.toString()}
+            TransportMode.BICYCLING -> {infoText = tv_bike_text.text.toString()
+                timeTrip = tv_bike_result.text.toString()}
+            TransportMode.WALKING -> {infoText = "walk a bit"
+                timeTrip = tv_walk_result.text.toString()}
         }
 
-        val tripDetail = TripDetails(transportMode.toString(), infoText, selectedBubbles)
+        val tripDetail = TripDetails(transportMode, infoText, timeTrip, "LOW", selectedBubbles)
         val actionDetail = NavigationResultFragmentDirections.actionToTrip(tripDetail)
         Navigation.findNavController(view).navigate(actionDetail)
     }
