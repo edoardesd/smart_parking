@@ -118,8 +118,6 @@ class NavigationResultFragment : ScopedFragment() {
             TransportMode.BICYCLING -> tv_bike_text.text.toString()
             TransportMode.WALKING -> "walk a bit"
         }
-        //activate parking
-        globalIsParking = true
 
         val tripDetail = TripDetails(transportMode.toString(), infoText, selectedBubbles)
         val actionDetail = NavigationResultFragmentDirections.actionToTrip(tripDetail)

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
+import com.example.smartparking.data.db.SmartParkingApplication
 import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.ui.base.ScopedFragment
@@ -62,6 +63,10 @@ class NavigationChoiceFragment : ScopedFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.navigationChoiceViewModel = navigationChoiceViewModel
+
+//        if (SmartParkingApplication.globalIsParking) {
+//            Navigation.findNavController(requireView()).navigate(R.id.navigationTripFragment)
+//        }
 
         initProgressBar(requireContext())
 

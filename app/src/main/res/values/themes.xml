@@ -12,6 +12,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="actionMenuTextAppearance">@style/MenuTextAppearance</item>
+        <item name="android:actionMenuTextAppearance">@style/MenuTextAppearance</item>
+        <item name="actionMenuTextColor">@color/black</item>
 
     </style>
 
@@ -49,6 +52,14 @@
         <item name="android:textSize"> 14sp </item>
         <item name="android:theme"> @style/Theme.SmartParking.textTitle </item>
         <item name="android:elevation"> 4dp </item>
+    </style>
+
+    <style name="MenuTextAppearance">
+        <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily"> @font/montserrat </item>
+
     </style>
 
 </resources>

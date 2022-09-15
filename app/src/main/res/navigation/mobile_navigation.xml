@@ -38,20 +38,8 @@
         <action
             android:id="@+id/actionBackNavigation"
             app:destination="@id/navigationChoiceFragment" />
-        <action
-            android:id="@+id/actionMonitorParking"
-            app:destination="@id/controlFragment" />
-        <action
-            android:id="@+id/action_navigationTripFragment_to_controlDisabledFragment"
-            app:destination="@id/controlDisabledFragment" />
     </fragment>
 
-
-    <fragment
-        android:id="@+id/controlFragment"
-        android:name="com.example.smartparking.ui.parking.control.enabled.ControlFragment"
-        android:label="control_fragment"
-        tools:layout="@layout/control_fragment" />
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -62,5 +50,9 @@
         android:id="@+id/controlDisabledFragment"
         android:name="com.example.smartparking.ui.parking.control.disabled.ControlDisabledFragment"
         android:label="control_disabled_fragment"
-        tools:layout="@layout/control_disabled_fragment" />
+        tools:layout="@layout/control_disabled_fragment" >
+        <action
+            android:id="@+id/action_controlDisabledFragment_to_navigationChoiceFragment"
+            app:destination="@id/navigationChoiceFragment" />
+    </fragment>
 </navigation>

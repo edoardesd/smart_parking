@@ -17,6 +17,7 @@ import com.example.smartparking.data.db.SmartParkingApplication.Companion.global
 import com.example.smartparking.internal.TripDetailsNotFoundException
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.navigation_trip_fragment.*
 
 
@@ -41,9 +42,15 @@ class NavigationTripFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(NavigationTripViewModel::class.java)
 
+        //activate parking
+        globalIsParking = true
+
         val safeArgs = arguments?.let { NavigationTripFragmentArgs.fromBundle(it) }
         tripDetails = safeArgs?.tripDetails ?: throw TripDetailsNotFoundException()
         selectedBubbles = tripDetails.bubbleStops as ArrayList<BubbleListModel>
+
+        val bottomNavigationView: BottomNavigationView = activity?.findViewById(R.id.bottom_nav) as BottomNavigationView
+        bottomNavigationView.menu.findItem(R.id.navigationChoiceFragment).isChecked = true
 
         initDirectionInfo()
         initBubbleSelected()
@@ -63,7 +70,14 @@ class NavigationTripFragment : Fragment() {
         monitorButton = view?.findViewById(R.id.btn_monitor_parking)
         monitorButton?.setOnClickListener {view ->
             // TODO pass params
-            Navigation.findNavController(view).navigate(R.id.controlFragment)
+
+//            activity?.supportFragmentManager?.beginTransaction().also { fragmentTransaction ->
+//                fragmentTransaction?.replace(R.id.navigationChoiceFragment, ControlEnabledFragment())?.commit()
+//            }
+//            val bottomNavigationView: BottomNavigationView = activity?.findViewById(R.id.bottom_nav) as BottomNavigationView
+//            bottomNavigationView.menu.findItem(R.id.controlDisabledFragment).isChecked = true
+
+            Navigation.findNavController(view).navigate(R.id.controlDisabledFragment)
         }
     }
 

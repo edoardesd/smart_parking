@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<LinearLayout
+    android:id="@+id/ll_parking_section"
+    android:layout_width="match_parent"
+    android:layout_height="392dp"
+    android:gravity="center"
+    android:background="@color/white"
+    android:elevation="8dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <ImageView
+        android:id="@+id/iv_parking_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:src="@tools:sample/avatars" />
+</LinearLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:paddingTop="25dp"
+    android:paddingLeft="17dp"
+    app:layout_constraintTop_toBottomOf="@+id/ll_parking_section">
+
+    <!--            parking location-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_location_blue" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Parking Via Ponzio"
+                    android:textSize="20sp"
+                    android:theme="@style/Theme.SmartParking.textTitle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/Theme.SmartParking.textStandard"
+                    android:text="BUILDING 123" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--            parked details-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_bike_blue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:theme="@style/Theme.SmartParking.textStandard"                            android:textSize="16sp"
+                android:text="You parked here 32 minutes ago" />
+        </LinearLayout>
+
+        <!--            parked availability-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_parking_blue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:textSize="16sp"
+                android:theme="@style/Theme.SmartParking.textStandard"
+                android:text="High parking availability" />
+        </LinearLayout>
+    </LinearLayout>
+    <!--            <TextView-->
+    <!--                android:id="@+id/textView"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:text="Available parking spots: "-->
+    <!--                android:textSize="20sp"-->
+    <!--                app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/txt_free_slots"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginStart="19dp"-->
+    <!--                android:text="4"-->
+    <!--                android:textSize="20sp"-->
+    <!--                app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                app:layout_constraintHorizontal_bias="0.0"-->
+    <!--                app:layout_constraintStart_toEndOf="@+id/textView" />-->
+
+
+    <!--            <com.google.android.material.textfield.TextInputLayout-->
+    <!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginStart="32dp"-->
+    <!--                android:layout_marginEnd="32dp"-->
+    <!--                android:hint="Available parking spaces"-->
+    <!--                app:layout_constraintBottom_toBottomOf="@+id/txt_free_slots"-->
+    <!--                app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                app:layout_constraintStart_toStartOf="parent"-->
+    <!--                app:layout_constraintTop_toTopOf="@+id/iv_parking_pic"-->
+    <!--                app:startIconDrawable="@drawable/ic_parking">-->
+
+    <!--                <AutoCompleteTextView-->
+    <!--                    android:id="@+id/actv_parking_location"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    android:layout_weight="1"-->
+    <!--                    android:inputType="none"-->
+    <!--                    android:text="DEIB" />-->
+    <!--            </com.google.android.material.textfield.TextInputLayout>-->
+</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

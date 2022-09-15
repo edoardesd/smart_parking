@@ -2,13 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.parking.control.enabled.ControlFragment">
+    tools:context=".ui.parking.control.disabled.ControlDisabledFragment">
 
     <data>
-
         <variable
-            name="controlViewModel"
-            type="com.example.smartparking.ui.parking.control.enabled.ControlViewModel" />
+            name="controlDisabledViewModel"
+            type="com.example.smartparking.ui.parking.control.disabled.ControlDisabledViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
