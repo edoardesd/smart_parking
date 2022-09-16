@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/layout/circle.xml" value="0.10185185185185185" />
         <entry key="app/src/main/res/layout/control_disabled.xml" value="0.1" />
         <entry key="app/src/main/res/layout/control_disabled_fragment.xml" value="0.10034658697587025" />
+        <entry key="app/src/main/res/layout/control_disabled_fragment2.xml" value="0.15348439504061565" />
         <entry key="app/src/main/res/layout/control_enabled.xml" value="0.1" />
         <entry key="app/src/main/res/layout/control_enabled_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/control_fragment.xml" value="0.18697916666666667" />

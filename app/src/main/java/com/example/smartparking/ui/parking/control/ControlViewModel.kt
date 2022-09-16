@@ -1,4 +1,4 @@
-package com.example.smartparking.ui.parking.control.disabled
+package com.example.smartparking.ui.parking.control
 
 import android.app.Application
 import android.content.ContentValues.TAG
@@ -27,7 +27,7 @@ const val IMAGE_TAG = "image"
 const val PREDICTION_TAG = "prediction"
 
 
-class ControlDisabledViewModel(app: Application) : AndroidViewModel(app){
+class ControlViewModel(app: Application) : AndroidViewModel(app){
 
     private var _bitmap: MutableLiveData<Bitmap> = MutableLiveData<Bitmap>()
     private var _slotsPrediction: MutableLiveData<Int> = MutableLiveData<Int>()

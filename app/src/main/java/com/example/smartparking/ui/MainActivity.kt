@@ -9,13 +9,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.smartparking.R
-import com.example.smartparking.ui.parking.control.disabled.ControlDisabledFragment
+import com.example.smartparking.ui.parking.control.ControlFragment
 import com.example.smartparking.ui.parking.navigation.choice.NavigationChoiceFragment
 import com.example.smartparking.ui.settings.SettingsFragment
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -25,7 +24,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
-import java.util.jar.Manifest
 
 private const val MY_PERMISSION_ACCESS_FINE_LOCATION = 1
 
@@ -33,7 +31,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     override val kodein by closestKodein()
     private val fusedLocationProviderClient: FusedLocationProviderClient by instance()
     val navigateFragment = NavigationChoiceFragment()
-    val controlFragment = ControlDisabledFragment()
+    val controlFragment = ControlFragment()
     val settingFragment = SettingsFragment()
 
     private val locationCallback = object : LocationCallback(){

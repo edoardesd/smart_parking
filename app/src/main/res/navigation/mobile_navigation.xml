@@ -51,9 +51,9 @@
 
     <fragment
         android:id="@+id/controlDisabledFragment"
-        android:name="com.example.smartparking.ui.parking.control.disabled.ControlDisabledFragment"
+        android:name="com.example.smartparking.ui.parking.control.ControlFragment"
         android:label="control_disabled_fragment"
-        tools:layout="@layout/control_disabled_fragment" >
+        tools:layout="@layout/control_fragment" >
         <action
             android:id="@+id/action_controlDisabledFragment_to_navigationChoiceFragment"
             app:destination="@id/navigationChoiceFragment" />

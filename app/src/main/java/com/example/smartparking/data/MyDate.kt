@@ -5,6 +5,7 @@ import android.util.Log
 import java.sql.Time
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.time.DayOfWeek
 import java.time.Month
 import java.util.*
 
@@ -13,6 +14,7 @@ class MyDate{
 
     var month: Int = calendar.get(Calendar.MONTH)
     var day: Int = calendar.get(Calendar.DAY_OF_MONTH)
+    var dayOfWeek: String = ""
     var year : Int = calendar.get(Calendar.YEAR)
     var minutes: Int = calendar.get(Calendar.MINUTE)
     var hour: Int = calendar.get(Calendar.HOUR_OF_DAY)

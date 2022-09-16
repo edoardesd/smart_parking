@@ -50,7 +50,7 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
         val lesson = lessonList[position]
         holder.title.text = lesson.title
         holder.description.text = lesson.description
-        holder.dateTime.text = lesson.dateTime
+        holder.dateTime.text = lesson.lessonTime.startDate.toString()
         holder.preview.setImageResource(lesson.preview)
 
         holder.expandedLayout.visibility = if(lesson.isSelected) View.VISIBLE else View.GONE

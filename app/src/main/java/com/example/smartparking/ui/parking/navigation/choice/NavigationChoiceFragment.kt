@@ -12,9 +12,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
+import com.example.smartparking.data.LessonTime
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
-import com.example.smartparking.data.db.SmartParkingApplication
 import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.ui.base.ScopedFragment
@@ -31,7 +31,6 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 class NavigationChoiceFragment : ScopedFragment() {
 
@@ -60,6 +59,7 @@ class NavigationChoiceFragment : ScopedFragment() {
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.navigationChoiceViewModel = navigationChoiceViewModel
@@ -132,14 +132,17 @@ class NavigationChoiceFragment : ScopedFragment() {
 
     private fun initLessonView(){
         var listLessons = ArrayList<LessonListModel>()
-
-        listLessons.add(LessonListModel("Lesson blbla", "room 2", "monday 10-15", R.drawable.ic_map_indoor_background))
-        listLessons.add(LessonListModel("Lesson blbla 2", "room 1", "monday 12-15", R.drawable.ic_map_indoor_background))
-        listLessons.add(LessonListModel("Lesson blbla 3", "room 4", "monday 16-18", R.drawable.ic_map_indoor_background))
-        listLessons.add(LessonListModel("Lesson blbla 4", "room 5", "monday 10-15", R.drawable.ic_map_indoor_background))
-        listLessons.add(LessonListModel("Lesson blbla 5", "room 21", "monday 10-15", R.drawable.ic_map_indoor_background))
-        listLessons.add(LessonListModel("Lesson blbla 6", "room 23", "monday 10-15", R.drawable.ic_map_indoor_background))
-        listLessons.add(LessonListModel("Lesson blbla 7", "room 45", "monday 10-15", R.drawable.ic_map_indoor_background))
+        
+        var datetime = Date(2022, 11, 9)
+        datetime.hours = 10
+        datetime.minutes = 15
+        listLessons.add(LessonListModel("Lesson blbla", "room 2", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        listLessons.add(LessonListModel("Lesson blbla 2", "room 1", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        listLessons.add(LessonListModel("Lesson blbla 3", "room 4", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        listLessons.add(LessonListModel("Lesson blbla 4", "room 5", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        listLessons.add(LessonListModel("Lesson blbla 5", "room 21", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        listLessons.add(LessonListModel("Lesson blbla 6", "room 23", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        listLessons.add(LessonListModel("Lesson blbla 7", "room 45", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
 
         lessonAdapter = LessonListAdapter(listLessons)
         var recyclerLessons = view?.findViewById<RecyclerView>(R.id.rv_lessons)
@@ -150,7 +153,11 @@ class NavigationChoiceFragment : ScopedFragment() {
         //capture lesson change
         lessonAdapter.lessonSelected.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 lesson -> if (lesson == null) return@Observer
-                Log.d(TAG, "selected this $lesson")
+                Log.d(TAG, "selected this ${lesson.title} ${lesson.lessonToString()}")
+            date.hour = lesson.lessonTime.startDate.hours
+            date.minutes = lesson.lessonTime.startDate.minutes
+            updateTimeText(date.hour, date.minutes)
+
             // TODO change date/time pass to next fragment
         })
     }
