@@ -38,6 +38,9 @@
         <action
             android:id="@+id/actionBackNavigation"
             app:destination="@id/navigationChoiceFragment" />
+        <action
+            android:id="@+id/action_navigationTripFragment_to_controlDisabledFragment"
+            app:destination="@id/controlDisabledFragment" />
     </fragment>
 
 
@@ -54,5 +57,8 @@
         <action
             android:id="@+id/action_controlDisabledFragment_to_navigationChoiceFragment"
             app:destination="@id/navigationChoiceFragment" />
+        <action
+            android:id="@+id/action_controlDisabledFragment_to_navigationTripFragment"
+            app:destination="@id/navigationTripFragment" />
     </fragment>
 </navigation>

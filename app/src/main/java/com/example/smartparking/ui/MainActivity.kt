@@ -1,8 +1,10 @@
 package com.example.smartparking.ui
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -51,6 +53,17 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         bottom_nav.setupWithNavController(navController)
         NavigationUI.setupActionBarWithNavController(this@MainActivity, navController)
 
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+                when (destination.id) {
+                    R.id.navigationChoiceFragment -> {Log.d(TAG, "first")
+                    }
+
+                    R.id.controlDisabledFragment -> Log.d(TAG, "second")
+
+                    R.id.settingsFragment -> Log.d(TAG, "third")
+                }
+            }
 
 //        bottom_nav.setOnNavigationItemSelectedListener {
 //            when(it.itemId){
