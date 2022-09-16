@@ -17,6 +17,7 @@ import com.example.smartparking.R
 import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalIsParking
 import com.example.smartparking.databinding.ControlFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
+import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.control_enabled.*
@@ -37,22 +38,12 @@ class ControlFragment : ScopedFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        if (globalIsParking) {
-//            layout = R.layout.control_disabled_fragment
-//        }
-
-//        val bottomNavigationView: BottomNavigationView = view?.findViewById(R.id.bottom_nav) as BottomNavigationView
-//        bottomNavigationView.selectedItemId = R.id.controlDisabledFragment
-
-
         Log.d(TAG, "arriving here")
         binding = DataBindingUtil.inflate(inflater, R.layout.control_fragment, container, false)
 
         Log.d(TAG, "on activity binding")
 
         return binding.root
-//        return inflater.inflate(layout, container, false)
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -75,17 +66,18 @@ class ControlFragment : ScopedFragment() {
         stub.inflate()
         Log.d(TAG, "on activity created")
 
-//        if (globalIsParking) {
-//            Log.d(TAG, "global parking $globalIsParking")
-//            Navigation.findNavController(requireView()).navigate(R.id.controlEnabledFragment)
-//        }
-
+        initTitle()
         if (globalIsParking) {
             initProgressBar(requireContext())
             initStream()
         } else {
             initTravelButton()
+        }
+    }
 
+    private fun initTitle() {
+        if (activity != null) {
+            (activity as MainActivity).supportActionBar?.title = "Monitor"
         }
     }
 

@@ -26,6 +26,7 @@ import com.example.smartparking.internal.DEFAULT_BIKE_WALK_TIME
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.internal.NavigationDetailsNotFoundException
 import com.example.smartparking.internal.TransportMode
+import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
@@ -75,10 +76,17 @@ class NavigationResultFragment : ScopedFragment() {
 
         initProgressBar(requireContext())
 
+        initTitle()
         bindUI(navDetails)
         initMapsButton(navDetails)
         initBubbleSelected()
         initNavigationButtons()
+    }
+
+    private fun initTitle() {
+        if (activity != null) {
+            (activity as MainActivity).supportActionBar?.title = "Route to ${navDetails.room}"
+        }
     }
 
     private fun initNavigationButtons() {

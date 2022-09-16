@@ -17,6 +17,7 @@ import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
+import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListAdapter
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
@@ -45,6 +46,7 @@ class NavigationChoiceFragment : ScopedFragment() {
     private lateinit var bubbleAdapter : BubbleListAdapter
     private lateinit var lessonAdapter: LessonListAdapter
     private var date = MyDate()
+    private lateinit var datetime: Date
 
     private var selectedIndex : Int = 0
 
@@ -68,6 +70,7 @@ class NavigationChoiceFragment : ScopedFragment() {
 //            Navigation.findNavController(requireView()).navigate(R.id.navigationTripFragment)
 //        }
 
+        initTitle()
         initProgressBar(requireContext())
 
         initBubbleView()
@@ -76,6 +79,12 @@ class NavigationChoiceFragment : ScopedFragment() {
         initDatePicker()
         initGoButton()
         initTextView()
+    }
+
+    private fun initTitle() {
+        if (activity != null) {
+            (activity as MainActivity).supportActionBar?.title = "Parking"
+        }
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -130,10 +139,11 @@ class NavigationChoiceFragment : ScopedFragment() {
         })
     }
 
+
     private fun initLessonView(){
         var listLessons = ArrayList<LessonListModel>()
         
-        var datetime = Date(2022, 11, 9)
+        datetime = Date(2022, 8, 22)
         datetime.hours = 10
         datetime.minutes = 15
         listLessons.add(LessonListModel("Lesson blbla", "room 2", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
@@ -154,11 +164,17 @@ class NavigationChoiceFragment : ScopedFragment() {
         lessonAdapter.lessonSelected.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 lesson -> if (lesson == null) return@Observer
                 Log.d(TAG, "selected this ${lesson.title} ${lesson.lessonToString()}")
+
+            // update time
             date.hour = lesson.lessonTime.startDate.hours
             date.minutes = lesson.lessonTime.startDate.minutes
             updateTimeText(date.hour, date.minutes)
 
-            // TODO change date/time pass to next fragment
+            // update date
+            val sdf = SimpleDateFormat("dd MMM")
+            dateButton?.text = sdf.format(lesson.lessonTime.startDate.time)
+
+            // TODO pass to next fragment
         })
     }
 

@@ -20,6 +20,7 @@ import com.example.smartparking.data.db.SmartParkingApplication.Companion.global
 import com.example.smartparking.databinding.NavigationTripFragmentBinding
 import com.example.smartparking.internal.TransportMode
 import com.example.smartparking.internal.TripDetailsNotFoundException
+import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
@@ -68,10 +69,17 @@ class NavigationTripFragment : ScopedFragment() {
         bottomNavigationView.menu.findItem(R.id.navigationChoiceFragment).isChecked = true
 
         initTripDetails()
+        initTitle()
         initDirectionInfo()
         initBubbleSelected()
         initLeaveButton()
         initMonitorButton()
+    }
+
+    private fun initTitle() {
+        if (activity != null) {
+            (activity as MainActivity).supportActionBar?.title = "Route to ${tripDetailsLocal.navigationMethod}"//todo place
+        }
     }
 
     private fun initTripDetails() {
