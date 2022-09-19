@@ -13,10 +13,11 @@
     android:clickable="true">
 
     <RelativeLayout
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="102dp"
+        android:orientation="vertical"
+        android:gravity="center"
         >
 
         <TextView
@@ -34,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="26dp"
             android:text="room_123___building_1"
             android:textColor="@color/white"
             android:textSize="11sp"
@@ -44,7 +45,7 @@
             android:textSize="11sp"
             android:textColor="@color/white"
             android:layout_marginLeft="0dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="44dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="prof name"
@@ -61,24 +62,21 @@
             android:textSize="11sp"
             android:fontFamily="@font/montserrat"/>
 
-
-
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/expanded_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:layout_marginVertical="9dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="236dp"
         android:layout_gravity="center">
-
 
         <ImageView
             android:id="@+id/iv_maps_preview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_map_indoor_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
