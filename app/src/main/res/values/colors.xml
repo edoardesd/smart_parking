@@ -18,5 +18,6 @@
     <color name="green5G">#44AF11</color>
     <color name="blue5G">#5C92EC</color>
     <color name="background5G">#ECF1F4</color>
+    <color name="darkGrey5g">#333333</color>
 
 </resources>

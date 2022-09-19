@@ -38,6 +38,10 @@ class LocationProviderImpl(
         }
     }
 
+    override fun isGpsPosition(): Boolean {
+        return isUsingDeviceLocation()
+    }
+
     private fun isUsingDeviceLocation(): Boolean {
         return preferences.getBoolean(USE_DEVICE_LOCATION, true)
     }

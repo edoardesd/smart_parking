@@ -16,16 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--        <include  layout="@layout/loading_bar"-->
-        <!--            android:id="@+id/loading_group" />-->
-        <!--        end of loading bar-->
-
         <LinearLayout
             android:id="@+id/ll_from"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
+            android:layout_height="32dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,16 +31,26 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
                 android:text="From"
+                android:layout_gravity="center"
                 android:theme="@style/Theme.SmartParking.textTitle" />
+
+            <TextView
+                android:id="@+id/tv_current_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="150dp"
+                android:layout_gravity="center"
+                android:text="Current Location"
+                android:textColor="@color/darkGrey5g"
+                android:theme="@style/Theme.SmartParking.textStandard"
+                android:textSize="17sp"/>
         </LinearLayout>
 
         <include
             android:id="@+id/bubble_stops_layout_result"
             layout="@layout/bubble_stops_layout"
-            app:layout_constraintTop_toBottomOf="@+id/ll_from" />
+            app:layout_constraintTop_toBottomOf="@+id/ll_from"/>
 
 
         <LinearLayout

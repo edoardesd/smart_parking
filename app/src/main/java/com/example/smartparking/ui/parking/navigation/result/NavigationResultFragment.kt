@@ -51,15 +51,16 @@ class NavigationResultFragment : ScopedFragment() {
     private var requestDirectionDataCar = DirectionData()
     private var requestDirectionDataBike = DirectionData()
     private var selectedBubbles = ArrayList<BubbleListModel>()
-    private lateinit var loadingDialog : LoadingDialog
-    private lateinit var originPosition : String
-    private lateinit var bubbleAdapter : BubbleSelectedAdapter
+    private lateinit var loadingDialog: LoadingDialog
+    private lateinit var originPosition: String
+    private lateinit var bubbleAdapter: BubbleSelectedAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.navigation_result_fragment, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.navigation_result_fragment, container, false)
         return binding.root
     }
 
@@ -70,13 +71,16 @@ class NavigationResultFragment : ScopedFragment() {
         navDetails = safeArgs?.navigationDetails ?: throw NavigationDetailsNotFoundException()
 
         Log.d(TAG, "Navigation data: ${navDetails.room}")
-        requestDirectionDataCar.destinations = "${navDetails.room.parking_latitude},${navDetails.room.parking_longitude}"
-        requestDirectionDataBike.destinations = "${navDetails.room.latitude},${navDetails.room.longitude}"
+        requestDirectionDataCar.destinations =
+            "${navDetails.room.parking_latitude},${navDetails.room.parking_longitude}"
+        requestDirectionDataBike.destinations =
+            "${navDetails.room.latitude},${navDetails.room.longitude}"
         selectedBubbles = navDetails.bubbleStops as ArrayList<BubbleListModel>
 
         initProgressBar(requireContext())
 
         initTitle()
+        initStartLocation()
         bindUI(navDetails)
         initMapsButton(navDetails)
         initBubbleSelected()
@@ -89,19 +93,24 @@ class NavigationResultFragment : ScopedFragment() {
         }
     }
 
+    private fun initStartLocation() {
+//        tv_current_location.text = originPosition
+//        Log.d(TAG, originPosition)
+    }
+
     private fun initNavigationButtons() {
         carButton = view?.findViewById(R.id.ll_car_button)
-        carButton?.setOnClickListener {view ->
+        carButton?.setOnClickListener { view ->
             sendNavigationDetails(view, TransportMode.DRIVING)
         }
 
         bikeButton = view?.findViewById(R.id.ll_bike_button)
-        bikeButton?.setOnClickListener {view ->
+        bikeButton?.setOnClickListener { view ->
             sendNavigationDetails(view, TransportMode.BICYCLING)
         }
 
         walkButton = view?.findViewById(R.id.ll_walk_button)
-        walkButton?.setOnClickListener {view ->
+        walkButton?.setOnClickListener { view ->
             sendNavigationDetails(view, TransportMode.WALKING)
         }
     }
@@ -111,7 +120,7 @@ class NavigationResultFragment : ScopedFragment() {
         loadingDialog.startLoading()
     }
 
-    private fun initBubbleSelected(){
+    private fun initBubbleSelected() {
         bubbleAdapter = BubbleSelectedAdapter(selectedBubbles)
         val recyclerBubbles = view?.findViewById<RecyclerView>(R.id.rv_bubbles_selected)
         val bubblesLayoutManager = LinearLayoutManager(requireContext())
@@ -121,15 +130,21 @@ class NavigationResultFragment : ScopedFragment() {
 
 
     private fun sendNavigationDetails(view: View, transportMode: TransportMode) {
-        var infoText : String
+        var infoText: String
         var timeTrip: String
         when (transportMode) {
-            TransportMode.DRIVING -> {infoText = tv_car_text.text.toString()
-            timeTrip = tv_car_result.text.toString()}
-            TransportMode.BICYCLING -> {infoText = tv_bike_text.text.toString()
-                timeTrip = tv_bike_result.text.toString()}
-            TransportMode.WALKING -> {infoText = "walk a bit"
-                timeTrip = tv_walk_result.text.toString()}
+            TransportMode.DRIVING -> {
+                infoText = tv_car_text.text.toString()
+                timeTrip = tv_car_result.text.toString()
+            }
+            TransportMode.BICYCLING -> {
+                infoText = tv_bike_text.text.toString()
+                timeTrip = tv_bike_result.text.toString()
+            }
+            TransportMode.WALKING -> {
+                infoText = "walk a bit"
+                timeTrip = tv_walk_result.text.toString()
+            }
         }
 
         val tripDetail = TripDetails(transportMode, infoText, timeTrip, "LOW", selectedBubbles)
@@ -146,7 +161,10 @@ class NavigationResultFragment : ScopedFragment() {
                 .path("maps/dir/")
                 .appendQueryParameter("api", "1")
                 .appendQueryParameter("origin", originPosition)
-                .appendQueryParameter("destination", "${navDetails.room.latitude},${navDetails.room.longitude}")
+                .appendQueryParameter(
+                    "destination",
+                    "${navDetails.room.latitude},${navDetails.room.longitude}"
+                )
                 .appendQueryParameter("travelmode", "driving")
                 .appendQueryParameter("arrival_time", navDetails.time)
                 .appendQueryParameter("traffic_mode", "pessimistic")
@@ -162,7 +180,10 @@ class NavigationResultFragment : ScopedFragment() {
     }
 
     private fun bindUI(navDetails: NavigationDetails) = launch {
-        navigationResultViewModel.getNavigationData(requestDirectionDataCar, requestDirectionDataBike)
+        navigationResultViewModel.getNavigationData(
+            requestDirectionDataCar,
+            requestDirectionDataBike
+        )
         navigationResultViewModel.navigationDataAll.observe(viewLifecycleOwner,
             Observer {
                 if ((it.driving == null) || (it.bicycling == null)) {
@@ -175,10 +196,10 @@ class NavigationResultFragment : ScopedFragment() {
             })
 
         navigationResultViewModel.gpsOrigin.observe(viewLifecycleOwner,
-            Observer { gpsPos -> originPosition = gpsPos
-        })
-
-//        tv_destination_result.setText(navDetails.room.name).toString()
+            Observer { gpsPos ->
+                originPosition = gpsPos
+                tv_current_location.text = navigationResultViewModel.getLocationString()
+            })
     }
 
     private fun overallTime(googleResult: Duration?, minutes: Duration): Int {
@@ -187,14 +208,17 @@ class NavigationResultFragment : ScopedFragment() {
     }
 
     private fun setExpandTextCar(googleResult: Duration?) {
-        tv_car_result.text = "${overallTime(googleResult, navDetails.room.walking_distance.minutes)} min".uppercase()
-        tv_car_text.text = "Drive ${googleResult!!.inWholeMinutes} minutes, park in ${navDetails.room.parking} " +
-                "(2/10 available) then walk ${navDetails.room.walking_distance} minutes"
+        tv_car_result.text =
+            "${overallTime(googleResult, navDetails.room.walking_distance.minutes)} min".uppercase()
+        tv_car_text.text =
+            "Drive ${googleResult!!.inWholeMinutes} minutes, park in ${navDetails.room.parking} " +
+                    "(2/10 available) then walk ${navDetails.room.walking_distance} minutes"
     }
 
     private fun setExpandTextBike(googleResult: Duration?) {
         tv_bike_result.text = "${overallTime(googleResult, DEFAULT_BIKE_WALK_TIME)} min".uppercase()
-        tv_bike_text.text = "Ride ${googleResult!!.inWholeMinutes} minutes, park in ${navDetails.room.parking} " +
-                "(39/50 available) then walk ${DEFAULT_BIKE_WALK_TIME.inWholeMinutes.toInt()} minutes"
+        tv_bike_text.text =
+            "Ride ${googleResult!!.inWholeMinutes} minutes, park in ${navDetails.room.parking} " +
+                    "(39/50 available) then walk ${DEFAULT_BIKE_WALK_TIME.inWholeMinutes.toInt()} minutes"
     }
 }

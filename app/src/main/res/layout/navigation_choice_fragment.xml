@@ -17,6 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+<!--                <include  layout="@layout/loading_bar"-->
+<!--                    android:id="@+id/loading_group" />-->
 <!--        <com.google.android.material.textfield.TextInputLayout-->
 <!--            android:id="@+id/til_search_bar"-->
 <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
@@ -82,7 +85,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat"
                 android:gravity="top"
                 android:paddingTop="16dp"
                 android:paddingBottom="12dp"

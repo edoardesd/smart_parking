@@ -15,6 +15,8 @@ import com.example.smartparking.R
 import com.example.smartparking.data.LessonTime
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
+import com.example.smartparking.data.db.LessonDetails
+import com.example.smartparking.data.db.RoomDetails
 import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.ui.MainActivity
@@ -30,6 +32,9 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -110,8 +115,35 @@ class NavigationChoiceFragment : ScopedFragment() {
 //        super.onCreateOptionsMenu(menu, inflater)
 //    }
 
+
+    private fun getAllLessons(database : FirebaseFirestore): ArrayList<LessonDetails> {
+        var roomsArrayList : ArrayList<LessonDetails> = arrayListOf<LessonDetails>()
+
+        database.collection("lessons").get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val building = document.data.getValue("building").toString()
+                    val image = document.data.getValue("image").toString()
+                    val lesson = document.data.getValue("lesson").toString()
+                    val parking = document.data.getValue("parking").toString()
+                    val professor = document.data.getValue("professor").toString()
+                    val room = document.data.getValue("room").toString()
+
+                    val lessonItem = LessonDetails(building, image, lesson, parking, professor, room)
+//                    room.print_me()
+                    roomsArrayList.add(lessonItem)
+                    loadingDialog.dismiss()
+                }
+                Log.d(TAG, "Rooms: $roomsArrayList")
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
+
+        return roomsArrayList
+    }
+
     private fun initBubbleView(){
-        //TODO get from db
         var listBubbles = ArrayList<BubbleListModel>()
 
         listBubbles.add(BubbleListModel("Bar", R.drawable.bar))
@@ -141,11 +173,19 @@ class NavigationChoiceFragment : ScopedFragment() {
 
 
     private fun initLessonView(){
-        var listLessons = ArrayList<LessonListModel>()
-        
+        var mylessons = getAllLessons(FirebaseFirestore.getInstance())
+        Log.d(TAG, "lessons $mylessons")
+
         datetime = Date(2022, 8, 22)
         datetime.hours = 10
         datetime.minutes = 15
+        var listLessons = ArrayList<LessonListModel>()
+
+        for ((indx,less) in mylessons.withIndex()){
+            listLessons.add(LessonListModel(less.lesson, less.room, LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        }
+
+
         listLessons.add(LessonListModel("Lesson blbla", "room 2", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
         listLessons.add(LessonListModel("Lesson blbla 2", "room 1", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
         listLessons.add(LessonListModel("Lesson blbla 3", "room 4", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
@@ -154,6 +194,7 @@ class NavigationChoiceFragment : ScopedFragment() {
         listLessons.add(LessonListModel("Lesson blbla 6", "room 23", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
         listLessons.add(LessonListModel("Lesson blbla 7", "room 45", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
 
+        Log.d(TAG, "$listLessons")
         lessonAdapter = LessonListAdapter(listLessons)
         var recyclerLessons = view?.findViewById<RecyclerView>(R.id.rv_lessons)
         val lessonsLayoutManager = LinearLayoutManager(requireContext())
@@ -214,8 +255,9 @@ class NavigationChoiceFragment : ScopedFragment() {
             androidx.lifecycle.Observer { roomsList ->
                 if (roomsList == null) return@Observer
 
-                loadingDialog.dismiss()
 
+
+                Log.d(TAG, "rooms list $roomsList")
 //                tv_auto_complete_text_view.setAdapter(
 //                    ArrayAdapter(
 //                        requireView().context,

@@ -34,7 +34,7 @@
     </style>
 
     <style name="Theme.SmartParking.textTitle">
-        <item name="android:fontFamily"> @font/montserrat_semi_bold </item>
+        <item name="android:fontFamily"> @font/montserrat_medium </item>
         <item name="android:textColor"> @color/black </item>
 <!--        <item name="android:textStyle"> bold </item>-->
         <item name="android:textSize"> 17sp </item>

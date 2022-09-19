@@ -10,10 +10,10 @@
         android:id="@+id/controlDisabledFragment"
         android:icon="@drawable/ic_control"
         android:title="Monitor"/>
-<!--    <item-->
-<!--        android:id="@+id/bubblesFragment"-->
-<!--        android:icon="@drawable/ic_profile"-->
-<!--        android:title="Bubble"/>-->
+    <item
+        android:id="@+id/bubblesFragment"
+        android:icon="@drawable/ic_profile"
+        android:title="Bubble"/>
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"

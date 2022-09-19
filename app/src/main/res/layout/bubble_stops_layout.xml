@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_bubble_stops"
     android:layout_width="match_parent"
-    android:layout_height="133dp"
+    android:layout_height="183dp"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
@@ -20,6 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="32dp"
+        android:layout_marginTop="6dp"
         android:layout_weight="1"
         android:gravity="center"
         android:text="Bubble Stops"
@@ -30,5 +31,5 @@
         android:id="@+id/rv_bubbles_selected"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="26dp" />
+        android:layout_marginTop="32dp" />
 </RelativeLayout>
