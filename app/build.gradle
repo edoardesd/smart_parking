@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
     defaultConfig {
         applicationId "com.example.smartparking"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -122,9 +122,4 @@ dependencies {
 
     //circle imageview
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-
-    //search bar
-//    implementation 'br.com.mauker.materialsearchview:materialsearchview:1.3.0-rc02'
-//    implementation 'br.com.mauker.materialsearchview:materialsearchview:2.0.0-beta02'
-
 }

@@ -1,11 +1,14 @@
 package com.example.smartparking.ui.parking.navigation.choice
 
+//import com.example.smartparking.ui.parking.navigation.result.NavigationResultFragmentDirections
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -20,11 +23,7 @@ import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
-import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListAdapter
-import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
-import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListAdapter
-import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListModel
-//import com.example.smartparking.ui.parking.navigation.result.NavigationResultFragmentDirections
+import com.example.smartparking.ui.parking.navigation.choice.recyclers.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.CalendarConstraints.DateValidator
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -47,7 +46,9 @@ class NavigationChoiceFragment : ScopedFragment() {
 
     private lateinit var bubbleAdapter : BubbleListAdapter
     private lateinit var lessonAdapter: LessonListAdapter
+    private lateinit var searchAdapter: SearchAdapter
     private lateinit var recyclerLessons: RecyclerView
+    private lateinit var recyclerSearch: RecyclerView
     private var date = MyDate()
     private lateinit var datetime: Date
 
@@ -59,8 +60,6 @@ class NavigationChoiceFragment : ScopedFragment() {
     private var displayLesson = ArrayList<LessonListModel>()
 
     private lateinit var searchView: SearchView
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,6 +74,7 @@ class NavigationChoiceFragment : ScopedFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.navigationChoiceViewModel = navigationChoiceViewModel
+
         setHasOptionsMenu(true)
 
 
@@ -105,6 +105,21 @@ class NavigationChoiceFragment : ScopedFragment() {
         initDatePicker()
         initGoButton()
         initTextView()
+
+        searchAdapter = SearchAdapter(listLessons)
+        recyclerSearch = view?.findViewById(R.id.rv_search)!!
+        val searchLayoutManager = LinearLayoutManager(requireContext())
+        recyclerSearch?.layoutManager = searchLayoutManager
+        recyclerSearch?.adapter = searchAdapter
+        recyclerSearch.isInvisible = true
+
+        searchAdapter.searchSelected.observe(viewLifecycleOwner, androidx.lifecycle.Observer { search ->
+            if (search == null) return@Observer
+            Log.d(TAG, "selected this ${search.title} ${search.lessonToString()}")
+
+            listLessons.add(search)
+            recyclerSearch.isInvisible = true
+        })
     }
 
     private fun initTitle() {
@@ -113,28 +128,7 @@ class NavigationChoiceFragment : ScopedFragment() {
         }
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.menu_item, menu)
-//        val item = menu.findItem(R.id.search_action)
-//
-//        val searchView = item.actionView as SearchView
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                val searchText = newText!!.lowercase(Locale.getDefault())
-//                if (searchText.isNotEmpty()){
-//                    Log.d("TAG", "$searchText")
-//                } else {
-//                    Log.d(TAG, "empty")
-//                }
-//                return false
-//            }
-//        })
-//        super.onCreateOptionsMenu(menu, inflater)
-//    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -145,16 +139,30 @@ class NavigationChoiceFragment : ScopedFragment() {
         if (menuItem != null) {
             Log.d(TAG, "inflate the menu which is not null")
             searchView = menuItem.actionView as SearchView
+            searchView.queryHint = "Search"
+
+            searchView.setOnQueryTextFocusChangeListener { v, newViewFocus ->
+                if (!newViewFocus) {
+                    //Collapse the action item.
+                    recyclerSearch.isInvisible = true
+//                    menuItem.collapseActionView()
+                    //Clear the filter/search query.
+                }
+            }
 
             Log.d(TAG, "search view done")
 
+            searchView.setOnSearchClickListener{
+                Toast.makeText(context, "clicked", Toast.LENGTH_SHORT)
+
+            }
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
                 override fun onQueryTextSubmit(p0: String?): Boolean {
+                    Toast.makeText(context, "submitted", Toast.LENGTH_SHORT)
                     return true
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-
                     if (newText!!.isNotEmpty()) {
                         listLessons.clear()
                         val search = newText.lowercase(Locale.getDefault())
@@ -163,23 +171,42 @@ class NavigationChoiceFragment : ScopedFragment() {
                                 listLessons.add(it)
                             }
                         }
-                        recyclerLessons?.adapter!!.notifyDataSetChanged()
+                        recyclerSearch?.adapter!!.notifyDataSetChanged()
 
                     }
                     else{
                         listLessons.clear()
                         listLessons.addAll(displayLesson)
-                        recyclerLessons?.adapter!!.notifyDataSetChanged()
+                        recyclerSearch?.adapter!!.notifyDataSetChanged()
                     }
                     return true
                 }
-
             })
+
+
+            searchView.setOnCloseListener {
+                Log.d(TAG, "onClose")
+                searchView.onActionViewCollapsed()
+                recyclerSearch.isInvisible = true
+
+                false
+            }
+
+            searchView.setOnSearchClickListener{
+                Log.d(TAG, "search open")
+                recyclerSearch.isInvisible = false
+            }
         }
 
-
-
+//        searchView.setOnClickListener{
+//            recyclerSearch.isInvisible = true
+//        }
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        recyclerSearch.isInvisible = true
+        return super.onOptionsItemSelected(item)
     }
 
     private fun getAllLessons(database : FirebaseFirestore): ArrayList<LessonDetails> {

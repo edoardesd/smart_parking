@@ -42,10 +42,4 @@
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav" />
-
-<!--    <br.com.mauker.materialsearchview.MaterialSearchView-->
-<!--        android:id="@+id/search_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:elevation="10dp"/>-->
 </LinearLayout>

@@ -40,14 +40,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-<!--        <provider-->
-<!--            android:name="br.com.mauker.materialsearchview.db.HistoryProvider"-->
-<!--            android:authorities="br.com.mauker.materialsearchview.searchhistorydatabase2"-->
-<!--            android:exported="false"-->
-<!--            android:protectionLevel="signature"-->
-<!--            android:syncable="true"/>-->
     </application>
 
 </manifest>
