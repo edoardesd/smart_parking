@@ -1,23 +1,10 @@
 <resources>
     <string name="app_name">smartParking</string>
-
-    <string-array name="campus_location">
-        <item>Room 1.0.1</item>
-        <item>Room 1.0.2</item>
-        <item>Room 1.0.3</item>
-        <item>Room 1.1.1</item>
-        <item>Room 1.1.2</item>
-        <item>Room 1.1.3</item>
-        <item>Room 3.1.1</item>
-        <item>Room 3.1.2</item>
-        <item>Room 3.1.3</item>
-    </string-array>
-
-    <string-array name="parking_location">
-        <item>DEIB</item>
-        <item>DASTU</item>
-        <item>B6</item>
-    </string-array>
+<!--    <string-array name="parking_location">-->
+<!--        <item>DEIB</item>-->
+<!--        <item>DASTU</item>-->
+<!--        <item>B6</item>-->
+<!--    </string-array>-->
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="startTravelInfo">Check this page to monitor the safe parking area where you left your vehicle. \nTo find a parking spot, start a travel.</string>

@@ -17,34 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-<!--                <include  layout="@layout/loading_bar"-->
-<!--                    android:id="@+id/loading_group" />-->
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/til_search_bar"-->
-<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="0dp"-->
-<!--            android:paddingLeft="18dp"-->
-<!--            android:paddingRight="18dp"-->
-<!--            app:boxCornerRadiusBottomEnd="25dp"-->
-<!--            app:boxCornerRadiusBottomStart="25dp"-->
-<!--            app:boxCornerRadiusTopEnd="25dp"-->
-<!--            app:boxCornerRadiusTopStart="25dp"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:startIconDrawable="@drawable/ic_search">-->
-
-<!--            <AutoCompleteTextView-->
-<!--                android:id="@+id/tv_auto_complete_text_view"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:inputType="text" />-->
-
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="133dp"
@@ -69,6 +41,8 @@
                 android:layout_marginTop="32dp" />
 
         </RelativeLayout>
+
+
 
 
         <LinearLayout
@@ -163,7 +137,5 @@
                 app:cornerRadius="8dp"
                 android:elevation="4dp"/>
         </LinearLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

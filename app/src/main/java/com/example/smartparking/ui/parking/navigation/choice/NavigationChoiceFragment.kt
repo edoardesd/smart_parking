@@ -16,7 +16,6 @@ import com.example.smartparking.data.LessonTime
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.db.LessonDetails
-import com.example.smartparking.data.db.RoomDetails
 import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.ui.MainActivity
@@ -33,8 +32,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -50,12 +47,20 @@ class NavigationChoiceFragment : ScopedFragment() {
 
     private lateinit var bubbleAdapter : BubbleListAdapter
     private lateinit var lessonAdapter: LessonListAdapter
+    private lateinit var recyclerLessons: RecyclerView
     private var date = MyDate()
     private lateinit var datetime: Date
 
     private var selectedIndex : Int = 0
 
     private var bubblesSelected = ArrayList<BubbleListModel>()
+
+    private var listLessons = ArrayList<LessonListModel>()
+    private var displayLesson = ArrayList<LessonListModel>()
+
+    private lateinit var searchView: SearchView
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,10 +75,26 @@ class NavigationChoiceFragment : ScopedFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.navigationChoiceViewModel = navigationChoiceViewModel
+        setHasOptionsMenu(true)
+
 
 //        if (SmartParkingApplication.globalIsParking) {
 //            Navigation.findNavController(requireView()).navigate(R.id.navigationTripFragment)
 //        }
+
+
+        var datetime = Date(2022, 8, 22)
+        datetime.hours = 10
+        datetime.minutes = 15
+
+        displayLesson.add(LessonListModel("Lesson blbla", "room 2", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        displayLesson.add(LessonListModel("Lesson blbla 2", "room 1", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        displayLesson.add(LessonListModel("Lesson blbla 3", "room 4", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        displayLesson.add(LessonListModel("Lesson blbla 4", "room 5", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        displayLesson.add(LessonListModel("Lesson blbla 5", "room 21", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        displayLesson.add(LessonListModel("Lesson blbla 6", "room 23", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        displayLesson.add(LessonListModel("Lesson blbla 7", "room 45", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+
 
         initTitle()
         initProgressBar(requireContext())
@@ -115,9 +136,54 @@ class NavigationChoiceFragment : ScopedFragment() {
 //        super.onCreateOptionsMenu(menu, inflater)
 //    }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        Log.d(TAG, "inflate the menu")
+        inflater.inflate(R.menu.menu_item, menu)
+        val menuItem = menu.findItem(R.id.action_search)
+
+        if (menuItem != null) {
+            Log.d(TAG, "inflate the menu which is not null")
+            searchView = menuItem.actionView as SearchView
+
+            Log.d(TAG, "search view done")
+
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(p0: String?): Boolean {
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+
+                    if (newText!!.isNotEmpty()) {
+                        listLessons.clear()
+                        val search = newText.lowercase(Locale.getDefault())
+                        displayLesson.forEach{
+                            if (it.title.lowercase(Locale.getDefault()).contains(search)){
+                                listLessons.add(it)
+                            }
+                        }
+                        recyclerLessons?.adapter!!.notifyDataSetChanged()
+
+                    }
+                    else{
+                        listLessons.clear()
+                        listLessons.addAll(displayLesson)
+                        recyclerLessons?.adapter!!.notifyDataSetChanged()
+                    }
+                    return true
+                }
+
+            })
+        }
+
+
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
     private fun getAllLessons(database : FirebaseFirestore): ArrayList<LessonDetails> {
-        var roomsArrayList : ArrayList<LessonDetails> = arrayListOf<LessonDetails>()
+        var lessonsArrayList : ArrayList<LessonDetails> = arrayListOf<LessonDetails>()
 
         database.collection("lessons").get()
             .addOnSuccessListener { result ->
@@ -131,16 +197,16 @@ class NavigationChoiceFragment : ScopedFragment() {
 
                     val lessonItem = LessonDetails(building, image, lesson, parking, professor, room)
 //                    room.print_me()
-                    roomsArrayList.add(lessonItem)
+                    lessonsArrayList.add(lessonItem)
                     loadingDialog.dismiss()
                 }
-                Log.d(TAG, "Rooms: $roomsArrayList")
+                Log.d(TAG, "Rooms: $lessonsArrayList")
             }
             .addOnFailureListener { exception ->
                 Log.d(TAG, "Error getting documents: ", exception)
             }
 
-        return roomsArrayList
+        return lessonsArrayList
     }
 
     private fun initBubbleView(){
@@ -179,7 +245,7 @@ class NavigationChoiceFragment : ScopedFragment() {
         datetime = Date(2022, 8, 22)
         datetime.hours = 10
         datetime.minutes = 15
-        var listLessons = ArrayList<LessonListModel>()
+
 
         for ((indx,less) in mylessons.withIndex()){
             listLessons.add(LessonListModel(less.lesson, less.room, LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
@@ -196,7 +262,7 @@ class NavigationChoiceFragment : ScopedFragment() {
 
         Log.d(TAG, "$listLessons")
         lessonAdapter = LessonListAdapter(listLessons)
-        var recyclerLessons = view?.findViewById<RecyclerView>(R.id.rv_lessons)
+        recyclerLessons = view?.findViewById(R.id.rv_lessons)!!
         val lessonsLayoutManager = LinearLayoutManager(requireContext())
         recyclerLessons?.layoutManager = lessonsLayoutManager
         recyclerLessons?.adapter = lessonAdapter

@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/navigationChoiceFragment"
         android:name="com.example.smartparking.ui.parking.navigation.choice.NavigationChoiceFragment"
-        android:label="navigation_fragment"
         tools:layout="@layout/navigation_choice_fragment" >
         <action
             android:id="@+id/actionResult"
