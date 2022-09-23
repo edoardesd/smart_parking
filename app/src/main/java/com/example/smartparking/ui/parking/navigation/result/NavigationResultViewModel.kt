@@ -16,6 +16,7 @@ import com.example.smartparking.data.provider.LocationProvider
 import com.example.smartparking.data.provider.LocationProviderImpl
 import com.example.smartparking.internal.TransportMode
 import com.google.android.gms.location.FusedLocationProviderClient
+import kotlinx.android.synthetic.main.navigation_result_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -65,6 +66,12 @@ class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
              navigationNetworkDataSourceBike.fetchedNavigation(requestDirectionDataBike,
                 TransportMode.BICYCLING.name.lowercase())
         }
+    }
+
+    fun getLocationString(): String{
+        return if (!locationProvider.isGpsPosition()) {
+            _gpsOrigin.value!!
+        } else "Current Location"
     }
 
     internal var gpsOrigin : MutableLiveData<String>

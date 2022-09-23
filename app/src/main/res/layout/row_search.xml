@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_search_clickable"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
+    android:background="@drawable/lesson_search"
+    android:elevation="10dp"
+    android:paddingLeft="15dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:clickable="true">
+
+    <RelativeLayout
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="102dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/search_lesson_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lesson name"
+            android:textColor="@color/mediumGray5G"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat" />
+
+        <TextView
+            android:id="@+id/search_room_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="26dp"
+            android:text="room_123___building_1"
+            android:textColor="@color/mediumGray5G"
+            android:textSize="11sp"
+            android:fontFamily="@font/montserrat"/>
+
+        <TextView android:id="@+id/search_prof_name"
+            android:textSize="11sp"
+            android:textColor="@color/mediumGray5G"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="44dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="prof name"
+            android:fontFamily="@font/montserrat"
+            />
+
+        <TextView
+            android:id="@+id/search_time_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="62dp"
+            android:text="time details"
+            android:textColor="@color/mediumGray5G"
+            android:textSize="11sp"
+            android:fontFamily="@font/montserrat"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

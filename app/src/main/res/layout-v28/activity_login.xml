@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.login.LoginActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/abr_polimi"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:elevation="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/tv_login_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Log in"
+            android:gravity="center|left"
+            android:layout_marginLeft="18dp"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:elevation="16dp"
+            android:textStyle="bold" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/abr_logo_polimi"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#2A6494"
+        android:fitsSystemWindows="true"
+        android:elevation="16dp"
+        android:outlineSpotShadowColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/abr_polimi">
+
+        <TextView
+            android:id="@+id/tv_logopolimi"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="POLITECNICO"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:gravity="center|left"
+            android:textSize="16sp"
+            android:layout_marginLeft="18dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="MILANO 1863"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:gravity="center|left"
+            android:layout_marginLeft="18dp"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/abr_online_services"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        android:outlineSpotShadowColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/abr_logo_polimi">
+
+        <TextView
+            android:id="@+id/tv_online_services"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Sign in to Online Services"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat"
+            android:textSize="13sp" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_credentials"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rectangle_266_shape"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/abr_online_services"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <View
+            android:id="@+id/rectangle_265"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:background="#C4C4C4" />
+
+        <View
+            android:id="@+id/rectangle_271"
+            android:layout_width="77dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:gravity="left"
+            android:paddingLeft="13dp"
+            android:paddingTop="8dp"
+            android:text="POLIMI"
+            android:textColor="#2A6494"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/rectangle_262"
+            android:layout_width="match_parent"
+            android:layout_height="208dp"
+            android:layout_below="@+id/rectangle_265"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rectangle_265_shape"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rectangle_263"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:background="#F3F3EE">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="left|center"
+                    android:paddingLeft="14dp"
+                    android:text="Person Code"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_login_email"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="15dp"
+                app:boxStrokeColor="#C4C4C4">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_login_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/darkGrey5g"
+                    android:textSize="13sp"
+                    tools:text="Person code" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:id="@+id/rectangle_262bis"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="2dp"
+                android:background="#F3F3EE">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="left|center"
+                    android:paddingLeft="14dp"
+                    android:text="Password"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_login_password"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="15dp"
+                app:boxStrokeColor="#C4C4C4">>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_login_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPassword"
+                    android:textColor="@color/darkGrey5g"
+                    android:textSize="13sp"
+                    tools:text="Password" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="#2A6494"
+            android:gravity="center"
+            android:text="Sign in"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+
+
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/abr_aunica"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginTop="512dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="aunicalogin 26.4.0"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_credentials_polimi"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:fontFamily="@font/montserrat_semi_bold"-->
+    <!--        android:gravity="left"-->
+    <!--        android:paddingLeft="13dp"-->
+    <!--        android:paddingTop="13dp"-->
+    <!--        android:text="POLIMI"-->
+    <!--        android:textColor="#2A6494"-->
+    <!--        android:textSize="15dp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        tools:layout_editor_absoluteX="10dp"-->
+    <!--        tools:layout_editor_absoluteY="125dp" />-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,18 +8,22 @@ import androidx.lifecycle.ViewModel;
 import com.example.smartparking.data.db.RoomDetails
 import com.example.smartparking.data.network.FirestoreService
 import com.example.smartparking.data.network.choice.DatabaseNetworkDataSourceImpl
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 
 class NavigationChoiceViewModel : ViewModel(){
 
-    private var _rooms: MutableLiveData<ArrayList<RoomDetails>> = MutableLiveData<ArrayList<RoomDetails>>()
+    private var _rooms: MutableLiveData<ArrayList<RoomDetails>> = MutableLiveData<ArrayList<RoomDetails>>() // add arrayListOf() inside ()??
 
     init {
-        val firestoreService = FirestoreService()
-        val databaseNetworkDataSource = DatabaseNetworkDataSourceImpl(firestoreService)
-        databaseNetworkDataSource.downloadedLocations.observeForever(Observer {
-            _rooms.value = it
-        })
-        databaseNetworkDataSource.fetchLocations()
+
+            val firestoreService = FirestoreService()
+            val databaseNetworkDataSource = DatabaseNetworkDataSourceImpl(firestoreService)
+            databaseNetworkDataSource.downloadedLocations.observeForever(Observer {
+                _rooms.value = it
+            })
+            databaseNetworkDataSource.fetchLocations()
     }
 
     internal fun getSelectedLocation(index : Int): RoomDetails{

@@ -5,6 +5,7 @@
     tools:context=".ui.parking.navigation.result.NavigationResultFragment">
 
     <data>
+
         <variable
             name="navigationResultViewModel"
             type="com.example.smartparking.ui.parking.navigation.result.NavigationResultViewModel" />
@@ -15,280 +16,140 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5"/>
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/group_loading_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:constraint_referenced_ids="progressBar_loading_result, textView_loading_result"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/progressBar_loading_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:indeterminate="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView_loading_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Loading"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar_loading_result"
-            app:layout_constraintVertical_bias="0.0" />
-
-<!--        end of loading bar-->
-
-
         <LinearLayout
-            android:id="@+id/ll_car"
+            android:id="@+id/ll_from"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="18dp"
-            android:background="@drawable/rectangle_border"
-            android:orientation="vertical"
-            android:paddingLeft="18dp"
-            android:paddingTop="18dp"
-            android:paddingBottom="18dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tv_destination_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loading..."
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:text="From"
+                android:layout_gravity="center"
+                android:theme="@style/Theme.SmartParking.textTitle" />
 
             <TextView
-                android:id="@+id/tv_destination_building"
+                android:id="@+id/tv_current_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Building 20 Leonardo"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:layout_marginLeft="150dp"
+                android:layout_gravity="center"
+                android:text="Current Location"
+                android:textColor="@color/darkGrey5g"
+                android:theme="@style/Theme.SmartParking.textStandard"
+                android:textSize="17sp"/>
+        </LinearLayout>
+
+        <include
+            android:id="@+id/bubble_stops_layout_result"
+            layout="@layout/bubble_stops_layout"
+            app:layout_constraintTop_toBottomOf="@+id/ll_from"/>
+
+
+        <LinearLayout
+            android:id="@+id/ll_how_to_get_there"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:background="@color/white"
+            android:elevation="8dp"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bubble_stops_layout_result">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="How to get there"
+                android:theme="@style/Theme.SmartParking.textTitle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Tap a transport method to start a Maps navigation"
+                android:theme="@style/Theme.SmartParking.textStandard" />
+
+            <!--            car section-->
 
             <LinearLayout
+                android:id="@+id/ll_car_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="25dp">
+                android:layout_height="110dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rectangle_car"
+                android:elevation="8dp"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/directions_info_car_layout"
+                    layout="@layout/directions_info_car" />
 
                 <TextView
                     android:id="@+id/tv_car_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Car estimated time: "
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_car_result"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Loading..."
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="-45dp"
+                    android:layout_marginRight="12dp"
+                    android:text="Drive 6 minutes, park in Via Ponzio (2/10 available) then walk 10 minutes"
+                    android:textColor="@color/black"
+                    android:theme="@style/Theme.SmartParking.textStandard" />
             </LinearLayout>
 
+            <!--            bike section-->
             <LinearLayout
-                android:id="@+id/text_direction"
+                android:id="@+id/ll_bike_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp">
-
-                <TextView
-                    android:id="@+id/tv_car_opt1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="1) Drive for 20 minutes"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tv_car_opt2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="2) Park in Via Ponzio."
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tv_car_opt2bis"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Parking expectation: low.
-                    \nTime to find a free parking space: 10-15 min"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tv_car_opt3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="3) Walk for 6 minutes"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_googleMaps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/userInteraction5G"
-                android:elevation="10dp"
-                android:stateListAnimator="@null"
-                android:text="Navigate"
-                android:textStyle="bold"
-                app:cornerRadius="10dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_others"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="18dp"
-            android:background="@drawable/rectangle_border"
-            android:backgroundTint="@color/mediumBlue5G"
-            android:orientation="vertical"
-            android:paddingLeft="18dp"
-            android:paddingTop="18dp"
-            android:paddingBottom="18dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_car">
-
-            <TextView
-                android:id="@+id/tv_green_mobility"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Green Mobility"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-<!--            bicyling-->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="12dp"
+                android:layout_height="110dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rectangle_bike"
+                android:elevation="8dp"
                 android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bicycling: "
-                android:textStyle="bold"
-                android:textColor="@color/white"/>
+                <include
+                    android:id="@+id/directions_info_bike_layout"
+                    layout="@layout/directions_info_bike" />
 
                 <TextView
-                    android:id="@+id/tv_bike_result"
+                    android:id="@+id/tv_bike_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Loading..."
-                    android:textColor="@color/white"
-                    android:textStyle="bold"/>
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="-45dp"
+                    android:layout_marginRight="12dp"
+                    android:text="Drive 6 minutes, park in Via Ponzio (2/10 available) then walk 10 minutes"
+                    android:textColor="@color/black"
+                    android:theme="@style/Theme.SmartParking.textStandard" />
 
             </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/expandable_l_bike"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="6dp"
-                    android:orientation="vertical">
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_bike_opt1"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="1) Ride for 10 minutes"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textSize="15sp" />-->
-
-                    <TextView
-                        android:id="@+id/tv_bike_opt2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Park the bike in Via Ponzio, secure area.
-                        \nParking expectation: very high."
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_bike_opt3"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="3) Walk for 1 minute"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textSize="15sp" />-->
-
-            </LinearLayout>
-
-            </LinearLayout>
-
-
-
-            <!--            walking-->
+            <!--            walk section-->
             <LinearLayout
+                android:id="@+id/ll_walk_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Walking:"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"/>
-            </LinearLayout>
+                android:layout_height="55dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rectangle_walk"
+                android:elevation="8dp"
+                android:orientation="vertical">
 
+                <include
+                    android:id="@+id/directions_info_walk_layout"
+                    layout="@layout/directions_info_walk" />
+            </LinearLayout>
 
         </LinearLayout>
-
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -3,12 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigationFragment">
+    app:startDestination="@id/navigationChoiceFragment">
 
     <fragment
-        android:id="@+id/navigationFragment"
+        android:id="@+id/navigationChoiceFragment"
         android:name="com.example.smartparking.ui.parking.navigation.choice.NavigationChoiceFragment"
-        android:label="navigation_fragment"
         tools:layout="@layout/navigation_choice_fragment" >
         <action
             android:id="@+id/actionResult"
@@ -19,26 +18,46 @@
         android:name="com.example.smartparking.ui.parking.navigation.result.NavigationResultFragment"
         android:label="navigation_result_fragment"
         tools:layout="@layout/navigation_result_fragment" >
-<!--        <argument-->
-<!--            android:name="epochString"-->
-<!--            app:argType="string"-->
-<!--            android:defaultValue="now" />-->
-<!--        <argument-->
-<!--            android:name="roomString"-->
-<!--            app:argType="string" />-->
         <argument
             android:name="navigationDetails"
             app:argType="com.example.smartparking.data.NavigationDetails" />
+        <action
+            android:id="@+id/actionToTrip"
+            app:destination="@id/navigationTripFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/controlFragment"
-        android:name="com.example.smartparking.ui.parking.control.ControlFragment"
-        android:label="control_fragment"
-        tools:layout="@layout/control_fragment" />
+        android:id="@+id/navigationTripFragment"
+        android:name="com.example.smartparking.ui.parking.navigation.trip.NavigationTripFragment"
+        android:label="navigation_trip_fragment"
+        tools:layout="@layout/navigation_trip_fragment" >
+        <argument
+            android:name="tripDetails"
+            app:argType="com.example.smartparking.data.TripDetails" />
+        <action
+            android:id="@+id/actionBackNavigation"
+            app:destination="@id/navigationChoiceFragment" />
+        <action
+            android:id="@+id/action_navigationTripFragment_to_controlDisabledFragment"
+            app:destination="@id/controlDisabledFragment" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.smartparking.ui.settings.SettingsFragment"
         android:label="SettingsFragment" />
 
+    <fragment
+        android:id="@+id/controlDisabledFragment"
+        android:name="com.example.smartparking.ui.parking.control.ControlFragment"
+        android:label="control_disabled_fragment"
+        tools:layout="@layout/control_fragment" >
+        <action
+            android:id="@+id/action_controlDisabledFragment_to_navigationChoiceFragment"
+            app:destination="@id/navigationChoiceFragment" />
+        <action
+            android:id="@+id/action_controlDisabledFragment_to_navigationTripFragment"
+            app:destination="@id/navigationTripFragment" />
+    </fragment>
 </navigation>

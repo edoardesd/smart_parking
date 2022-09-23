@@ -16,6 +16,7 @@ import org.eclipse.paho.client.mqttv3.*
 import java.io.UnsupportedEncodingException
 import java.util.*
 
+
 const val serverURI = "tcp://broker.hivemq.com:1883"
 const val TOPIC_IMAGE = "smart/parking/polimi/+/image"
 const val TOPIC_PREDICTION = "smart/parking/polimi/+/prediction"
@@ -25,6 +26,7 @@ const val STARTUP_PARKING = "deib"
 const val IMAGE_TAG = "image"
 const val PREDICTION_TAG = "prediction"
 
+
 class ControlViewModel(app: Application) : AndroidViewModel(app){
 
     private var _bitmap: MutableLiveData<Bitmap> = MutableLiveData<Bitmap>()
@@ -33,8 +35,8 @@ class ControlViewModel(app: Application) : AndroidViewModel(app){
     private val uniqueID : String = "parking" + UUID.randomUUID().toString()
     private var currentTopics = arrayOf("$BASE_TOPIC$STARTUP_PARKING/image", "$BASE_TOPIC$STARTUP_PARKING/prediction")
     private val connectionParams = MQTTConnectionParams(uniqueID, serverURI,
-            currentTopics,
-            intArrayOf(2, 2))
+        currentTopics,
+        intArrayOf(2, 2))
     private val mqttManager: MQTTManager = MQTTManager(connectionParams, context)
     private var selectedParking : String = STARTUP_PARKING
 

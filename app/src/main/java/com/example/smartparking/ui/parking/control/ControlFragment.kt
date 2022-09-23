@@ -1,82 +1,106 @@
 package com.example.smartparking.ui.parking.control
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.view.ViewStub
+import android.widget.Button
+import android.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import com.example.smartparking.R
+import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalIsParking
 import com.example.smartparking.databinding.ControlFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
+import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
-import kotlinx.android.synthetic.main.control_fragment.*
-import kotlinx.android.synthetic.main.navigation_choice_fragment.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.control_enabled.*
+import kotlinx.android.synthetic.main.navigation_trip_fragment.*
 
 
 class ControlFragment : ScopedFragment() {
 
-    private lateinit var loadingDialog : LoadingDialog
+    private lateinit var loadingDialog: LoadingDialog
+
+    private var travelButton: Button? = null
+//    private var layout: Int = R.layout.control_fragment
+
     private lateinit var binding: ControlFragmentBinding
     private val controlViewModel: ControlViewModel by viewModels()
-
-    private var selectedIndexParking : Int = 0
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "arriving here")
         binding = DataBindingUtil.inflate(inflater, R.layout.control_fragment, container, false)
+
+        Log.d(TAG, "on activity binding")
+
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        Log.d(TAG, "on activity created before")
+
         binding.controlViewModel = controlViewModel
 
-        initProgressBar(requireContext())
-        initStream()
-        initFreeSlots()
-    }
 
-    override fun onResume() {
-        super.onResume()
-        initDropdownMenu()
-    }
+//        bottom_nav.selectedItemId = R.id.controlDisabledFragment
 
-    private fun initDropdownMenu() {
-        val parkingLocations = resources.getStringArray(R.array.parking_location)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_parking, parkingLocations)
+        val stub = view?.findViewById(R.id.control_stub) as ViewStub
 
-        binding.actvParkingLocation.setAdapter(arrayAdapter)
+        if(globalIsParking){
+        stub.layoutResource = R.layout.control_enabled
+        }
+        else{
+            stub.layoutResource = R.layout.control_disabled
+        }
+        stub.inflate()
+        Log.d(TAG, "on activity created")
 
-        actv_parking_location.setOnItemClickListener { _, _, position, _ ->
-            selectedIndexParking = position
-            controlViewModel.getSelectedParking(parkingLocations[position])
-            Log.d(TAG, "Selected parking at position: ${parkingLocations[position]} $position")
+
+        initTitle()
+
+        if (globalIsParking) {
+            initProgressBar(requireContext())
+            initStream()
+        } else {
+            initTravelButton()
         }
     }
 
-    private fun initFreeSlots() {
-        controlViewModel.slotsPrediction.observe(viewLifecycleOwner, Observer { freeSlots ->
-            if(freeSlots == null) return@Observer
-            txt_free_slots.text = "$freeSlots /7"
-        })
+    private fun initTitle() {
+        if (activity != null) {
+            (activity as MainActivity).supportActionBar?.title = "Monitor"
+            (activity as MainActivity).supportActionBar?.setHomeButtonEnabled(false)
+            (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        }
+    }
+
+    private fun initTravelButton() {
+        travelButton = view?.findViewById(R.id.btn_travel)
+        travelButton?.setOnClickListener { view ->
+//            activity?.bottom_nav?.selectedItemId = R.id.navigationChoiceFragment
+            Navigation.findNavController(view).navigate(R.id.navigationChoiceFragment)
+        }
     }
 
     private fun initStream() {
         controlViewModel.bitmap.observe(viewLifecycleOwner, Observer { bitmap ->
-            if ( bitmap == null) return@Observer
-                loadingDialog.dismiss()
-                iv_mqtt.setImageBitmap(bitmap)
+            if (bitmap == null) return@Observer
+            loadingDialog.dismiss()
+            iv_parking_pic.setImageBitmap(bitmap)
         })
     }
 

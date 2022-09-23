@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_lesson_clickable"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
+    android:background="@drawable/lesson"
+    android:elevation="10dp"
+    android:paddingLeft="15dp"
+    android:clickable="true">
+
+    <RelativeLayout
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="102dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/tv_lesson_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lesson name"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat" />
+
+        <TextView
+            android:id="@+id/tv_room_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="26dp"
+            android:text="room_123___building_1"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:fontFamily="@font/montserrat"/>
+
+        <TextView android:id="@+id/tv_prof_name"
+            android:textSize="11sp"
+            android:textColor="@color/white"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="44dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="prof name"
+            android:fontFamily="@font/montserrat"
+            />
+
+        <TextView
+            android:id="@+id/tv_time_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="62dp"
+            android:text="time details"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:fontFamily="@font/montserrat"/>
+
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/expanded_layout"
+        android:layout_width="match_parent"
+        android:layout_height="236dp"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_maps_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_map_indoor_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
