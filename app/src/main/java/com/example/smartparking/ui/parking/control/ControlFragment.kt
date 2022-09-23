@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.Button
+import android.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -23,12 +25,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.control_enabled.*
 import kotlinx.android.synthetic.main.navigation_trip_fragment.*
 
+
 class ControlFragment : ScopedFragment() {
 
     private lateinit var loadingDialog: LoadingDialog
 
     private var travelButton: Button? = null
-    private var layout: Int = R.layout.control_fragment
+//    private var layout: Int = R.layout.control_fragment
 
     private lateinit var binding: ControlFragmentBinding
     private val controlViewModel: ControlViewModel by viewModels()
@@ -52,6 +55,7 @@ class ControlFragment : ScopedFragment() {
 
         binding.controlViewModel = controlViewModel
 
+
 //        bottom_nav.selectedItemId = R.id.controlDisabledFragment
 
         val stub = view?.findViewById(R.id.control_stub) as ViewStub
@@ -61,12 +65,13 @@ class ControlFragment : ScopedFragment() {
         }
         else{
             stub.layoutResource = R.layout.control_disabled
-
-    }
+        }
         stub.inflate()
         Log.d(TAG, "on activity created")
 
+
         initTitle()
+
         if (globalIsParking) {
             initProgressBar(requireContext())
             initStream()
@@ -78,6 +83,8 @@ class ControlFragment : ScopedFragment() {
     private fun initTitle() {
         if (activity != null) {
             (activity as MainActivity).supportActionBar?.title = "Monitor"
+            (activity as MainActivity).supportActionBar?.setHomeButtonEnabled(false)
+            (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         }
     }
 

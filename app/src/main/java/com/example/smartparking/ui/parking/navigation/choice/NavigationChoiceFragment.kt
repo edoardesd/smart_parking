@@ -19,6 +19,7 @@ import com.example.smartparking.data.LessonTime
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.db.LessonDetails
+import com.example.smartparking.data.db.SmartParkingApplication
 import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.ui.MainActivity
@@ -77,14 +78,10 @@ class NavigationChoiceFragment : ScopedFragment() {
         binding.navigationChoiceViewModel = navigationChoiceViewModel
 
         setHasOptionsMenu(true)
-
-
+//
 //        if (SmartParkingApplication.globalIsParking) {
 //            Navigation.findNavController(requireView()).navigate(R.id.navigationTripFragment)
 //        }
-
-
-
 
         initTitle()
         initProgressBar(requireContext())
@@ -186,15 +183,6 @@ class NavigationChoiceFragment : ScopedFragment() {
                 Log.d(TAG, "search open")
                 recyclerSearch.isVisible = true
             }
-//            searchView.setOnCloseListener {
-//                Log.d(TAG, "onClose")
-//                searchView.onActionViewCollapsed()
-////                menuItem.collapseActionView()
-//                recyclerSearch.isInvisible = true
-//                searchView.clearFocus()
-//                false
-//            }
-
 
             searchView.setOnSearchClickListener{
                 Log.d(TAG, "search open")
@@ -203,12 +191,6 @@ class NavigationChoiceFragment : ScopedFragment() {
         }
         super.onCreateOptionsMenu(menu, inflater)
     }
-
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-////        recyclerSearch.isInvisible = true
-//        return super.onOptionsItemSelected(item)
-//    }
 
     private fun getAllLessons(database : FirebaseFirestore): ArrayList<LessonDetails> {
         var lessonsArrayList : ArrayList<LessonDetails> = arrayListOf<LessonDetails>()
@@ -226,6 +208,7 @@ class NavigationChoiceFragment : ScopedFragment() {
                     val lessonItem = LessonDetails(building, image, lesson, parking, professor, room)
                     lessonsArrayList.add(lessonItem)
                     loadingDialog.dismiss()
+                    Log.d(TAG, "dismiss all lessons")
                 }
                 Log.d(TAG, "Rooms: $lessonsArrayList")
             }
@@ -324,7 +307,7 @@ class NavigationChoiceFragment : ScopedFragment() {
                 if (roomsList == null) return@Observer
 
                 Log.d(TAG, "rooms list $roomsList")
-                loadingDialog.dismiss()
+//                loadingDialog.dismiss()
             })
     }
 
