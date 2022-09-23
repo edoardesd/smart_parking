@@ -3,9 +3,11 @@ package com.example.smartparking.internal
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.DialogFragment
 import com.example.smartparking.R
 
@@ -21,5 +23,6 @@ class LoadingDialog(val context: Context) {
     }
     fun dismiss(){
         dialog.dismiss()
+        Log.d(TAG, "Dismiss loading dialog")
     }
 }
