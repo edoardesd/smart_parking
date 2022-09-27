@@ -28,4 +28,13 @@
             android:entries="@array/unitSystemEntries"
             android:entryValues="@array/unitSystemValues"/>
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Others">
+    <Preference
+        android:title="Log out"
+        android:key="log_out_button"
+        android:summary="Log out from Smart Parking" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

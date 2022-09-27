@@ -281,13 +281,22 @@ class NavigationChoiceFragment : ScopedFragment() {
     private fun initGoButton() {
         goButton = view?.findViewById(R.id.btn_go)
         goButton?.setOnClickListener {view ->
-            sendNavigationDetails(view)
+            if(::lessonSelected.isInitialized){
+                sendNavigationDetails(view)
+            }
+            else {
+                Toast.makeText(
+                    context,
+                    "Please select a destination.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
     private fun sendNavigationDetails(view: View) {
         Log.d(TAG, "bubble list to send $bubblesSelected")
-        val selectedLocation = binding.navigationChoiceViewModel?.getSelectedLocation(selectedIndex)
+//        val selectedLocation = binding.navigationChoiceViewModel?.getSelectedLocation(selectedIndex)
         val navigationDetail = NavigationDetails(lessonSelected, date.epoch, bubblesSelected)
         val actionDetail = NavigationChoiceFragmentDirections.actionResult(navigationDetail)
 

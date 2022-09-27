@@ -36,9 +36,10 @@ class LoginActivity : AppCompatActivity() {
                     ).show()
                 }
                 else -> {
-                    val email: String = et_login_email.text.toString().trim { it <= ' '} //remove empty spaces
+                    var email: String = et_login_email.text.toString().trim { it <= ' '} //remove empty spaces
                     val password: String = et_login_password.text.toString().trim { it <= ' '}
 
+                    email = "$email@polimi.it"
                     FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
 

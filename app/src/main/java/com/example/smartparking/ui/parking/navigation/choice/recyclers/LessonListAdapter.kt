@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
+import java.text.SimpleDateFormat
 
 internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
         RecyclerView.Adapter<LessonListAdapter.MyViewHolder>(){
@@ -49,10 +50,12 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val lesson = lessonList[position]
+        val sdfStart = SimpleDateFormat("EEEE HH:mm")
+        val sdfEnd = SimpleDateFormat("HH:mm")
         holder.title.text = lesson.title
         holder.description.text = lesson.description
         holder.prof.text = "Prof." + lesson.prof
-        holder.dateTime.text = lesson.lessonTime.startDate.toString()
+        holder.dateTime.text = sdfStart.format(lesson.lessonTime.startDate) + "-" + sdfEnd.format(lesson.lessonTime.endDate)
         holder.preview.setImageResource(lesson.preview)
 
         holder.expandedLayout.visibility = if(lesson.isSelected) View.VISIBLE else View.GONE

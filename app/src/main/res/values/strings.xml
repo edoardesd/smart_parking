@@ -9,4 +9,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="startTravelInfo">Check this page to monitor the safe parking area where you left your vehicle. \nTo find a parking spot, start a travel.</string>
     <string name="startTravelNoParkedVehicle">You don\'t have any parked vehicle at the moment.</string>
+    <string name="log_out_button">Log out</string>
 </resources>
