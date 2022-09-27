@@ -19,7 +19,7 @@ class MyDate{
     var minutes: Int = calendar.get(Calendar.MINUTE)
     var hour: Int = calendar.get(Calendar.HOUR_OF_DAY)
     var timeMillis: Long = calendar.timeInMillis
-    var epoch : String = "now"
+    var epoch : String = "Now"
 
     private fun convertToEpoch(): Long {
         val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.ENGLISH)

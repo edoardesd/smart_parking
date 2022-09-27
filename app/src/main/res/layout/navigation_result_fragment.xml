@@ -47,14 +47,23 @@
                 android:textSize="17sp"/>
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha="0.1"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/ll_from"/>
+
         <include
             android:id="@+id/bubble_stops_layout_result"
             layout="@layout/bubble_stops_layout"
-            app:layout_constraintTop_toBottomOf="@+id/ll_from"/>
+            app:layout_constraintTop_toBottomOf="@+id/ll_from" />
 
 
         <LinearLayout
-            android:id="@+id/ll_how_to_get_there"
             android:layout_width="match_parent"
             android:layout_height="600dp"
             android:background="@color/white"
@@ -70,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:text="How to get there"
+                android:text="Ongoing trip"
                 android:theme="@style/Theme.SmartParking.textTitle" />
 
             <TextView
@@ -85,7 +94,7 @@
             <LinearLayout
                 android:id="@+id/ll_car_button"
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="120dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/rectangle_car"
                 android:elevation="8dp"
@@ -100,9 +109,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginTop="-45dp"
+                    android:layout_marginTop="-55dp"
                     android:layout_marginRight="12dp"
-                    android:text="Drive 6 minutes, park in Via Ponzio (2/10 available) then walk 10 minutes"
+                    android:text="Drive 6 minutes, park in Via Ponzio (2/10 available) then walk 10 minutes.\nparking time"
                     android:textColor="@color/black"
                     android:theme="@style/Theme.SmartParking.textStandard" />
             </LinearLayout>
@@ -111,7 +120,7 @@
             <LinearLayout
                 android:id="@+id/ll_bike_button"
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="120dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/rectangle_bike"
                 android:elevation="8dp"
@@ -126,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginTop="-45dp"
+                    android:layout_marginTop="-55dp"
                     android:layout_marginRight="12dp"
                     android:text="Drive 6 minutes, park in Via Ponzio (2/10 available) then walk 10 minutes"
                     android:textColor="@color/black"
@@ -134,20 +143,20 @@
 
             </LinearLayout>
 
-            <!--            walk section-->
-            <LinearLayout
-                android:id="@+id/ll_walk_button"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/rectangle_walk"
-                android:elevation="8dp"
-                android:orientation="vertical">
+<!--            &lt;!&ndash;            walk section&ndash;&gt;-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/ll_walk_button"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="55dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:background="@drawable/rectangle_walk"-->
+<!--                android:elevation="8dp"-->
+<!--                android:orientation="vertical">-->
 
-                <include
-                    android:id="@+id/directions_info_walk_layout"
-                    layout="@layout/directions_info_walk" />
-            </LinearLayout>
+<!--                <include-->
+<!--                    android:id="@+id/directions_info_walk_layout"-->
+<!--                    layout="@layout/directions_info_walk" />-->
+<!--            </LinearLayout>-->
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

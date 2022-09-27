@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_height="90dp"
         app:cardElevation="1dp"
         app:cardMaxElevation="2dp"
         android:paddingRight="16dp"
@@ -18,9 +18,7 @@
         android:id="@+id/rl_bubble_clickable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/user5G"
-       >
-
+        android:background="@color/user5G">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/bubble_icon"
@@ -31,19 +29,35 @@
             android:src="@drawable/bar"
             android:background="@drawable/circle" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp">
         <TextView
             android:id="@+id/tv_bubble_name"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/bubble_icon"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
             android:fontFamily="@font/montserrat"
-            android:gravity="center"
             android:text="Library"
             android:textSize="11sp"
             android:textColor="@color/mediumGray5G" />
+
+        <TextView
+            android:id="@+id/tv_bubble_crowd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bubble_icon"
+            android:fontFamily="@font/montserrat"
+            android:text="QUIET"
+            android:textAllCaps="true"
+            android:textSize="11sp"
+            android:textColor="@color/mediumGray5G" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

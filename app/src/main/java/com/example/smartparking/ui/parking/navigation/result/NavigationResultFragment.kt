@@ -22,13 +22,11 @@ import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.TripDetails
 import com.example.smartparking.data.db.DirectionData
 import com.example.smartparking.databinding.NavigationResultFragmentBinding
-import com.example.smartparking.internal.DEFAULT_BIKE_WALK_TIME
-import com.example.smartparking.internal.LoadingDialog
-import com.example.smartparking.internal.NavigationDetailsNotFoundException
-import com.example.smartparking.internal.TransportMode
+import com.example.smartparking.internal.*
 import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
+import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListModel
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
 import kotlinx.android.synthetic.main.directions_info_bike.*
 import kotlinx.android.synthetic.main.directions_info_car.*
@@ -54,6 +52,7 @@ class NavigationResultFragment : ScopedFragment() {
     private lateinit var loadingDialog: LoadingDialog
     private lateinit var originPosition: String
     private lateinit var bubbleAdapter: BubbleSelectedAdapter
+    private lateinit var selectedLesson: LessonListModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,17 +69,17 @@ class NavigationResultFragment : ScopedFragment() {
         val safeArgs = arguments?.let { NavigationResultFragmentArgs.fromBundle(it) }
         navDetails = safeArgs?.navigationDetails ?: throw NavigationDetailsNotFoundException()
 
-        Log.d(TAG, "Navigation data: ${navDetails.room}")
-        requestDirectionDataCar.destinations =
-            "${navDetails.room.parking_latitude},${navDetails.room.parking_longitude}"
-        requestDirectionDataBike.destinations =
-            "${navDetails.room.latitude},${navDetails.room.longitude}"
+        selectedLesson = navDetails.lesson as LessonListModel
+        Log.d(TAG, "Navigation data: ${navDetails.lesson}")
+
+        requestDirectionDataCar.destinations = selectedLesson.coordinates
+        requestDirectionDataBike.destinations = selectedLesson.coordinates
         selectedBubbles = navDetails.bubbleStops as ArrayList<BubbleListModel>
 
         initProgressBar(requireContext())
 
         initTitle()
-        initStartLocation()
+//        initStartLocation()
         bindUI(navDetails)
         initMapsButton(navDetails)
         initBubbleSelected()
@@ -89,7 +88,7 @@ class NavigationResultFragment : ScopedFragment() {
 
     private fun initTitle() {
         if (activity != null) {
-            (activity as MainActivity).supportActionBar?.title = "Route to ${navDetails.room}"
+            (activity as MainActivity).supportActionBar?.title = "Route to ${selectedLesson.title}"
         }
     }
 
@@ -108,11 +107,11 @@ class NavigationResultFragment : ScopedFragment() {
         bikeButton?.setOnClickListener { view ->
             sendNavigationDetails(view, TransportMode.BICYCLING)
         }
-
-        walkButton = view?.findViewById(R.id.ll_walk_button)
-        walkButton?.setOnClickListener { view ->
-            sendNavigationDetails(view, TransportMode.WALKING)
-        }
+//
+//        walkButton = view?.findViewById(R.id.ll_walk_button)
+//        walkButton?.setOnClickListener { view ->
+//            sendNavigationDetails(view, TransportMode.WALKING)
+//        }
     }
 
     private fun initProgressBar(context: Context) {
@@ -132,22 +131,28 @@ class NavigationResultFragment : ScopedFragment() {
     private fun sendNavigationDetails(view: View, transportMode: TransportMode) {
         var infoText: String
         var timeTrip: String
+        val parkingAvailability: String
         when (transportMode) {
             TransportMode.DRIVING -> {
                 infoText = tv_car_text.text.toString()
                 timeTrip = tv_car_result.text.toString()
+                parkingAvailability = tv_availability_car.toString()
             }
             TransportMode.BICYCLING -> {
                 infoText = tv_bike_text.text.toString()
                 timeTrip = tv_bike_result.text.toString()
+                parkingAvailability = tv_availability_bike.toString()
+
             }
             TransportMode.WALKING -> {
                 infoText = "walk a bit"
                 timeTrip = tv_walk_result.text.toString()
+                parkingAvailability = "CRAZY EMPTY"
+
             }
         }
 
-        val tripDetail = TripDetails(transportMode, infoText, timeTrip, "LOW", selectedBubbles)
+        val tripDetail = TripDetails(transportMode, infoText, timeTrip, parkingAvailability, selectedLesson.title, selectedBubbles)
         val actionDetail = NavigationResultFragmentDirections.actionToTrip(tripDetail)
         Navigation.findNavController(view).navigate(actionDetail)
     }
@@ -163,7 +168,7 @@ class NavigationResultFragment : ScopedFragment() {
                 .appendQueryParameter("origin", originPosition)
                 .appendQueryParameter(
                     "destination",
-                    "${navDetails.room.latitude},${navDetails.room.longitude}"
+                    requestDirectionDataCar.destinations
                 )
                 .appendQueryParameter("travelmode", "driving")
                 .appendQueryParameter("arrival_time", navDetails.time)
@@ -208,17 +213,23 @@ class NavigationResultFragment : ScopedFragment() {
     }
 
     private fun setExpandTextCar(googleResult: Duration?) {
+//        tv_car_result.text =
+//            "${overallTime(googleResult, navDetails.lesson.walking_distance.minutes)} min".uppercase()
+//        tv_car_text.text =
+//            "Drive ${googleResult!!.inWholeMinutes} minutes, park in ${navDetails.lesson.parking} " +
+//                    "(2/10 available) then walk ${navDetails.lesson.walking_distance} minutes"
         tv_car_result.text =
-            "${overallTime(googleResult, navDetails.room.walking_distance.minutes)} min".uppercase()
+            "${overallTime(googleResult, 5.minutes)} min".uppercase()
         tv_car_text.text =
-            "Drive ${googleResult!!.inWholeMinutes} minutes, park in ${navDetails.room.parking} " +
-                    "(2/10 available) then walk ${navDetails.room.walking_distance} minutes"
+            "Drive ${googleResult!!.inWholeMinutes} minutes, park in ${selectedLesson.parkingPlace} " +
+                    "(2/10 available) then walk 2 minutes. Leave at 9:45.\nAverage parking time: 5 minutes."
     }
 
     private fun setExpandTextBike(googleResult: Duration?) {
         tv_bike_result.text = "${overallTime(googleResult, DEFAULT_BIKE_WALK_TIME)} min".uppercase()
         tv_bike_text.text =
-            "Ride ${googleResult!!.inWholeMinutes} minutes, park in ${navDetails.room.parking} " +
-                    "(39/50 available) then walk ${DEFAULT_BIKE_WALK_TIME.inWholeMinutes.toInt()} minutes"
+            "Ride ${googleResult!!.inWholeMinutes} minutes, park in ${selectedLesson.parkingPlace} " +
+                    "(39/50 available) then walk ${DEFAULT_BIKE_WALK_TIME.inWholeMinutes.toInt()} minutes. Leave at 9:45.\n" +
+                    "Average parking time: ${DEFAULT_BIKE_PARKING_TIME.inWholeMinutes.toInt()} minutes."
     }
 }

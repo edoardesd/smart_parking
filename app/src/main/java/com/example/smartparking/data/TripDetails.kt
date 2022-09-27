@@ -11,5 +11,6 @@ data class TripDetails(
     val navigationText: String,
     val totalTimeTrip: String,
     val parkingAvailability: String,
+    val navigationPlace: String,
     val bubbleStops: @RawValue Any? = null
 ) : Parcelable

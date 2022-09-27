@@ -25,6 +25,7 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
     internal inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
         var title: TextView = view.findViewById(R.id.tv_lesson_name)
         var description: TextView = view.findViewById(R.id.tv_room_details)
+        var prof: TextView = view.findViewById(R.id.tv_prof_name)
         var dateTime: TextView = view.findViewById(R.id.tv_time_details)
         var preview: ImageView = view.findViewById(R.id.iv_maps_preview)
         var lessonClickable: LinearLayout = view.findViewById(R.id.ll_lesson_clickable)
@@ -50,6 +51,7 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
         val lesson = lessonList[position]
         holder.title.text = lesson.title
         holder.description.text = lesson.description
+        holder.prof.text = "Prof." + lesson.prof
         holder.dateTime.text = lesson.lessonTime.startDate.toString()
         holder.preview.setImageResource(lesson.preview)
 

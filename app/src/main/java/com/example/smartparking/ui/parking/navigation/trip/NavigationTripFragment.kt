@@ -78,7 +78,7 @@ class NavigationTripFragment : ScopedFragment() {
 
     private fun initTitle() {
         if (activity != null) {
-            (activity as MainActivity).supportActionBar?.title = "Route to ${tripDetailsLocal.navigationMethod}"//todo place
+            (activity as MainActivity).supportActionBar?.title = "Route to ${tripDetailsLocal.navigationPlace}"
         }
     }
 

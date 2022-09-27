@@ -6,10 +6,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
+    android:layout_marginTop="4dp"
     android:background="@drawable/lesson"
     android:elevation="10dp"
-    android:paddingLeft="15dp"
     android:clickable="true">
 
     <RelativeLayout
@@ -18,7 +17,7 @@
         android:layout_height="102dp"
         android:orientation="vertical"
         android:gravity="center"
-        >
+        android:paddingLeft="15dp">
 
         <TextView
             android:id="@+id/tv_lesson_name"
@@ -73,12 +72,11 @@
         <ImageView
             android:id="@+id/iv_maps_preview"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_map_indoor_background"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="220dp"
+            android:src="@drawable/bonardi_student_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

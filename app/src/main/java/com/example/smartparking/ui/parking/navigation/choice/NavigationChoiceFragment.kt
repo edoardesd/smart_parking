@@ -19,7 +19,8 @@ import com.example.smartparking.data.LessonTime
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.db.LessonDetails
-import com.example.smartparking.data.db.SmartParkingApplication
+import com.example.smartparking.data.recycleList.BubbleProvider
+import com.example.smartparking.data.recycleList.LessonProvider
 import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
 import com.example.smartparking.ui.MainActivity
@@ -52,6 +53,7 @@ class NavigationChoiceFragment : ScopedFragment() {
     private lateinit var recyclerSearch: RecyclerView
     private var date = MyDate()
     private lateinit var datetime: Date
+    private lateinit var lessonSelected: LessonListModel
 
     private var selectedIndex : Int = 0
 
@@ -92,7 +94,7 @@ class NavigationChoiceFragment : ScopedFragment() {
         initTimePicker()
         initDatePicker()
         initGoButton()
-        initTextView()
+//        initTextView()
 
     }
 
@@ -101,13 +103,13 @@ class NavigationChoiceFragment : ScopedFragment() {
         datetime.hours = 10
         datetime.minutes = 15
 
-        searchLesson.add(LessonListModel("Place 1", "room 2", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Place 2", "room 1", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Place 3", "room 4", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Place 4", "room 5", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Place 5", "room 21", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Place 6", "room 23", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Place 7", "room 45", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        searchLesson.add(LessonListModel("Place 1", "room 2","carlo", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        searchLesson.add(LessonListModel("Place 2", "room 1", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        searchLesson.add(LessonListModel("Place 3", "room 4", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        searchLesson.add(LessonListModel("Place 4", "room 5", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        searchLesson.add(LessonListModel("Place 5", "room 21", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        searchLesson.add(LessonListModel("Place 6", "room 23", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        searchLesson.add(LessonListModel("Place 7", "room 45", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
         displayLesson.addAll(searchLesson)
 
 
@@ -220,7 +222,7 @@ class NavigationChoiceFragment : ScopedFragment() {
     }
 
     private fun initBubbleView(){
-        var listBubbles = getBubbles()
+        var listBubbles = BubbleProvider().getAllBubblesLocal()
 
         bubbleAdapter = BubbleListAdapter(listBubbles)
 
@@ -236,13 +238,16 @@ class NavigationChoiceFragment : ScopedFragment() {
     }
 
     private fun initLessonView(){
-        var mylessons = getAllLessons(FirebaseFirestore.getInstance())
-        Log.d(TAG, "lessons $mylessons")
+//        var mylessons = getAllLessons(FirebaseFirestore.getInstance())
 
-//        for ((indx,less) in mylessons.withIndex()){
-//            listLessons.add(LessonListModel(less.lesson, less.room, LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-//        }
-        listLessons = getLessons()
+        navigationChoiceViewModel.lessons.observe(viewLifecycleOwner,
+            androidx.lifecycle.Observer { lessonsList ->
+                if (lessonsList == null) return@Observer
+
+                Log.d(TAG, "lesson list $lessonsList")
+                listLessons.addAll(lessonsList)
+                loadingDialog.dismiss()
+            })
 
         lessonAdapter = LessonListAdapter(listLessons)
         recyclerLessons = view?.findViewById(R.id.rv_lessons)!!
@@ -251,22 +256,25 @@ class NavigationChoiceFragment : ScopedFragment() {
         recyclerLessons?.adapter = lessonAdapter
 
         //capture lesson change
-        lessonAdapter.lessonSelected.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                lesson -> if (lesson == null) return@Observer
-                Log.d(TAG, "selected this ${lesson.title} ${lesson.lessonToString()}")
+        lessonAdapter.lessonSelected.observe(viewLifecycleOwner, androidx.lifecycle.Observer { lesson ->
+            if (lesson == null) return@Observer
+            lessonSelected = lesson
 
-//            updateTimeDate(lesson.lessonTime.startDate)
-            // update times
-            date.hour = lesson.lessonTime.startDate.hours
-            date.minutes = lesson.lessonTime.startDate.minutes
-            updateTimeText(date.hour, date.minutes)
-
-            // update date
-            val sdf = SimpleDateFormat("dd MMM")
-            dateButton?.text = sdf.format(lesson.lessonTime.startDate.time)
-
-            // TODO pass to next fragment
+            setSelectedTimeDate(lessonSelected)
         })
+    }
+
+    private fun setSelectedTimeDate(lessonSelected: LessonListModel) {
+        Log.d(TAG, "selected this ${lessonSelected.title} ${lessonSelected.lessonToString()}")
+        // update times
+        date.hour = lessonSelected.lessonTime.startDate.hours
+        date.minutes = lessonSelected.lessonTime.startDate.minutes
+        updateTimeText(date.hour, date.minutes)
+
+        // update date
+        val sdf = SimpleDateFormat("dd MMM")
+        dateButton?.text = sdf.format(lessonSelected.lessonTime.startDate.time)
+
     }
 
 
@@ -280,7 +288,7 @@ class NavigationChoiceFragment : ScopedFragment() {
     private fun sendNavigationDetails(view: View) {
         Log.d(TAG, "bubble list to send $bubblesSelected")
         val selectedLocation = binding.navigationChoiceViewModel?.getSelectedLocation(selectedIndex)
-        val navigationDetail = NavigationDetails(selectedLocation!!, date.epoch, bubblesSelected)
+        val navigationDetail = NavigationDetails(lessonSelected, date.epoch, bubblesSelected)
         val actionDetail = NavigationChoiceFragmentDirections.actionResult(navigationDetail)
 
         Navigation.findNavController(view).navigate(actionDetail)
@@ -288,7 +296,7 @@ class NavigationChoiceFragment : ScopedFragment() {
 
     private fun initTimePicker() {
         timeButton = view?.findViewById(R.id.btn_time)
-        timeButton?.text = String.format("now")
+        timeButton?.text = String.format("Now")
         timeButton?.setOnClickListener{
             openTimePicker()
         }
@@ -362,34 +370,9 @@ class NavigationChoiceFragment : ScopedFragment() {
         loadingDialog.startLoading()
     }
 
-    private fun getBubbles(): List<BubbleListModel> {
-        var listBubbles = ArrayList<BubbleListModel>()
-
-        listBubbles.add(BubbleListModel("Bar", R.drawable.bar))
-        listBubbles.add(BubbleListModel("Library",R.drawable.library))
-        listBubbles.add(BubbleListModel("Microwaves", R.drawable.microwaves))
-        listBubbles.add(BubbleListModel("Park", R.drawable.park))
-        listBubbles.add(BubbleListModel("Study Room", R.drawable.study_room))
-        listBubbles.add(BubbleListModel("Toilets", R.drawable.toilets))
-        listBubbles.add(BubbleListModel("Study Room", R.drawable.study_room))
-        listBubbles.add(BubbleListModel("Toilets", R.drawable.toilets))
-
-        return listBubbles
-    }
-
-    private fun getLessons(): ArrayList<LessonListModel> {
-        datetime = Date(2022, 8, 22)
-        datetime.hours = 10
-        datetime.minutes = 15
-
-        listLessons.add(LessonListModel("Lesson blbla", "room 2", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        listLessons.add(LessonListModel("Lesson blbla 2", "room 1", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        listLessons.add(LessonListModel("Lesson blbla 3", "room 4", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        listLessons.add(LessonListModel("Lesson blbla 4", "room 5", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        listLessons.add(LessonListModel("Lesson blbla 5", "room 21", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        listLessons.add(LessonListModel("Lesson blbla 6", "room 23", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        listLessons.add(LessonListModel("Lesson blbla 7", "room 45", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-
-        return listLessons
-    }
+//    private fun getBubbles(): List<BubbleListModel> {
+//        var listBubbles = ArrayList<BubbleListModel>()
+//
+//        return listBubbles
+//    }
 }

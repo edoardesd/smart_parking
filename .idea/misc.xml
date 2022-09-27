@@ -24,7 +24,7 @@
         <entry key="app/src/main/res/drawable/lesson_selected.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/rectangle_265_shape.xml" value="0.17487640380859376" />
         <entry key="app/src/main/res/drawable/rectangle_266_shape.xml" value="0.161" />
-        <entry key="app/src/main/res/drawable/rectangle_bike.xml" value="0.247" />
+        <entry key="app/src/main/res/drawable/rectangle_bike.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/rectangle_border.xml" value="0.2665" />
         <entry key="app/src/main/res/drawable/rectangle_car.xml" value="0.195" />
         <entry key="app/src/main/res/drawable/rectangle_onlineservices_shape.xml" value="0.161" />
@@ -38,7 +38,7 @@
         <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.19067977768277042" />
         <entry key="app/src/main/res/layout/bubble_list.xml" value="0.8086318969726562" />
         <entry key="app/src/main/res/layout/bubble_selected.xml" value="0.29322059112718435" />
-        <entry key="app/src/main/res/layout/bubble_stops_layout.xml" value="0.5072992700729927" />
+        <entry key="app/src/main/res/layout/bubble_stops_layout.xml" value="0.2303354639206489" />
         <entry key="app/src/main/res/layout/circle.xml" value="0.10185185185185185" />
         <entry key="app/src/main/res/layout/control_disabled.xml" value="0.1" />
         <entry key="app/src/main/res/layout/control_disabled_fragment.xml" value="0.10034658697587025" />
@@ -56,12 +56,12 @@
         <entry key="app/src/main/res/layout/loading_bar.xml" value="0.15348439504061565" />
         <entry key="app/src/main/res/layout/loading_item.xml" value="0.23229166666666667" />
         <entry key="app/src/main/res/layout/navigation_choice_fragment.xml" value="0.19669647216796876" />
-        <entry key="app/src/main/res/layout/navigation_result_fragment.xml" value="0.3588589477539063" />
+        <entry key="app/src/main/res/layout/navigation_result_fragment.xml" value="0.2582290649414063" />
         <entry key="app/src/main/res/layout/navigation_trip_fragment.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/row_lesson.xml" value="0.33941650390625006" />
+        <entry key="app/src/main/res/layout/row_lesson.xml" value="0.20396423339843753" />
         <entry key="app/src/main/res/layout/row_search.xml" value="0.4254295854703031" />
         <entry key="app/src/main/res/layout/search_toolbar.xml" value="0.2932877297990594" />
-        <entry key="app/src/main/res/layout/toolbar.xml" value="0.2932877297990594" />
+        <entry key="app/src/main/res/layout/toolbar.xml" value="0.15785224395921565" />
         <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.23229166666666667" />
         <entry key="app/src/main/res/menu/menu_item.xml" value="0.23625640869140596" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19" />

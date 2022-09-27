@@ -3,6 +3,7 @@ package com.example.smartparking.ui.parking.navigation.result.recyclers
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
@@ -15,7 +16,7 @@ internal class BubbleSelectedAdapter(private var bubblesList: List<BubbleListMod
 
     internal inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
         var title: TextView = view.findViewById(R.id.tv_bubble_selected_name)
-//        var icon: ImageView = view.findViewById(R.id.bubble_icon)
+        var icon: ImageView = view.findViewById(R.id.bubble_icon_selected)
 //        var bubbleClickable: RelativeLayout = view.findViewById(R.id.rl_bubble_clickable)
 
     }
@@ -33,7 +34,7 @@ internal class BubbleSelectedAdapter(private var bubblesList: List<BubbleListMod
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val bubble = bubblesList[position]
         holder.title.text = bubble.title
-//        holder.icon.setImageResource(bubble.icon)
+        holder.icon.setImageResource(bubble.icon)
 
     }
 }
