@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
 import com.example.smartparking.data.TripDetails
+import com.example.smartparking.data.db.InfoText
 import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalIsParking
 import com.example.smartparking.databinding.NavigationTripFragmentBinding
 import com.example.smartparking.internal.TransportMode
@@ -78,7 +79,7 @@ class NavigationTripFragment : ScopedFragment() {
 
     private fun initTitle() {
         if (activity != null) {
-            (activity as MainActivity).supportActionBar?.title = "Route to ${tripDetailsLocal.navigationPlace}"
+            (activity as MainActivity).supportActionBar?.title = "Route to ${tripDetailsLocal.selectedLesson}"
         }
     }
 
@@ -86,15 +87,14 @@ class NavigationTripFragment : ScopedFragment() {
         if (arguments != null) {
             val safeArgs = arguments?.let { NavigationTripFragmentArgs.fromBundle(it) }
             tripDetailsLocal = safeArgs?.tripDetails ?: throw TripDetailsNotFoundException()
-            Log.d(TAG, "view model not null, getting from safeargs")
             if (navigationTripViewModel.tripDetails.value == null) {
                 navigationTripViewModel.tripDetails.value = tripDetailsLocal
-                Log.d(TAG, "view model null, storing from safeargs")
             }
         }
-        navigationMethod = tripDetailsLocal.navigationMethod
-        navigationText = tripDetailsLocal.navigationText
-        timeTrip = tripDetailsLocal.totalTimeTrip
+        val infoNavigation = tripDetailsLocal.infoNavigation as InfoText
+        navigationMethod = infoNavigation.infoTransportTime.transportMode
+        navigationText = infoNavigation.fullText()
+        timeTrip = infoNavigation.totalTimeText().toString()
         selectedBubbles =  navigationTripViewModel.tripDetails.value!!.bubbleStops as ArrayList<BubbleListModel>
     }
 
@@ -129,10 +129,10 @@ class NavigationTripFragment : ScopedFragment() {
             else -> null
         }
 
-        textResource?.text =  tripDetailsLocal.navigationText
-        totTimeResource?.text = tripDetailsLocal.totalTimeTrip
+        textResource?.text =  navigationText
+        totTimeResource?.text = timeTrip
 
-        Log.d(TAG, "${tripDetailsLocal.totalTimeTrip} ${tripDetailsLocal.navigationText} ${tripDetailsLocal.navigationMethod}")
+//        Log.d(TAG, "${tripDetailsLocal.totalTimeTrip} ${tripDetailsLocal.navigationText} ${tripDetailsLocal.navigationMethod}")
     }
 
     private fun initMonitorButton() {

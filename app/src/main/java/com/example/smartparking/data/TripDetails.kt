@@ -1,16 +1,16 @@
 package com.example.smartparking.data
 
 import android.os.Parcelable
+import com.example.smartparking.data.db.InfoText
 import com.example.smartparking.internal.TransportMode
+import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
+import java.util.ArrayList
 
 @Parcelize
 data class TripDetails(
-    val navigationMethod: TransportMode,
-    val navigationText: String,
-    val totalTimeTrip: String,
-    val parkingAvailability: String,
-    val navigationPlace: String,
+    val infoNavigation: @RawValue Any? = null,
+    val selectedLesson: String,
     val bubbleStops: @RawValue Any? = null
 ) : Parcelable

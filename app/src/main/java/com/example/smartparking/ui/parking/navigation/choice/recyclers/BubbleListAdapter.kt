@@ -20,6 +20,7 @@ internal class BubbleListAdapter(private var bubblesList: List<BubbleListModel>)
     internal inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
         var title: TextView = view.findViewById(R.id.tv_bubble_name)
         var icon: ImageView = view.findViewById(R.id.bubble_icon)
+        var crowd: TextView = view.findViewById(R.id.tv_bubble_crowd)
         var bubbleClickable: RelativeLayout = view.findViewById(R.id.rl_bubble_clickable)
     }
 
@@ -37,6 +38,7 @@ internal class BubbleListAdapter(private var bubblesList: List<BubbleListModel>)
         val bubble = bubblesList[position]
         holder.title.text = bubble.title
         holder.icon.setImageResource(bubble.icon)
+        holder.crowd.text = bubble.crowdLevel.name
 
         holder.bubbleClickable.setOnClickListener {
             bubblesList[position].isSelected = !bubblesList[position].isSelected

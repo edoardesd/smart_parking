@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.smartparking.R
 import com.example.smartparking.data.LessonTime
+import com.example.smartparking.internal.ParkingLots
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListModel
 import java.util.*
 
@@ -21,7 +22,7 @@ class LessonProvider {
             "Zucchi Cino Paolo",
             LessonTime(datetimeStart, datetimeEnd),
             R.drawable.bonardi_student_1,
-        parkingPlace = "Via Bonardi",
+        parkingPlace = ParkingLots.BONARDI,
         coordinates = "45.479743760897044, 9.227082475795326"))
 
         var (datetimeStart2, datetimeEnd2) = getTime(2022, 9, 11, 9, 19)
@@ -31,7 +32,7 @@ class LessonProvider {
             "Costa Giuliana",
             LessonTime(datetimeStart2, datetimeEnd2),
             R.drawable.bonardi_student_1,
-            parkingPlace = "Via Bonardi",
+            parkingPlace = ParkingLots.BONARDI,
             coordinates = "45.479743760897044, 9.227082475795326"))
 
         var (datetimeStart3, datetimeEnd3) = getTime(2022, 9, 12, 9, 19)
@@ -41,7 +42,7 @@ class LessonProvider {
             "Fernandez Elorza Hector Daniel",
             LessonTime(datetimeStart3, datetimeEnd3),
             R.drawable.bonardi_student_1,
-            parkingPlace = "Via Bonardi",
+            parkingPlace = ParkingLots.BONARDI,
             coordinates = "45.479743760897044, 9.227082475795326"))
 
 

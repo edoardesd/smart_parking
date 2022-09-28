@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="6dp"
-            android:text="16 MIN"
+            android:text="... MIN"
             android:textColor="@color/white"
             android:theme="@style/Theme.SmartParking.textTitle" />
     </LinearLayout>
@@ -58,7 +58,7 @@
                 android:id="@+id/tv_availability_car"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LOW"
+                android:text="..."
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 android:theme="@style/Theme.SmartParking.textTitle" />

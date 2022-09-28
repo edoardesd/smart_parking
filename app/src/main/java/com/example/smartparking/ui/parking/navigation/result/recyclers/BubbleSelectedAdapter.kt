@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
+import com.example.smartparking.internal.CrowdLevel
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 
 internal class BubbleSelectedAdapter(private var bubblesList: List<BubbleListModel>) :
@@ -17,6 +18,9 @@ internal class BubbleSelectedAdapter(private var bubblesList: List<BubbleListMod
     internal inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
         var title: TextView = view.findViewById(R.id.tv_bubble_selected_name)
         var icon: ImageView = view.findViewById(R.id.bubble_icon_selected)
+        var crowd: TextView = view.findViewById(R.id.tv_bubble_crowd_selected)
+        var minutes: TextView = view.findViewById(R.id.tv_bubble_minutes)
+        var friends: TextView = view.findViewById(R.id.tv_bubble_friends)
 //        var bubbleClickable: RelativeLayout = view.findViewById(R.id.rl_bubble_clickable)
 
     }
@@ -35,6 +39,17 @@ internal class BubbleSelectedAdapter(private var bubblesList: List<BubbleListMod
         val bubble = bubblesList[position]
         holder.title.text = bubble.title
         holder.icon.setImageResource(bubble.icon)
+        holder.crowd.text = bubble.crowdLevel.name
+        holder.minutes.text = "+ ${bubble.extraMinutes.inWholeMinutes} min"
+        holder.friends.text = "${getNumberOfFriends(bubble)} bubble friends are there!"
+    }
 
+    private fun getNumberOfFriends(bubble: BubbleListModel): Int{
+        val numFriends = when(bubble.crowdLevel){
+            CrowdLevel.QUIET -> (0..5).random()
+            CrowdLevel.BUSY -> (6..12).random()
+            CrowdLevel.CROWDED -> (8..25).random()
+        }
+        return numFriends
     }
 }

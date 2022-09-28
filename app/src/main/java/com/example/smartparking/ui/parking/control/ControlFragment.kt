@@ -91,7 +91,6 @@ class ControlFragment : ScopedFragment() {
     private fun initTravelButton() {
         travelButton = view?.findViewById(R.id.btn_travel)
         travelButton?.setOnClickListener { view ->
-//            activity?.bottom_nav?.selectedItemId = R.id.navigationChoiceFragment
             Navigation.findNavController(view).navigate(R.id.navigationChoiceFragment)
         }
     }

@@ -21,6 +21,7 @@ import com.example.smartparking.R
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.TripDetails
 import com.example.smartparking.data.db.DirectionData
+import com.example.smartparking.data.db.InfoText
 import com.example.smartparking.databinding.NavigationResultFragmentBinding
 import com.example.smartparking.internal.*
 import com.example.smartparking.ui.MainActivity
@@ -30,12 +31,10 @@ import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonLis
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
 import kotlinx.android.synthetic.main.directions_info_bike.*
 import kotlinx.android.synthetic.main.directions_info_car.*
-import kotlinx.android.synthetic.main.directions_info_walk.*
 import kotlinx.android.synthetic.main.navigation_result_fragment.*
 import kotlinx.coroutines.launch
 import java.util.ArrayList
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.minutes
 
 
 class NavigationResultFragment : ScopedFragment() {
@@ -53,6 +52,9 @@ class NavigationResultFragment : ScopedFragment() {
     private lateinit var originPosition: String
     private lateinit var bubbleAdapter: BubbleSelectedAdapter
     private lateinit var selectedLesson: LessonListModel
+
+    private lateinit var infoCar : InfoText
+    private lateinit var infoBike : InfoText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,9 +81,8 @@ class NavigationResultFragment : ScopedFragment() {
         initProgressBar(requireContext())
 
         initTitle()
-//        initStartLocation()
         bindUI(navDetails)
-        initMapsButton(navDetails)
+//        initMapsButton(navDetails)
         initBubbleSelected()
         initNavigationButtons()
     }
@@ -90,11 +91,6 @@ class NavigationResultFragment : ScopedFragment() {
         if (activity != null) {
             (activity as MainActivity).supportActionBar?.title = "Route to ${selectedLesson.title}"
         }
-    }
-
-    private fun initStartLocation() {
-//        tv_current_location.text = originPosition
-//        Log.d(TAG, originPosition)
     }
 
     private fun initNavigationButtons() {
@@ -129,32 +125,19 @@ class NavigationResultFragment : ScopedFragment() {
 
 
     private fun sendNavigationDetails(view: View, transportMode: TransportMode) {
-        var infoText: String
-        var timeTrip: String
-        val parkingAvailability: String
-        when (transportMode) {
-            TransportMode.DRIVING -> {
-                infoText = tv_car_text.text.toString()
-                timeTrip = tv_car_result.text.toString()
-                parkingAvailability = tv_availability_car.toString()
-            }
-            TransportMode.BICYCLING -> {
-                infoText = tv_bike_text.text.toString()
-                timeTrip = tv_bike_result.text.toString()
-                parkingAvailability = tv_availability_bike.toString()
-
-            }
-            TransportMode.WALKING -> {
-                infoText = "walk a bit"
-                timeTrip = tv_walk_result.text.toString()
-                parkingAvailability = "CRAZY EMPTY"
-
-            }
-        }
-
-        val tripDetail = TripDetails(transportMode, infoText, timeTrip, parkingAvailability, selectedLesson.title, selectedBubbles)
+        val infoSend = getInfoText(transportMode)
+        val tripDetail = TripDetails(infoSend, selectedLesson.title, selectedBubbles)
+//        val tripDetail = TripDetails(transportMode, infoText, timeTrip, parkingAvailability, selectedLesson.title, selectedBubbles)
         val actionDetail = NavigationResultFragmentDirections.actionToTrip(tripDetail)
         Navigation.findNavController(view).navigate(actionDetail)
+    }
+
+    private fun getInfoText(transportMode: TransportMode): InfoText {
+        when (transportMode) {
+            TransportMode.DRIVING -> return infoCar
+            TransportMode.BICYCLING -> return infoBike
+            TransportMode.WALKING -> return infoCar
+        }
     }
 
     private fun initMapsButton(navDetails: NavigationDetails) {
@@ -187,17 +170,19 @@ class NavigationResultFragment : ScopedFragment() {
     private fun bindUI(navDetails: NavigationDetails) = launch {
         navigationResultViewModel.getNavigationData(
             requestDirectionDataCar,
-            requestDirectionDataBike
+            requestDirectionDataBike,
+            navDetails
         )
         navigationResultViewModel.navigationDataAll.observe(viewLifecycleOwner,
             Observer {
                 if ((it.driving == null) || (it.bicycling == null)) {
                     return@Observer
                 }
-                loadingDialog.dismiss()
-
                 setExpandTextCar(it.driving)
                 setExpandTextBike(it.bicycling)
+                Log.d(TAG, "Expand bike ${it.bicycling}")
+                loadingDialog.dismiss()
+
             })
 
         navigationResultViewModel.gpsOrigin.observe(viewLifecycleOwner,
@@ -207,29 +192,25 @@ class NavigationResultFragment : ScopedFragment() {
             })
     }
 
-    private fun overallTime(googleResult: Duration?, minutes: Duration): Int {
-        var overallTime = googleResult!!.plus(minutes)
-        return overallTime!!.inWholeMinutes.toInt()
-    }
-
     private fun setExpandTextCar(googleResult: Duration?) {
-//        tv_car_result.text =
-//            "${overallTime(googleResult, navDetails.lesson.walking_distance.minutes)} min".uppercase()
-//        tv_car_text.text =
-//            "Drive ${googleResult!!.inWholeMinutes} minutes, park in ${navDetails.lesson.parking} " +
-//                    "(2/10 available) then walk ${navDetails.lesson.walking_distance} minutes"
-        tv_car_result.text =
-            "${overallTime(googleResult, 5.minutes)} min".uppercase()
-        tv_car_text.text =
-            "Drive ${googleResult!!.inWholeMinutes} minutes, park in ${selectedLesson.parkingPlace} " +
-                    "(2/10 available) then walk 2 minutes. Leave at 9:45.\nAverage parking time: 5 minutes."
+        infoCar = navigationResultViewModel.infoTextCar.value!!
+        infoCar.infoTransportTime.transportTime = googleResult!!
+        tv_car_result.text =  infoCar.totalTimeText()
+        tv_car_text.text = infoCar.fullText()
+        tv_availability_car.text = infoCar.infoTransportTime.availability.name.uppercase()
     }
 
     private fun setExpandTextBike(googleResult: Duration?) {
-        tv_bike_result.text = "${overallTime(googleResult, DEFAULT_BIKE_WALK_TIME)} min".uppercase()
-        tv_bike_text.text =
-            "Ride ${googleResult!!.inWholeMinutes} minutes, park in ${selectedLesson.parkingPlace} " +
-                    "(39/50 available) then walk ${DEFAULT_BIKE_WALK_TIME.inWholeMinutes.toInt()} minutes. Leave at 9:45.\n" +
-                    "Average parking time: ${DEFAULT_BIKE_PARKING_TIME.inWholeMinutes.toInt()} minutes."
+        infoBike = navigationResultViewModel.infoTextBike.value!!
+        infoBike.infoTransportTime.transportTime = googleResult!!
+        tv_bike_result.text =  infoBike.totalTimeText()
+        tv_bike_text.text = infoBike.fullText()
+        tv_availability_bike.text = infoBike.infoTransportTime.availability.name.uppercase()
+////
+//        tv_bike_result.text = "${overallTime(googleResult, DEFAULT_BIKE_WALK_TIME)} min".uppercase()
+//        tv_bike_text.text =
+//            "Ride ${googleResult!!.inWholeMinutes} minutes, park in Via ${selectedLesson.parkingPlace} " +
+//                    "(39/50 available) then walk ${DEFAULT_BIKE_WALK_TIME.inWholeMinutes.toInt()} minutes. Leave at 9:45.\n" +
+//                    "Average parking time: ${DEFAULT_BIKE_PARKING_TIME.inWholeMinutes.toInt()} minutes."
     }
 }

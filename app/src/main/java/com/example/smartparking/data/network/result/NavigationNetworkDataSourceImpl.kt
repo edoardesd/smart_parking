@@ -28,6 +28,7 @@ class NavigationNetworkDataSourceImpl(
                                 navigationMode)
                 .await()
             _downloadedNavigation.postValue(fetchedNavigation)
+            Log.d(TAG, fetchedNavigation.toString())
         }
         catch (e: NoConnectivityException) {
             Log.e("Connectivity", "No internet connection.", e)
