@@ -3,7 +3,8 @@ package com.example.smartparking.data.network
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
-import org.eclipse.paho.android.service.MqttAndroidClient
+import info.mqtt.android.service.MqttAndroidClient
+//import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
 
 class MQTTManager(private val connectionParams: MQTTConnectionParams, val context: Context) {
