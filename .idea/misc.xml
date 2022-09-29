@@ -8,16 +8,19 @@
         <entry key="../../Downloads/MaterialSearchView-master/library/src/main/res/drawable/ic_history_white.xml" value="0.161" />
         <entry key="app/library/src/main/res/drawable/ic_action_voice_search.xml" value="0.161" />
         <entry key="app/library/src/main/res/layout/list_item.xml" value="0.19067977768277042" />
+        <entry key="app/src/main/res/drawable-xxhdpi/ic_car_blue.xml" value="0.161" />
         <entry key="app/src/main/res/drawable/bottom_navigation_selector.xml" value="0.212" />
         <entry key="app/src/main/res/drawable/bubble_selected.xml" value="0.195" />
         <entry key="app/src/main/res/drawable/button_recent.xml" value="0.2895" />
         <entry key="app/src/main/res/drawable/circle.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/circle_selected.xml" value="0.2875" />
         <entry key="app/src/main/res/drawable/custom_bottom.xml" value="0.2895" />
+        <entry key="app/src/main/res/drawable/ic_bike_blue.xml" value="0.161" />
         <entry key="app/src/main/res/drawable/ic_navigate.xml" value="0.195" />
         <entry key="app/src/main/res/drawable/ic_parking.xml" value="0.247" />
         <entry key="app/src/main/res/drawable/ic_parking_white.xml" value="0.247" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.195" />
+        <entry key="app/src/main/res/drawable/ic_walk_blue.xml" value="0.161" />
         <entry key="app/src/main/res/drawable/lesson.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/lesson_list.xml" value="0.2755" />
         <entry key="app/src/main/res/drawable/lesson_search.xml" value="0.161" />
@@ -27,7 +30,10 @@
         <entry key="app/src/main/res/drawable/rectangle_bike.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/rectangle_border.xml" value="0.2665" />
         <entry key="app/src/main/res/drawable/rectangle_car.xml" value="0.195" />
+        <entry key="app/src/main/res/drawable/rectangle_gray.xml" value="0.161" />
+        <entry key="app/src/main/res/drawable/rectangle_green.xml" value="0.161" />
         <entry key="app/src/main/res/drawable/rectangle_onlineservices_shape.xml" value="0.161" />
+        <entry key="app/src/main/res/drawable/rectangle_orange.xml" value="0.161" />
         <entry key="app/src/main/res/drawable/rectangle_walk.xml" value="0.2835" />
         <entry key="app/src/main/res/drawable/shape_credential_internal.xml" value="0.161" />
         <entry key="app/src/main/res/drawable/shape_credentials.xml" value="0.161" />
@@ -43,7 +49,7 @@
         <entry key="app/src/main/res/layout/control_disabled.xml" value="0.1" />
         <entry key="app/src/main/res/layout/control_disabled_fragment.xml" value="0.10034658697587025" />
         <entry key="app/src/main/res/layout/control_disabled_fragment2.xml" value="0.15348439504061565" />
-        <entry key="app/src/main/res/layout/control_enabled.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/control_enabled.xml" value="0.4610382080078124" />
         <entry key="app/src/main/res/layout/control_enabled_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/control_fragment.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/directions_info_bike.xml" value="0.15348439504061565" />

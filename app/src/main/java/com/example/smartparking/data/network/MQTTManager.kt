@@ -52,7 +52,7 @@ class MQTTManager(private val connectionParams: MQTTConnectionParams, val contex
         try {
             mqttClient.subscribe(topic, qos, null, object:IMqttActionListener {
                 override fun onSuccess(asyncActionToken:IMqttToken) {
-                    Log.d(TAG, "Subscribed to $topic")                }
+                    topic.forEach { tp -> Log.d(TAG, "Subscribed to $tp")} }
                 override fun onFailure(asyncActionToken:IMqttToken, exception:Throwable) {
                     Log.d(TAG, "Failed to subscribe $topic")
                 }

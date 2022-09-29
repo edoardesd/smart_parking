@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -19,10 +20,12 @@ import com.example.smartparking.data.TripDetails
 import com.example.smartparking.data.db.InfoText
 import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalIsParking
 import com.example.smartparking.databinding.NavigationTripFragmentBinding
+import com.example.smartparking.internal.ParkingAvailability
 import com.example.smartparking.internal.TransportMode
 import com.example.smartparking.internal.TripDetailsNotFoundException
 import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
+import com.example.smartparking.ui.parking.control.ControlFragment
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -49,6 +52,7 @@ class NavigationTripFragment : ScopedFragment() {
     private var timeTrip: String? = null
     private var leaveButton: Button? = null
     private var monitorButton: Button? = null
+    private lateinit var infoNavigation : InfoText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +70,8 @@ class NavigationTripFragment : ScopedFragment() {
         //activate parking
         globalIsParking = true
 
-        val bottomNavigationView: BottomNavigationView = activity?.findViewById(R.id.bottom_nav) as BottomNavigationView
+        val bottomNavigationView: BottomNavigationView =
+            activity?.findViewById(R.id.bottom_nav) as BottomNavigationView
         bottomNavigationView.menu.findItem(R.id.navigationChoiceFragment).isChecked = true
 
         initTripDetails()
@@ -79,7 +84,8 @@ class NavigationTripFragment : ScopedFragment() {
 
     private fun initTitle() {
         if (activity != null) {
-            (activity as MainActivity).supportActionBar?.title = "Route to ${tripDetailsLocal.selectedLesson}"
+            (activity as MainActivity).supportActionBar?.title =
+                "Route to ${tripDetailsLocal.selectedLesson}"
         }
     }
 
@@ -91,34 +97,35 @@ class NavigationTripFragment : ScopedFragment() {
                 navigationTripViewModel.tripDetails.value = tripDetailsLocal
             }
         }
-        val infoNavigation = tripDetailsLocal.infoNavigation as InfoText
+        infoNavigation = tripDetailsLocal.infoNavigation as InfoText
         navigationMethod = infoNavigation.infoTransportTime.transportMode
-        navigationText = infoNavigation.fullText()
+
         timeTrip = infoNavigation.totalTimeText().toString()
-        selectedBubbles =  navigationTripViewModel.tripDetails.value!!.bubbleStops as ArrayList<BubbleListModel>
+        selectedBubbles =
+            navigationTripViewModel.tripDetails.value!!.bubbleStops as ArrayList<BubbleListModel>
     }
+
+    private fun setBoxColor(layout: LinearLayout?, availability: ParkingAvailability) {
+        when(availability){
+            ParkingAvailability.LOW -> layout?.setBackgroundResource(R.drawable.rectangle_orange)
+            ParkingAvailability.MEDIUM -> layout?.setBackgroundResource(R.drawable.rectangle_gray)
+            ParkingAvailability.HIGH -> layout?.setBackgroundResource(R.drawable.rectangle_green)
+        }
+    }
+
 
     private fun initDirectionInfo() {
         val stub = view?.findViewById(R.id.layout_stub) as ViewStub
-        var backgroundResource = R.drawable.rectangle_walk
-        var infoResource = R.layout.directions_info_walk
+        var infoResource = R.layout.directions_info_car
         var textResource = view?.findViewById<TextView>(R.id.tv_trip_summary)
 
         when (navigationMethod) {
-            TransportMode.DRIVING -> {
-                backgroundResource = R.drawable.rectangle_car
-                infoResource = R.layout.directions_info_car
-            }
-            TransportMode.BICYCLING -> {
-                backgroundResource = R.drawable.rectangle_bike
-                infoResource = R.layout.directions_info_bike
-            }
-            TransportMode.WALKING -> {
-                backgroundResource = R.drawable.rectangle_walk
-                infoResource = R.layout.directions_info_walk
-            }
+            TransportMode.DRIVING -> infoResource = R.layout.directions_info_car
+            TransportMode.BICYCLING -> infoResource = R.layout.directions_info_bike
+            TransportMode.WALKING -> infoResource = R.layout.directions_info_walk
         }
-        ll_trip_summary.setBackgroundResource(backgroundResource)
+
+        setBoxColor(ll_trip_summary, infoNavigation.infoTransportTime.availability)
         stub.layoutResource = infoResource
         stub.inflate()
 
@@ -129,31 +136,24 @@ class NavigationTripFragment : ScopedFragment() {
             else -> null
         }
 
-        textResource?.text =  navigationText
-        totTimeResource?.text = timeTrip
+        var availabilityResource: TextView? = when (navigationMethod){
+            TransportMode.DRIVING -> view?.findViewById(R.id.tv_availability_car)
+            TransportMode.BICYCLING -> view?.findViewById(R.id.tv_availability_bike)
+            TransportMode.WALKING -> view?.findViewById(R.id.tv_availability_bike)
+            null -> view?.findViewById(R.id.tv_availability_car)
+        }
 
-//        Log.d(TAG, "${tripDetailsLocal.totalTimeTrip} ${tripDetailsLocal.navigationText} ${tripDetailsLocal.navigationMethod}")
+        availabilityResource?.text = infoNavigation.infoTransportTime.availability.name
+        textResource?.text =  infoNavigation.fullText()
+        totTimeResource?.text = infoNavigation.totalTimeText()
     }
 
     private fun initMonitorButton() {
         monitorButton = view?.findViewById(R.id.btn_monitor_parking)
         monitorButton?.setOnClickListener { view ->
-            // TODO pass params
-
-//            val bottomNavigationView: BottomNavigationView = activity?.findViewById(R.id.bottom_nav) as BottomNavigationView
-//            bottomNavigationView.menu.findItem(R.id.controlDisabledFragment).isChecked = true
-
-//            val bottomNavigationView: BottomNavigationView = view?.findViewById(R.id.bottom_nav) as BottomNavigationView
-//            bottomNavigationView.selectedItemId = R.id.controlDisabledFragment
-
-//            bottomNavigationView.setOnNavigationItemSelectedListener(null)
-//            bottomNavigationView.selectedItemId = R.id.controlDisabledFragment
-
 
             activity?.bottom_nav?.selectedItemId = R.id.controlDisabledFragment
-
-//            Navigation.findNavController(view).navigate(R.id.controlDisabledFragment)
-            }
+        }
     }
 
 

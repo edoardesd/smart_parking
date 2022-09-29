@@ -16,9 +16,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.example.smartparking.R
+import com.example.smartparking.data.db.InfoText
+import com.example.smartparking.data.db.SmartParkingApplication
+import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalDestinationInfo
 import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalIsParking
 import com.example.smartparking.databinding.ControlFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
+import com.example.smartparking.internal.ParkingLots
+import com.example.smartparking.internal.TransportMode
 import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,32 +34,23 @@ import kotlinx.android.synthetic.main.navigation_trip_fragment.*
 class ControlFragment : ScopedFragment() {
 
     private lateinit var loadingDialog: LoadingDialog
-
-    private var travelButton: Button? = null
-//    private var layout: Int = R.layout.control_fragment
-
     private lateinit var binding: ControlFragmentBinding
+    private lateinit var destinationInfo : InfoText
     private val controlViewModel: ControlViewModel by viewModels()
-
+    private var travelButton: Button? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(TAG, "arriving here")
         binding = DataBindingUtil.inflate(inflater, R.layout.control_fragment, container, false)
-
-        Log.d(TAG, "on activity binding")
-
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d(TAG, "on activity created before")
 
         binding.controlViewModel = controlViewModel
-
 
 //        bottom_nav.selectedItemId = R.id.controlDisabledFragment
 
@@ -67,18 +63,35 @@ class ControlFragment : ScopedFragment() {
             stub.layoutResource = R.layout.control_disabled
         }
         stub.inflate()
-        Log.d(TAG, "on activity created")
-
 
         initTitle()
 
         if (globalIsParking) {
+            destinationInfo = globalDestinationInfo
             initProgressBar(requireContext())
             initStream()
+            initUI()
+            Log.d(TAG, "global ${destinationInfo.infoTransportTime.transportMode}")
         } else {
             initTravelButton()
         }
     }
+
+    private fun initUI() {
+        tv_parking_name.text = "Parking Via ${destinationInfo.infoTransportTime.parkingLot.name.lowercase().capitalize()}"
+        tv_parking_availability.text = "${destinationInfo.infoTransportTime.availability.name.lowercase().capitalize()} parking availability"
+        tv_parked_here.text = "You parked here ${(3..15).random()} minutes ago."
+        when (destinationInfo.infoTransportTime.parkingLot){
+            ParkingLots.BONARDI -> tv_building_park.text = "BUILDING 14"
+            ParkingLots.PONZIO -> tv_building_park.text = "BUILDING 20"
+        }
+        when (destinationInfo.infoTransportTime.transportMode){
+            TransportMode.DRIVING -> iv_transport_type.setImageResource(R.drawable.ic_car_blue)
+            TransportMode.BICYCLING -> iv_transport_type.setImageResource(R.drawable.ic_bike_blue)
+            TransportMode.WALKING -> iv_transport_type.setImageResource(R.drawable.ic_walk_blue)
+        }
+    }
+
 
     private fun initTitle() {
         if (activity != null) {

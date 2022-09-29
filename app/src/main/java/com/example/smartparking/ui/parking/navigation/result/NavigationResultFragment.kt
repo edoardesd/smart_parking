@@ -22,10 +22,12 @@ import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.TripDetails
 import com.example.smartparking.data.db.DirectionData
 import com.example.smartparking.data.db.InfoText
+import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalDestinationInfo
 import com.example.smartparking.databinding.NavigationResultFragmentBinding
 import com.example.smartparking.internal.*
 import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
+import com.example.smartparking.ui.parking.control.ControlFragment
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListModel
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
@@ -56,6 +58,16 @@ class NavigationResultFragment : ScopedFragment() {
     private lateinit var infoCar : InfoText
     private lateinit var infoBike : InfoText
 
+//    companion object {
+//
+//        @JvmStatic
+//        fun newInstance(myString: String) = NavigationResultFragment().apply {
+//            arguments = Bundle().apply {
+//                putString("DESTINATION", myString)
+//            }
+//        }
+//    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,7 +84,6 @@ class NavigationResultFragment : ScopedFragment() {
         navDetails = safeArgs?.navigationDetails ?: throw NavigationDetailsNotFoundException()
 
         selectedLesson = navDetails.lesson as LessonListModel
-        Log.d(TAG, "Navigation data: ${navDetails.lesson}")
 
         requestDirectionDataCar.destinations = selectedLesson.coordinates
         requestDirectionDataBike.destinations = selectedLesson.coordinates
@@ -125,18 +136,18 @@ class NavigationResultFragment : ScopedFragment() {
 
 
     private fun sendNavigationDetails(view: View, transportMode: TransportMode) {
-        val infoSend = getInfoText(transportMode)
-        val tripDetail = TripDetails(infoSend, selectedLesson.title, selectedBubbles)
-//        val tripDetail = TripDetails(transportMode, infoText, timeTrip, parkingAvailability, selectedLesson.title, selectedBubbles)
+        // pass data to trip fragment
+        globalDestinationInfo = getInfoText(transportMode)
+        val tripDetail = TripDetails(getInfoText(transportMode), selectedLesson.title, selectedBubbles)
         val actionDetail = NavigationResultFragmentDirections.actionToTrip(tripDetail)
         Navigation.findNavController(view).navigate(actionDetail)
     }
 
     private fun getInfoText(transportMode: TransportMode): InfoText {
-        when (transportMode) {
-            TransportMode.DRIVING -> return infoCar
-            TransportMode.BICYCLING -> return infoBike
-            TransportMode.WALKING -> return infoCar
+        return when (transportMode) {
+            TransportMode.DRIVING -> infoCar
+            TransportMode.BICYCLING -> infoBike
+            TransportMode.WALKING -> infoCar
         }
     }
 
@@ -194,6 +205,7 @@ class NavigationResultFragment : ScopedFragment() {
 
     private fun setExpandTextCar(googleResult: Duration?) {
         infoCar = navigationResultViewModel.infoTextCar.value!!
+        setBoxColor(ll_car_button, infoCar.infoTransportTime.availability)
         infoCar.infoTransportTime.transportTime = googleResult!!
         tv_car_result.text =  infoCar.totalTimeText()
         tv_car_text.text = infoCar.fullText()
@@ -202,15 +214,20 @@ class NavigationResultFragment : ScopedFragment() {
 
     private fun setExpandTextBike(googleResult: Duration?) {
         infoBike = navigationResultViewModel.infoTextBike.value!!
+        setBoxColor(ll_bike_button, infoBike.infoTransportTime.availability)
+
         infoBike.infoTransportTime.transportTime = googleResult!!
         tv_bike_result.text =  infoBike.totalTimeText()
         tv_bike_text.text = infoBike.fullText()
         tv_availability_bike.text = infoBike.infoTransportTime.availability.name.uppercase()
-////
-//        tv_bike_result.text = "${overallTime(googleResult, DEFAULT_BIKE_WALK_TIME)} min".uppercase()
-//        tv_bike_text.text =
-//            "Ride ${googleResult!!.inWholeMinutes} minutes, park in Via ${selectedLesson.parkingPlace} " +
-//                    "(39/50 available) then walk ${DEFAULT_BIKE_WALK_TIME.inWholeMinutes.toInt()} minutes. Leave at 9:45.\n" +
-//                    "Average parking time: ${DEFAULT_BIKE_PARKING_TIME.inWholeMinutes.toInt()} minutes."
     }
+
+    private fun setBoxColor(layout: LinearLayout?, availability: ParkingAvailability) {
+        when(availability){
+            ParkingAvailability.LOW -> layout?.setBackgroundResource(R.drawable.rectangle_orange)
+            ParkingAvailability.MEDIUM -> layout?.setBackgroundResource(R.drawable.rectangle_gray)
+            ParkingAvailability.HIGH -> layout?.setBackgroundResource(R.drawable.rectangle_green)
+        }
+    }
+
 }

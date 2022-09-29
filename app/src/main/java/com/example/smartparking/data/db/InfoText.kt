@@ -5,7 +5,7 @@ import android.text.Spanned
 import com.example.smartparking.internal.ParkingAvailability
 import com.example.smartparking.internal.TransportMode
 
-class InfoText(val name: String){
+class InfoText(){
     var infoTransportTime = InfoTransportTime()
     private var textRide: String? = null
     private var textPark: String? = null
@@ -29,7 +29,7 @@ class InfoText(val name: String){
     }
 
     private fun setTextPark(){
-        textPark = "park in Via ${infoTransportTime.parkingLot} "
+        textPark = "park in Via ${infoTransportTime.parkingLot.name.lowercase().capitalize()} "
     }
 
     private fun setTextAvailable(){

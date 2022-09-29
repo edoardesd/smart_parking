@@ -56,6 +56,7 @@ android:layout_height="match_parent">
                 android:paddingLeft="12dp">
 
                 <TextView
+                    android:id="@+id/tv_parking_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Parking Via Ponzio"
@@ -63,10 +64,11 @@ android:layout_height="match_parent">
                     android:theme="@style/Theme.SmartParking.textTitle" />
 
                 <TextView
+                    android:id="@+id/tv_building_park"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:theme="@style/Theme.SmartParking.textStandard"
-                    android:text="BUILDING 123" />
+                    android:text="BUILDING 21" />
             </LinearLayout>
         </LinearLayout>
 
@@ -79,11 +81,13 @@ android:layout_height="match_parent">
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/iv_transport_type"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_bike_blue" />
 
             <TextView
+                android:id="@+id/tv_parked_here"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
@@ -105,12 +109,13 @@ android:layout_height="match_parent">
                 android:src="@drawable/ic_parking_blue" />
 
             <TextView
+                android:id="@+id/tv_parking_availability"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:textSize="16sp"
                 android:theme="@style/Theme.SmartParking.textStandard"
-                android:text="High parking availability" />
+                android:text="High parking availability"/>
         </LinearLayout>
     </LinearLayout>
     <!--            <TextView-->

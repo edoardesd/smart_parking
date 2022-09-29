@@ -8,9 +8,14 @@ import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.example.smartparking.data.db.InfoText
+import com.example.smartparking.data.db.SmartParkingApplication
+import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalDestinationInfo
+import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalIsParking
 import com.example.smartparking.data.network.MQTTConnectionParams
 import com.example.smartparking.data.network.MQTTManager
 import com.example.smartparking.data.network.MQTTMessage.MQTTMessage
+import com.example.smartparking.internal.ParkingLots
 import com.google.gson.Gson
 import org.eclipse.paho.client.mqttv3.*
 import java.io.UnsupportedEncodingException
@@ -27,50 +32,65 @@ const val IMAGE_TAG = "image"
 const val PREDICTION_TAG = "prediction"
 
 
-class ControlViewModel(app: Application) : AndroidViewModel(app){
+class ControlViewModel(app: Application) : AndroidViewModel(app) {
 
     private var _bitmap: MutableLiveData<Bitmap> = MutableLiveData<Bitmap>()
     private var _slotsPrediction: MutableLiveData<Int> = MutableLiveData<Int>()
     private val context = getApplication<Application>().applicationContext
-    private val uniqueID : String = "parking" + UUID.randomUUID().toString()
-    private var currentTopics = arrayOf("$BASE_TOPIC$STARTUP_PARKING/image", "$BASE_TOPIC$STARTUP_PARKING/prediction")
-    private val connectionParams = MQTTConnectionParams(uniqueID, serverURI,
+    private val uniqueID: String = "parking" + UUID.randomUUID().toString()
+    private var currentTopics =
+        arrayOf("$BASE_TOPIC+/image", "$BASE_TOPIC+/prediction")
+    private val connectionParams = MQTTConnectionParams(
+        uniqueID, serverURI,
         currentTopics,
-        intArrayOf(2, 2))
+        intArrayOf(2, 2)
+    )
     private val mqttManager: MQTTManager = MQTTManager(connectionParams, context)
-    private var selectedParking : String = STARTUP_PARKING
+    private lateinit var selectedParking: String
+    private lateinit var destinationInfo: InfoText
 
 
     init {
-        mqttManager.connect()
-        mqttManager.getMQTTClient().setCallback(object: MqttCallbackExtended {
-            override fun connectComplete(b:Boolean, s:String) {
-                Log.d(TAG, "Connection completed $s")
-                mqttManager.subscribe(connectionParams.topic, connectionParams.qos)
+        if(SmartParkingApplication.isDestinationInitialized()){
+            destinationInfo = globalDestinationInfo
+            selectedParking = when(destinationInfo.infoTransportTime.parkingLot){
+                ParkingLots.BONARDI -> "dastu"
+                ParkingLots.PONZIO -> "deib"
+            }
+            currentTopics = arrayOf("$BASE_TOPIC$selectedParking/image", "$BASE_TOPIC$selectedParking/prediction")
+        }
+            mqttManager.connect()
+            mqttManager.getMQTTClient().setCallback(object : MqttCallbackExtended {
+                override fun connectComplete(b: Boolean, s: String) {
+                    Log.d(TAG, "Connection completed $s")
+                    mqttManager.subscribe(connectionParams.topic, connectionParams.qos)
 
-            }
-            override fun connectionLost(cause : Throwable?) {
-                Log.d(TAG, "Connection lost ${cause.toString()}")
-            }
-            override fun messageArrived(topic:String, mqttMessage: MqttMessage) {
-                Log.d(TAG, "Received message from topic: $topic")
+                }
 
-                selectMessageToParse(topic, mqttMessage)
-            }
-            override fun deliveryComplete(iMqttDeliveryToken: IMqttDeliveryToken) {
-            }
-        })
+                override fun connectionLost(cause: Throwable?) {
+                    Log.d(TAG, "Connection lost ${cause.toString()}")
+                }
+
+                override fun messageArrived(topic: String, mqttMessage: MqttMessage) {
+                    Log.d(TAG, "Received message from topic: $topic")
+
+                    selectMessageToParse(topic, mqttMessage)
+                }
+
+                override fun deliveryComplete(iMqttDeliveryToken: IMqttDeliveryToken) {
+                }
+            })
     }
 
     private fun selectMessageToParse(topic: String, mqttMessage: MqttMessage) {
-        if (topic.contains(IMAGE_TAG)){
+        if (topic.contains(IMAGE_TAG)) {
             if (topic.contains(selectedParking)) {
                 Log.d(TAG, "Selected: $topic")
                 decodeMessage(mqttMessage)
             }
         }
 
-        if (topic.contains(PREDICTION_TAG)){
+        if (topic.contains(PREDICTION_TAG)) {
             if (topic.contains(selectedParking)) {
                 _slotsPrediction.value = mqttMessage.toString().toInt()
             }
@@ -91,23 +111,33 @@ class ControlViewModel(app: Application) : AndroidViewModel(app){
         }
 
         Log.d(TAG, "Image decoded.")
-        val tmpBitmap : Bitmap = BitmapFactory.decodeByteArray(decodedImageBytes, 0, decodedImageBytes.size)
+        val tmpBitmap: Bitmap =
+            BitmapFactory.decodeByteArray(decodedImageBytes, 0, decodedImageBytes.size)
 
         _bitmap.value = tmpBitmap
     }
 
-    fun getSelectedParking(parkingName : String){
+    fun getSelectedParking(parkingName: String) {
         selectedParking = parkingName.lowercase()
         mqttManager.unsubscribe(currentTopics)
-        currentTopics = arrayOf("$BASE_TOPIC$selectedParking/image", "$BASE_TOPIC$selectedParking/prediction")
-        mqttManager.subscribe(currentTopics, intArrayOf(2,2))
+        currentTopics =
+            arrayOf("$BASE_TOPIC$selectedParking/image", "$BASE_TOPIC$selectedParking/prediction")
+        mqttManager.subscribe(currentTopics, intArrayOf(2, 2))
     }
 
-    internal var bitmap : MutableLiveData<Bitmap>
-        get() {return _bitmap}
-        set(value) {_bitmap = value}
+    internal var bitmap: MutableLiveData<Bitmap>
+        get() {
+            return _bitmap
+        }
+        set(value) {
+            _bitmap = value
+        }
 
-    internal var slotsPrediction : MutableLiveData<Int>
-        get() {return _slotsPrediction}
-        set(value) {_slotsPrediction = value}
+    internal var slotsPrediction: MutableLiveData<Int>
+        get() {
+            return _slotsPrediction
+        }
+        set(value) {
+            _slotsPrediction = value
+        }
 }
