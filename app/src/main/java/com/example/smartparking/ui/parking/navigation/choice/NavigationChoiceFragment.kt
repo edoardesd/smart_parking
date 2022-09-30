@@ -103,11 +103,11 @@ class NavigationChoiceFragment : ScopedFragment() {
         datetime.hours = 10
         datetime.minutes = 15
 
-        searchLesson.add(LessonListModel("Place 1", "room 2","carlo", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Place 2", "room 1", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Place 3", "room 4", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Place 4", "room 5", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Place 5", "room 21", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        searchLesson.add(LessonListModel("Room G.2", "Building 11 - Architettura","Aula didattica | disegno", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        searchLesson.add(LessonListModel("Room C", "Building 11 - Architettura", "Aula didattica | platea frontale",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        searchLesson.add(LessonListModel("Room 16B.1.1", "Building 16B", "Aula didattica | disegno",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        searchLesson.add(LessonListModel("Room B.2.4", "Building 14 - NAVE", "Aula didattica | disegno",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+        searchLesson.add(LessonListModel("Room L.26.16", "Building 26", "Aula didattica | platea frontale",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
         searchLesson.add(LessonListModel("Place 6", "room 23", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
         searchLesson.add(LessonListModel("Place 7", "room 45", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
         displayLesson.addAll(searchLesson)
@@ -297,9 +297,8 @@ class NavigationChoiceFragment : ScopedFragment() {
     private fun sendNavigationDetails(view: View) {
         Log.d(TAG, "bubble list to send $bubblesSelected")
 //        val selectedLocation = binding.navigationChoiceViewModel?.getSelectedLocation(selectedIndex)
-        val navigationDetail = NavigationDetails(lessonSelected, date.epoch, bubblesSelected)
+        val navigationDetail = NavigationDetails(lessonSelected, date, bubblesSelected)
         val actionDetail = NavigationChoiceFragmentDirections.actionResult(navigationDetail)
-
         Navigation.findNavController(view).navigate(actionDetail)
     }
 

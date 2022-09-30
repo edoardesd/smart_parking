@@ -27,6 +27,7 @@ import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
 import com.example.smartparking.ui.parking.control.ControlFragment
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
+import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListModel
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -44,10 +45,11 @@ class NavigationTripFragment : ScopedFragment() {
     private lateinit var bubbleAdapter: BubbleSelectedAdapter
     private lateinit var binding: NavigationTripFragmentBinding
 
+    private lateinit var selectedLesson: LessonListModel
     private var selectedBubbles = ArrayList<BubbleListModel>()
     private val navigationTripViewModel: NavigationTripViewModel by viewModels()
 
-    private var navigationText: String? = null
+//    private var navigationText: String? = null
     private var navigationMethod: TransportMode? = null
     private var timeTrip: String? = null
     private var leaveButton: Button? = null
@@ -70,6 +72,7 @@ class NavigationTripFragment : ScopedFragment() {
         //activate parking
         globalIsParking = true
 
+
         val bottomNavigationView: BottomNavigationView =
             activity?.findViewById(R.id.bottom_nav) as BottomNavigationView
         bottomNavigationView.menu.findItem(R.id.navigationChoiceFragment).isChecked = true
@@ -82,21 +85,18 @@ class NavigationTripFragment : ScopedFragment() {
         initMonitorButton()
     }
 
-    private fun initTitle() {
-        if (activity != null) {
-            (activity as MainActivity).supportActionBar?.title =
-                "Route to ${tripDetailsLocal.selectedLesson}"
-        }
-    }
+
 
     private fun initTripDetails() {
         if (arguments != null) {
             val safeArgs = arguments?.let { NavigationTripFragmentArgs.fromBundle(it) }
+            arguments?.clear()
             tripDetailsLocal = safeArgs?.tripDetails ?: throw TripDetailsNotFoundException()
             if (navigationTripViewModel.tripDetails.value == null) {
                 navigationTripViewModel.tripDetails.value = tripDetailsLocal
             }
         }
+        selectedLesson = tripDetailsLocal.selectedLesson as LessonListModel
         infoNavigation = tripDetailsLocal.infoNavigation as InfoText
         navigationMethod = infoNavigation.infoTransportTime.transportMode
 
@@ -105,6 +105,12 @@ class NavigationTripFragment : ScopedFragment() {
             navigationTripViewModel.tripDetails.value!!.bubbleStops as ArrayList<BubbleListModel>
     }
 
+    private fun initTitle() {
+        if (activity != null) {
+            (activity as MainActivity).supportActionBar?.title =
+                "Route to ${selectedLesson.title}"
+        }
+    }
     private fun setBoxColor(layout: LinearLayout?, availability: ParkingAvailability) {
         when(availability){
             ParkingAvailability.LOW -> layout?.setBackgroundResource(R.drawable.rectangle_orange)
@@ -119,6 +125,7 @@ class NavigationTripFragment : ScopedFragment() {
         var infoResource = R.layout.directions_info_car
         var textResource = view?.findViewById<TextView>(R.id.tv_trip_summary)
 
+        tv_arrive_by.text = "Arrive by ${selectedLesson.getTime()}"
         when (navigationMethod) {
             TransportMode.DRIVING -> infoResource = R.layout.directions_info_car
             TransportMode.BICYCLING -> infoResource = R.layout.directions_info_bike

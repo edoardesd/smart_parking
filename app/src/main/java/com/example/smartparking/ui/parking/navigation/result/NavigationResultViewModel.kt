@@ -29,11 +29,12 @@ class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
     private var _gpsOrigin: MutableLiveData<String> = MutableLiveData<String>()
     private var _navigationDataAll: MutableLiveData<NavigationWay> =
         MutableLiveData<NavigationWay>()
-    private var _fullText: MutableLiveData<String> = MutableLiveData<String>()
     private var navigationWay: NavigationWay = NavigationWay()
     private val context = getApplication<Application>().applicationContext
     private val fusedLocationProviderClient: FusedLocationProviderClient =
         FusedLocationProviderClient(context)
+
+    private var _navigationDetails: MutableLiveData<NavigationDetails> =  MutableLiveData<NavigationDetails>()
 
     private var _infoTextCar: MutableLiveData<InfoText> = MutableLiveData<InfoText>()
     private var _infoTextBike: MutableLiveData<InfoText> = MutableLiveData<InfoText>()
@@ -57,7 +58,6 @@ class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
         })
 
         navigationNetworkDataSourceCar.downloadedNavigation.observeForever(Observer {
-//            Log.d(TAG, "Car $it")
             navigationWay.driving = it?.rows?.first()?.elements?.first()?.duration?.value?.seconds
             _navigationDataAll.value = navigationWay
             _textCar.infoTransportTime?.transportTime = navigationWay.driving!!
@@ -67,9 +67,6 @@ class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
         })
     }
 
-//    fun getTextData(directionData: DirectionData){
-//        infoTextCar.infoTransportTime.setWalkTime(directionData.destinations)
-//    }
 
     fun getNavigationData(
         requestDirectionDataCar: DirectionData,
@@ -143,10 +140,6 @@ class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
             _navigationDataAll = value
         }
 
-//    internal var fullText : MutableLiveData<String>
-//        get() {return _fullText}
-//        set(value) {_fullText = value}
-
     internal var infoTextCar: MutableLiveData<InfoText>
         get() {
             return _infoTextCar
@@ -161,5 +154,13 @@ class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
         }
         set(value) {
             _infoTextBike = value
+        }
+
+    internal var navigationDetails: MutableLiveData<NavigationDetails>
+        get() {
+            return _navigationDetails
+        }
+        set(value) {
+            _navigationDetails = value
         }
 }

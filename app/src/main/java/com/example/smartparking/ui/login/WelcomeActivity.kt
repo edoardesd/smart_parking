@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import com.example.smartparking.R
 import com.example.smartparking.data.db.SmartParkingApplication
+import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalIsLoggedIn
 import com.example.smartparking.ui.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_welcome.*
@@ -19,7 +20,7 @@ class WelcomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_welcome)
 
         btn_get_started.setOnClickListener {
-            if(SmartParkingApplication.globalIsLoggedIn){
+            if(globalIsLoggedIn){
                 val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()

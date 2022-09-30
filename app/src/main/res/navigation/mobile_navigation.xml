@@ -20,7 +20,9 @@
         tools:layout="@layout/navigation_result_fragment" >
         <argument
             android:name="navigationDetails"
-            app:argType="com.example.smartparking.data.NavigationDetails" />
+            app:argType="com.example.smartparking.data.NavigationDetails"
+            app:nullable="true"
+            android:defaultValue="@null" />
         <action
             android:id="@+id/actionToTrip"
             app:destination="@id/navigationTripFragment" />
@@ -46,7 +48,11 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.smartparking.ui.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_welcomeActivity"
+            app:destination="@id/welcomeActivity" />
+    </fragment>
 
     <fragment
         android:id="@+id/controlDisabledFragment"
@@ -60,4 +66,9 @@
             android:id="@+id/action_controlDisabledFragment_to_navigationTripFragment"
             app:destination="@id/navigationTripFragment" />
     </fragment>
+    <activity
+        android:id="@+id/welcomeActivity"
+        android:name="com.example.smartparking.ui.login.WelcomeActivity"
+        android:label="activity_welcome"
+        tools:layout="@layout/activity_welcome" />
 </navigation>

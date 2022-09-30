@@ -71,14 +71,14 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
 
         if(lessonList[position].isSelected){
             holder.lessonClickable.setBackgroundResource(R.drawable.lesson_selected)
-            _recyclerView?.smoothScroll(position+1)
+            _recyclerView?.smoothScroll(position)
         }
         else{
             holder.lessonClickable.setBackgroundResource(R.drawable.lesson)
         }
 
         if (lessonList.all { !it.isSelected }){
-            _recyclerView?.smoothScroll(scrollPosition+1)
+            _recyclerView?.smoothScroll(scrollPosition)
         }
     }
 

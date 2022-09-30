@@ -66,13 +66,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/expanded_layout"
         android:layout_width="match_parent"
-        android:layout_height="236dp"
+        android:layout_height="266dp"
         android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/iv_maps_preview"
             android:layout_width="wrap_content"
-            android:layout_height="220dp"
+            android:layout_height="250dp"
             android:src="@drawable/bonardi_student_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

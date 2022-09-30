@@ -12,13 +12,11 @@ import java.util.*
 @Parcelize
 data class LessonDetails(
     val building: String = "",
-//    val end: Date?,
     val image: String = "",
     val lesson: String = "",
     val parking: String = "",
     val professor: String = "",
     val room: String = "",
-//    val start: Date?
 ) : Parcelable {
     @PrimaryKey(autoGenerate = false)
     var id : String = lesson

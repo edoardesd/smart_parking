@@ -14,6 +14,7 @@ class InfoText(){
     private var textLeave: String? = null
     private var textAvgPark: String? = null
     private var textTotal: String? = null
+    private var textArriveBy: String? = null
 
     private fun setTextTotal(){
         infoTransportTime.setTotalTime()

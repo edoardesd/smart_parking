@@ -45,6 +45,32 @@ class LessonProvider {
             parkingPlace = ParkingLots.BONARDI,
             coordinates = "45.479743760897044, 9.227082475795326"))
 
+        var (datetimeStart4, datetimeEnd4) = getTime(2022, 9, 10, 14, 16)
+
+        listLessons.add(LessonListModel("Data bases 2",
+            "room e.p.1 | building 32.2".uppercase(),
+            "Braga Daniele Maria",
+            LessonTime(datetimeStart4, datetimeEnd4),
+            R.drawable.bonardi_student_1,
+            parkingPlace = ParkingLots.PONZIO,
+            coordinates = "45.479743760897044, 9.227082475795326"))
+
+        listLessons.add(LessonListModel("Software engineering",
+            "room 20.s.1 | building 20".uppercase(),
+            "Di Nitto Elisabetta",
+            LessonTime(datetimeStart2, datetimeEnd2),
+            R.drawable.bonardi_student_1,
+            parkingPlace = ParkingLots.PONZIO,
+            coordinates = "45.479743760897044, 9.227082475795326"))
+
+        listLessons.add(LessonListModel("Internet of Things",
+            "room 20.s.1 | building 20".uppercase(),
+            "Cesana Matteo",
+            LessonTime(datetimeStart2, datetimeEnd2),
+            R.drawable.bonardi_student_1,
+            parkingPlace = ParkingLots.PONZIO,
+            coordinates = "45.479743760897044, 9.227082475795326"))
+
 
 
         return listLessons

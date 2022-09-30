@@ -18,10 +18,10 @@
 
     </style>
 
-<!--    <style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents.ActionBar">-->
-<!--        <item name="android:textColorPrimary">@android:color/white</item>-->
-<!--        <item name="android:textColorSecondary">#EEEEEE</item>-->
-<!--    </style>-->
+    <!--    <style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents.ActionBar">-->
+    <!--        <item name="android:textColorPrimary">@android:color/white</item>-->
+    <!--        <item name="android:textColorSecondary">#EEEEEE</item>-->
+    <!--    </style>-->
     <style name="Theme.SmartParking.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -34,49 +34,53 @@
     </style>
 
     <style name="Theme.SmartParking.textTitle">
-        <item name="android:fontFamily"> @font/montserrat_medium </item>
-        <item name="android:textColor"> @color/black </item>
-<!--        <item name="android:textStyle"> bold </item>-->
-        <item name="android:textSize"> 17sp </item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:textColor">@color/black</item>
+        <!--        <item name="android:textStyle"> bold </item>-->
+        <item name="android:textSize">17sp</item>
     </style>
 
     <style name="Theme.SmartParking.textStandard">
-        <item name="android:fontFamily"> @font/montserrat </item>
-        <item name="android:textColor"> @color/mediumGray5G </item>
-        <item name="android:textSize"> 12sp </item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textColor">@color/mediumGray5G</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="Theme.SmartParking.buttonStandard" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:fontFamily"> @font/montserrat </item>
-        <item name="android:textColor"> @color/white </item>
-        <item name="android:textSize"> 14sp </item>
-        <item name="android:theme"> @style/Theme.SmartParking.textTitle </item>
-        <item name="android:elevation"> 4dp </item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:theme">@style/Theme.SmartParking.textTitle</item>
+        <item name="android:elevation">4dp</item>
     </style>
 
     <style name="MenuTextAppearance">
         <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily"> @font/montserrat </item>
+        <item name="android:fontFamily">@font/montserrat</item>
 
     </style>
 
-<!--    <style name="MaterialSearchViewStyle">-->
-<!--        <item name="searchBackground">@android:color/holo_blue_light</item>-->
-<!--        <item name="searchVoiceIcon">@drawable/ic_action_voice_search</item>-->
-<!--        <item name="searchCloseIcon">@drawable/ic_action_navigation_close</item>-->
-<!--        <item name="searchBackIcon">@drawable/ic_action_navigation_arrow_back</item>-->
-<!--        <item name="searchSuggestionBackground">@android:color/holo_orange_dark</item>-->
-<!--        <item name="historyIcon">@drawable/ic_history_white</item>-->
-<!--        <item name="suggestionIcon">@drawable/ic_action_search_white</item>-->
-<!--        <item name="listTextColor">@color/white_ish</item>-->
-<!--        <item name="searchBarHeight">?attr/actionBarSize</item>-->
-<!--        <item name="voiceHintPrompt">@string/hint_prompt</item>-->
-<!--        <item name="android:textColor">@color/black</item>-->
-<!--        <item name="android:textColorHint">@color/gray_50</item>-->
-<!--        <item name="android:hint">@string/search_hint</item>-->
-<!--        <item name="android:inputType">textCapWords</item>-->
-<!--    </style>-->
+    <style name="Theme.SmartParking.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.SmartParking.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!--    <style name="MaterialSearchViewStyle">-->
+    <!--        <item name="searchBackground">@android:color/holo_blue_light</item>-->
+    <!--        <item name="searchVoiceIcon">@drawable/ic_action_voice_search</item>-->
+    <!--        <item name="searchCloseIcon">@drawable/ic_action_navigation_close</item>-->
+    <!--        <item name="searchBackIcon">@drawable/ic_action_navigation_arrow_back</item>-->
+    <!--        <item name="searchSuggestionBackground">@android:color/holo_orange_dark</item>-->
+    <!--        <item name="historyIcon">@drawable/ic_history_white</item>-->
+    <!--        <item name="suggestionIcon">@drawable/ic_action_search_white</item>-->
+    <!--        <item name="listTextColor">@color/white_ish</item>-->
+    <!--        <item name="searchBarHeight">?attr/actionBarSize</item>-->
+    <!--        <item name="voiceHintPrompt">@string/hint_prompt</item>-->
+    <!--        <item name="android:textColor">@color/black</item>-->
+    <!--        <item name="android:textColorHint">@color/gray_50</item>-->
+    <!--        <item name="android:hint">@string/search_hint</item>-->
+    <!--        <item name="android:inputType">textCapWords</item>-->
+    <!--    </style>-->
 
 </resources>

@@ -27,27 +27,28 @@
                     android:elevation="20dp"/>
 
         <LinearLayout
+            android:id="@+id/bubble_area"
             android:layout_width="match_parent"
             android:layout_height="153dp"
             android:orientation="vertical"
             android:paddingTop="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/ll_lesson_list"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="16dp">
+                android:layout_marginLeft="16dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_bubble_stops"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:text="Your bubble stops"
-                android:paddingBottom="4dp"
-                android:theme="@style/Theme.SmartParking.textTitle" />
+                <TextView
+                    android:id="@+id/tv_bubble_stops"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:paddingBottom="4dp"
+                    android:text="Your bubble stops"
+                    android:theme="@style/Theme.SmartParking.textTitle" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -57,11 +58,12 @@
                     android:theme="@style/Theme.SmartParking.textStandard" />
 
             </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_bubbles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp" />
 
         </LinearLayout>
 
@@ -69,40 +71,40 @@
         <LinearLayout
             android:id="@+id/ll_lesson_list"
             android:layout_width="match_parent"
-            android:layout_height="520dp"
-            android:layout_marginTop="163dp"
+            android:layout_height="420dp"
+            android:layout_marginTop="26dp"
             android:orientation="vertical"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/bubble_area">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:text="Your destinations"
-                android:paddingBottom="4dp"
-                android:theme="@style/Theme.SmartParking.textTitle" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:paddingBottom="4dp"
+                    android:text="Your destinations"
+                    android:theme="@style/Theme.SmartParking.textTitle" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:text="Tap a lesson from your calendar"
-                android:theme="@style/Theme.SmartParking.textStandard" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:text="Tap a lesson from your calendar"
+                    android:theme="@style/Theme.SmartParking.textStandard" />
             </LinearLayout>
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_lessons"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_lessons"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null" />
         </LinearLayout>
 
         <LinearLayout

@@ -18,6 +18,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
+import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.TripDetails
 import com.example.smartparking.data.db.DirectionData
@@ -46,7 +47,8 @@ class NavigationResultFragment : ScopedFragment() {
     private var mapsButton: Button? = null
     private var carButton: LinearLayout? = null
     private var bikeButton: LinearLayout? = null
-    private var walkButton: LinearLayout? = null
+
+    //    private var walkButton: LinearLayout? = null
     private var requestDirectionDataCar = DirectionData()
     private var requestDirectionDataBike = DirectionData()
     private var selectedBubbles = ArrayList<BubbleListModel>()
@@ -54,19 +56,9 @@ class NavigationResultFragment : ScopedFragment() {
     private lateinit var originPosition: String
     private lateinit var bubbleAdapter: BubbleSelectedAdapter
     private lateinit var selectedLesson: LessonListModel
-
-    private lateinit var infoCar : InfoText
-    private lateinit var infoBike : InfoText
-
-//    companion object {
-//
-//        @JvmStatic
-//        fun newInstance(myString: String) = NavigationResultFragment().apply {
-//            arguments = Bundle().apply {
-//                putString("DESTINATION", myString)
-//            }
-//        }
-//    }
+    private lateinit var startTime: MyDate
+    private lateinit var infoCar: InfoText
+    private lateinit var infoBike: InfoText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,14 +72,24 @@ class NavigationResultFragment : ScopedFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.navigationResultViewModel = navigationResultViewModel
-        val safeArgs = arguments?.let { NavigationResultFragmentArgs.fromBundle(it) }
-        navDetails = safeArgs?.navigationDetails ?: throw NavigationDetailsNotFoundException()
 
+        val safeArgs = arguments?.let { NavigationResultFragmentArgs.fromBundle(it) }
+        arguments?.clear()
+
+        if (safeArgs?.navigationDetails != null) {
+            navDetails = safeArgs?.navigationDetails ?: throw NavigationDetailsNotFoundException()
+            navigationResultViewModel.navigationDetails.value = navDetails
+        } else {
+            navDetails = navigationResultViewModel.navigationDetails.value!!
+        }
         selectedLesson = navDetails.lesson as LessonListModel
+        startTime = navDetails.time as MyDate
 
         requestDirectionDataCar.destinations = selectedLesson.coordinates
         requestDirectionDataBike.destinations = selectedLesson.coordinates
         selectedBubbles = navDetails.bubbleStops as ArrayList<BubbleListModel>
+
+
 
         initProgressBar(requireContext())
 
@@ -138,7 +140,7 @@ class NavigationResultFragment : ScopedFragment() {
     private fun sendNavigationDetails(view: View, transportMode: TransportMode) {
         // pass data to trip fragment
         globalDestinationInfo = getInfoText(transportMode)
-        val tripDetail = TripDetails(getInfoText(transportMode), selectedLesson.title, selectedBubbles)
+        val tripDetail = TripDetails(getInfoText(transportMode), selectedLesson, selectedBubbles)
         val actionDetail = NavigationResultFragmentDirections.actionToTrip(tripDetail)
         Navigation.findNavController(view).navigate(actionDetail)
     }
@@ -165,7 +167,7 @@ class NavigationResultFragment : ScopedFragment() {
                     requestDirectionDataCar.destinations
                 )
                 .appendQueryParameter("travelmode", "driving")
-                .appendQueryParameter("arrival_time", navDetails.time)
+                .appendQueryParameter("arrival_time", startTime.epoch)
                 .appendQueryParameter("traffic_mode", "pessimistic")
 
             val addressUri = builder.build()
@@ -205,9 +207,10 @@ class NavigationResultFragment : ScopedFragment() {
 
     private fun setExpandTextCar(googleResult: Duration?) {
         infoCar = navigationResultViewModel.infoTextCar.value!!
+        infoCar.infoTransportTime.startTime = startTime
         setBoxColor(ll_car_button, infoCar.infoTransportTime.availability)
         infoCar.infoTransportTime.transportTime = googleResult!!
-        tv_car_result.text =  infoCar.totalTimeText()
+        tv_car_result.text = infoCar.totalTimeText()
         tv_car_text.text = infoCar.fullText()
         tv_availability_car.text = infoCar.infoTransportTime.availability.name.uppercase()
     }
@@ -215,15 +218,15 @@ class NavigationResultFragment : ScopedFragment() {
     private fun setExpandTextBike(googleResult: Duration?) {
         infoBike = navigationResultViewModel.infoTextBike.value!!
         setBoxColor(ll_bike_button, infoBike.infoTransportTime.availability)
-
+        infoBike.infoTransportTime.startTime = startTime
         infoBike.infoTransportTime.transportTime = googleResult!!
-        tv_bike_result.text =  infoBike.totalTimeText()
+        tv_bike_result.text = infoBike.totalTimeText()
         tv_bike_text.text = infoBike.fullText()
         tv_availability_bike.text = infoBike.infoTransportTime.availability.name.uppercase()
     }
 
     private fun setBoxColor(layout: LinearLayout?, availability: ParkingAvailability) {
-        when(availability){
+        when (availability) {
             ParkingAvailability.LOW -> layout?.setBackgroundResource(R.drawable.rectangle_orange)
             ParkingAvailability.MEDIUM -> layout?.setBackgroundResource(R.drawable.rectangle_gray)
             ParkingAvailability.HIGH -> layout?.setBackgroundResource(R.drawable.rectangle_green)

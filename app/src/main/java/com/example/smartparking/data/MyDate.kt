@@ -24,7 +24,6 @@ class MyDate{
     private fun convertToEpoch(): Long {
         val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.ENGLISH)
         val date = formatter.parse("${day}-${month}-${year} ${hour}:${minutes}") as Date
-
         return date.time
     }
 

@@ -2,6 +2,7 @@ package com.example.smartparking.data.db
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import com.example.smartparking.data.MyDate
 import com.example.smartparking.internal.ParkingAvailability
 import com.example.smartparking.internal.ParkingLots
 import com.example.smartparking.internal.TransportMode
@@ -20,6 +21,7 @@ class InfoTransportTime {
     var freeSlots: Int = 2
     var availability : ParkingAvailability = setAvailability()
     var parkingTime: Duration = setParkTime()
+    var startTime: MyDate? = null
 
     private fun setAvailability(): ParkingAvailability{
         val parkPercentage: Float = (freeSlots/totalSlots).toFloat()
@@ -31,6 +33,10 @@ class InfoTransportTime {
             return ParkingAvailability.MEDIUM
         }
         return ParkingAvailability.LOW
+    }
+
+    private fun getArriveTime(){
+
     }
 
     private fun setWalkTime(): Duration {

@@ -16,4 +16,8 @@ class LessonListModel (val title:String,
     fun lessonToString(): String {
         return "${lessonTime.startDate.day} ${lessonTime.startDate.hours}.${lessonTime.startDate.minutes} - ${lessonTime.endDate.hours}.${lessonTime.endDate.minutes}"
     }
+
+    fun getTime(): String{
+        return "${lessonTime.startDate.hours}.${lessonTime.startDate.minutes}"
+    }
 }
