@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat
 internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
         RecyclerView.Adapter<LessonListAdapter.MyViewHolder>(){
 
-    private var _lessonSelected: MutableLiveData<LessonListModel> = MutableLiveData<LessonListModel>()
+    private var _lessonSelected: MutableLiveData<LessonListModel?> = MutableLiveData<LessonListModel?>()
     private var _recyclerView: RecyclerView? = null
     private var scrollPosition = 0
 
@@ -78,6 +78,7 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
         }
 
         if (lessonList.all { !it.isSelected }){
+            _lessonSelected.value = null
             _recyclerView?.smoothScroll(scrollPosition)
         }
     }
@@ -115,7 +116,7 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
 
     override fun getItemCount() = lessonList.count()
 
-    internal var lessonSelected : MutableLiveData<LessonListModel>
+    internal var lessonSelected : MutableLiveData<LessonListModel?>
         get() {return _lessonSelected }
         set(value) { _lessonSelected = value}
 }

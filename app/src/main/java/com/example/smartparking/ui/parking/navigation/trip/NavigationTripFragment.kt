@@ -1,8 +1,6 @@
 package com.example.smartparking.ui.parking.navigation.trip
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,17 +23,11 @@ import com.example.smartparking.internal.TransportMode
 import com.example.smartparking.internal.TripDetailsNotFoundException
 import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
-import com.example.smartparking.ui.parking.control.ControlFragment
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListModel
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.directions_info_bike.*
-import kotlinx.android.synthetic.main.directions_info_car.*
-import kotlinx.android.synthetic.main.directions_info_walk.*
-import kotlinx.android.synthetic.main.navigation_result_fragment.*
-import kotlinx.android.synthetic.main.navigation_result_fragment.view.*
 import kotlinx.android.synthetic.main.navigation_trip_fragment.*
 
 
@@ -111,13 +103,13 @@ class NavigationTripFragment : ScopedFragment() {
                 "Route to ${selectedLesson.title}"
         }
     }
-    private fun setBoxColor(layout: LinearLayout?, availability: ParkingAvailability) {
-        when(availability){
-            ParkingAvailability.LOW -> layout?.setBackgroundResource(R.drawable.rectangle_orange)
-            ParkingAvailability.MEDIUM -> layout?.setBackgroundResource(R.drawable.rectangle_gray)
-            ParkingAvailability.HIGH -> layout?.setBackgroundResource(R.drawable.rectangle_green)
-        }
-    }
+//    private fun setBoxColor(layout: LinearLayout?, availability: ParkingAvailability) {
+//        when(availability){
+//            ParkingAvailability.LOW -> layout?.setBackgroundResource(R.drawable.rectangle_gray)
+//            ParkingAvailability.MEDIUM -> layout?.setBackgroundResource(R.drawable.rectangle_blue)
+//            ParkingAvailability.HIGH -> layout?.setBackgroundResource(R.drawable.rectangle_green)
+//        }
+//    }
 
 
     private fun initDirectionInfo() {

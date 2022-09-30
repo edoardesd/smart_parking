@@ -1,9 +1,13 @@
 package com.example.smartparking.data.db
 
+import android.content.ContentValues.TAG
 import android.text.Html
 import android.text.Spanned
-import com.example.smartparking.internal.ParkingAvailability
+import android.util.Log
 import com.example.smartparking.internal.TransportMode
+import java.sql.Date
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 
 class InfoText(){
     var infoTransportTime = InfoTransportTime()
@@ -14,7 +18,6 @@ class InfoText(){
     private var textLeave: String? = null
     private var textAvgPark: String? = null
     private var textTotal: String? = null
-    private var textArriveBy: String? = null
 
     private fun setTextTotal(){
         infoTransportTime.setTotalTime()
@@ -38,17 +41,31 @@ class InfoText(){
     }
 
     private fun setTextWalk(){
+        infoTransportTime.setWalkTime()
+        Log.d(TAG, "WALK TIME ${infoTransportTime.walkTime.inWholeMinutes.toInt()}")
         textWalk = "then walk ${infoTransportTime.walkTime.inWholeMinutes.toInt()} minutes. "
     }
 
     private fun setTextLeave(){
-        textLeave = "Leave at 10:45."
+        textLeave = "Leave at ${calculateLeaveTime()?.let { fromEpochToHour(it) }}."
+    }
+
+    private fun calculateLeaveTime(): Long? {
+        return (infoTransportTime.startTime?.convertToEpoch()
+            ?.minus(infoTransportTime.totalTime.inWholeMilliseconds))
     }
 
     private fun setTextAvgPark(){
         textAvgPark = "\nAverage parking time: ${infoTransportTime.parkingTime.inWholeMinutes.toInt()} minutes."
     }
 
+    private fun fromEpochToHour(epoch: Long): String {
+        val stamp = Timestamp(epoch)
+        val date = Date(stamp.time)
+        val sdf = SimpleDateFormat("HH:mm")
+
+        return sdf.format(date)
+    }
     private fun updateAll(){
         setTextRide()
         setTextPark()

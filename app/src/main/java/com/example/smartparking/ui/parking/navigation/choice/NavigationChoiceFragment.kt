@@ -53,13 +53,14 @@ class NavigationChoiceFragment : ScopedFragment() {
     private lateinit var recyclerSearch: RecyclerView
     private var date = MyDate()
     private lateinit var datetime: Date
-    private lateinit var lessonSelected: LessonListModel
+    private var lessonSelected: LessonListModel? = null
 
     private var selectedIndex : Int = 0
 
     private var bubblesSelected = ArrayList<BubbleListModel>()
 
     private var listLessons = ArrayList<LessonListModel>()
+    private var listBubbles = ArrayList<BubbleListModel>()
     private var searchLesson = ArrayList<LessonListModel>()
     private var displayLesson = ArrayList<LessonListModel>()
 
@@ -222,7 +223,14 @@ class NavigationChoiceFragment : ScopedFragment() {
     }
 
     private fun initBubbleView(){
-        var listBubbles = BubbleProvider().getAllBubblesLocal()
+        navigationChoiceViewModel.bubbles.observe(viewLifecycleOwner,
+            androidx.lifecycle.Observer { bubbleList ->
+                if (bubbleList == null) return@Observer
+
+                listBubbles.clear()
+                listBubbles.addAll(bubbleList)
+            })
+//        var listBubbles = BubbleProvider().getAllBubblesLocal()
 
         bubbleAdapter = BubbleListAdapter(listBubbles)
 
@@ -239,11 +247,11 @@ class NavigationChoiceFragment : ScopedFragment() {
 
     private fun initLessonView(){
 //        var mylessons = getAllLessons(FirebaseFirestore.getInstance())
-
         navigationChoiceViewModel.lessons.observe(viewLifecycleOwner,
             androidx.lifecycle.Observer { lessonsList ->
                 if (lessonsList == null) return@Observer
 
+                listLessons.clear()
                 Log.d(TAG, "lesson list $lessonsList")
                 listLessons.addAll(lessonsList)
                 loadingDialog.dismiss()
@@ -257,10 +265,12 @@ class NavigationChoiceFragment : ScopedFragment() {
 
         //capture lesson change
         lessonAdapter.lessonSelected.observe(viewLifecycleOwner, androidx.lifecycle.Observer { lesson ->
-            if (lesson == null) return@Observer
+            if (lesson == null) {
+                lessonSelected= null
+                return@Observer}
             lessonSelected = lesson
 
-            setSelectedTimeDate(lessonSelected)
+            setSelectedTimeDate(lessonSelected!!)
         })
     }
 
@@ -281,7 +291,7 @@ class NavigationChoiceFragment : ScopedFragment() {
     private fun initGoButton() {
         goButton = view?.findViewById(R.id.btn_go)
         goButton?.setOnClickListener {view ->
-            if(::lessonSelected.isInitialized){
+            if(lessonSelected != null){
                 sendNavigationDetails(view)
             }
             else {
@@ -332,7 +342,7 @@ class NavigationChoiceFragment : ScopedFragment() {
             .setTimeFormat(TimeFormat.CLOCK_12H)
             .setHour(date.hour)
             .setMinute(date.minutes)
-            .setTitleText("Select Departure Time")
+            .setTitleText("Select Time")
             .build()
 
         timePicker.show(childFragmentManager, "TAG")
@@ -350,7 +360,7 @@ class NavigationChoiceFragment : ScopedFragment() {
         val constraintsBuilder = CalendarConstraints.Builder().setValidator(dateValidator)
 
         val datePicker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Select Departure Date")
+            .setTitleText("Select Date")
             .setCalendarConstraints(constraintsBuilder.build())
             .build()
 
@@ -378,9 +388,4 @@ class NavigationChoiceFragment : ScopedFragment() {
         loadingDialog.startLoading()
     }
 
-//    private fun getBubbles(): List<BubbleListModel> {
-//        var listBubbles = ArrayList<BubbleListModel>()
-//
-//        return listBubbles
-//    }
 }

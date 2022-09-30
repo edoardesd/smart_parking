@@ -22,7 +22,17 @@
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@mipmap/ic_base5g_logo"/>.
+            android:src="@drawable/polimi"/>
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/base5glogo"/>
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/regione_lombardia"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

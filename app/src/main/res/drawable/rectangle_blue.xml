@@ -7,7 +7,7 @@
             <corners
                 android:topLeftRadius="8dp"
                 android:topRightRadius="8dp" />
-            <solid android:color="@color/mediumGray5G" />
+            <solid android:color="@color/blue5G" />
         </shape>
     </item>
 
@@ -22,7 +22,7 @@
 
             <stroke
                 android:width="2dp"
-                android:color="#F2CF4200" />
+                android:color="@color/blue5G" />
 
         </shape>
     </item>

@@ -3,10 +3,7 @@ package com.example.smartparking.data.db
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.smartparking.data.MyDate
-import com.example.smartparking.internal.ParkingAvailability
-import com.example.smartparking.internal.ParkingLots
-import com.example.smartparking.internal.TransportMode
-import com.example.smartparking.internal.slotsPerParking
+import com.example.smartparking.internal.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -35,16 +32,31 @@ class InfoTransportTime {
         return ParkingAvailability.LOW
     }
 
-    private fun getArriveTime(){
-
+    fun setWalkTime(): Duration {
+        val time = when (parkingLot) {
+            ParkingLots.BONARDI -> getBonardiTime()
+            ParkingLots.PONZIO -> getPonzioTime()
+        }
+        Log.d(TAG, "walk time $time")
+        walkTime = time
+        return time
     }
 
-    private fun setWalkTime(): Duration {
-        val time = when (parkingLot) {
-            ParkingLots.BONARDI -> 2.minutes
-            ParkingLots.PONZIO -> 4.minutes
+    private fun getBonardiTime(): Duration {
+        Log.d(TAG, "get transport mode ${transportMode}")
+        return when (transportMode) {
+            TransportMode.DRIVING -> DEFAULT_CAR_WALK_BONARDI_TIME
+            TransportMode.BICYCLING -> DEFAULT_BIKE_WALKING_TIME
+            TransportMode.WALKING -> 1.minutes
         }
-        return time
+    }
+
+    private fun getPonzioTime(): Duration {
+        return when (transportMode) {
+            TransportMode.DRIVING -> DEFAULT_CAR_WALK_PONZIO_TIME
+            TransportMode.BICYCLING -> DEFAULT_BIKE_WALKING_TIME
+            TransportMode.WALKING -> 1.minutes
+        }
     }
 
     fun setParkTime(): Duration {

@@ -21,7 +21,7 @@ class MyDate{
     var timeMillis: Long = calendar.timeInMillis
     var epoch : String = "Now"
 
-    private fun convertToEpoch(): Long {
+    fun convertToEpoch(): Long {
         val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.ENGLISH)
         val date = formatter.parse("${day}-${month}-${year} ${hour}:${minutes}") as Date
         return date.time

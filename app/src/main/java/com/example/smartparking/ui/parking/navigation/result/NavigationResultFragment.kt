@@ -28,7 +28,6 @@ import com.example.smartparking.databinding.NavigationResultFragmentBinding
 import com.example.smartparking.internal.*
 import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
-import com.example.smartparking.ui.parking.control.ControlFragment
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListModel
 import com.example.smartparking.ui.parking.navigation.result.recyclers.BubbleSelectedAdapter
@@ -218,6 +217,7 @@ class NavigationResultFragment : ScopedFragment() {
     private fun setExpandTextBike(googleResult: Duration?) {
         infoBike = navigationResultViewModel.infoTextBike.value!!
         setBoxColor(ll_bike_button, infoBike.infoTransportTime.availability)
+        infoBike.infoTransportTime.transportMode = TransportMode.BICYCLING
         infoBike.infoTransportTime.startTime = startTime
         infoBike.infoTransportTime.transportTime = googleResult!!
         tv_bike_result.text = infoBike.totalTimeText()
@@ -225,12 +225,12 @@ class NavigationResultFragment : ScopedFragment() {
         tv_availability_bike.text = infoBike.infoTransportTime.availability.name.uppercase()
     }
 
-    private fun setBoxColor(layout: LinearLayout?, availability: ParkingAvailability) {
-        when (availability) {
-            ParkingAvailability.LOW -> layout?.setBackgroundResource(R.drawable.rectangle_orange)
-            ParkingAvailability.MEDIUM -> layout?.setBackgroundResource(R.drawable.rectangle_gray)
-            ParkingAvailability.HIGH -> layout?.setBackgroundResource(R.drawable.rectangle_green)
-        }
-    }
+//    private fun setBoxColor(layout: LinearLayout?, availability: ParkingAvailability) {
+//        when (availability) {
+//            ParkingAvailability.LOW -> layout?.setBackgroundResource(R.drawable.rectangle_gray)
+//            ParkingAvailability.MEDIUM -> layout?.setBackgroundResource(R.drawable.rectangle_blue)
+//            ParkingAvailability.HIGH -> layout?.setBackgroundResource(R.drawable.rectangle_green)
+//        }
+//    }
 
 }
