@@ -87,9 +87,10 @@
             android:theme="@style/Theme.SmartParking.textTitle" />
 
         <ImageView
+            android:id="@+id/iv_maps_preview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_map_indoor_background" />
+            android:layout_height="wrap_content"
+            android:src="@drawable/bovisa_bonardi_bicycling" />
     </LinearLayout>
 
     <RelativeLayout

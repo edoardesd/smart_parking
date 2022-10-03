@@ -63,12 +63,6 @@ android:layout_height="match_parent">
                     android:textSize="20sp"
                     android:theme="@style/Theme.SmartParking.textTitle" />
 
-                <TextView
-                    android:id="@+id/tv_building_park"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/Theme.SmartParking.textStandard"
-                    android:text="BUILDING 21" />
             </LinearLayout>
         </LinearLayout>
 

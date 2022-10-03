@@ -28,7 +28,7 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
         var description: TextView = view.findViewById(R.id.tv_room_details)
         var prof: TextView = view.findViewById(R.id.tv_prof_name)
         var dateTime: TextView = view.findViewById(R.id.tv_time_details)
-        var preview: ImageView = view.findViewById(R.id.iv_maps_preview)
+        var preview: ImageView = view.findViewById(R.id.iv_bubble_preview)
         var lessonClickable: LinearLayout = view.findViewById(R.id.ll_lesson_clickable)
         var expandedLayout: ConstraintLayout = view.findViewById(R.id.expanded_layout)
     }

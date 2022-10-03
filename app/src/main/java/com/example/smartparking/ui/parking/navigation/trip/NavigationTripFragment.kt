@@ -1,12 +1,14 @@
 package com.example.smartparking.ui.parking.navigation.trip
 
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -18,7 +20,6 @@ import com.example.smartparking.data.TripDetails
 import com.example.smartparking.data.db.InfoText
 import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalIsParking
 import com.example.smartparking.databinding.NavigationTripFragmentBinding
-import com.example.smartparking.internal.ParkingAvailability
 import com.example.smartparking.internal.TransportMode
 import com.example.smartparking.internal.TripDetailsNotFoundException
 import com.example.smartparking.ui.MainActivity
@@ -41,12 +42,13 @@ class NavigationTripFragment : ScopedFragment() {
     private var selectedBubbles = ArrayList<BubbleListModel>()
     private val navigationTripViewModel: NavigationTripViewModel by viewModels()
 
-//    private var navigationText: String? = null
+    //    private var navigationText: String? = null
     private var navigationMethod: TransportMode? = null
     private var timeTrip: String? = null
     private var leaveButton: Button? = null
     private var monitorButton: Button? = null
-    private lateinit var infoNavigation : InfoText
+    private lateinit var infoNavigation: InfoText
+    private lateinit var startLocation: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,26 +77,37 @@ class NavigationTripFragment : ScopedFragment() {
         initBubbleSelected()
         initLeaveButton()
         initMonitorButton()
+        initImage()
     }
 
+    private fun initImage() {
+        var imageName = "${startLocation}_${selectedLesson.parkingPlace.name.lowercase()}_${navigationMethod?.name?.lowercase()}"
+        Log.d(TAG, "image name: $imageName")
+        context?.let { getDrawable(it, imageName) }?.let { iv_maps_preview.setImageResource(it) }
+    }
 
+    private fun getDrawable(context: Context, name: String?): Int {
+        return context.resources.getIdentifier(name, "drawable", context.packageName)
+    }
 
     private fun initTripDetails() {
-        if (arguments != null) {
-            val safeArgs = arguments?.let { NavigationTripFragmentArgs.fromBundle(it) }
+        val safeArgs = arguments?.let { NavigationTripFragmentArgs.fromBundle(it) }
+        if (safeArgs?.tripDetails != null) {
+            tripDetailsLocal = safeArgs.tripDetails ?: throw TripDetailsNotFoundException()
+            navigationTripViewModel.tripDetails.value = tripDetailsLocal
             arguments?.clear()
-            tripDetailsLocal = safeArgs?.tripDetails ?: throw TripDetailsNotFoundException()
-            if (navigationTripViewModel.tripDetails.value == null) {
-                navigationTripViewModel.tripDetails.value = tripDetailsLocal
-            }
+        } else {
+            tripDetailsLocal = navigationTripViewModel.tripDetails.value!!
         }
+
         selectedLesson = tripDetailsLocal.selectedLesson as LessonListModel
         infoNavigation = tripDetailsLocal.infoNavigation as InfoText
+        startLocation = tripDetailsLocal.startLocation
+
         navigationMethod = infoNavigation.infoTransportTime.transportMode
 
         timeTrip = infoNavigation.totalTimeText().toString()
-        selectedBubbles =
-            navigationTripViewModel.tripDetails.value!!.bubbleStops as ArrayList<BubbleListModel>
+        selectedBubbles = tripDetailsLocal.bubbleStops as ArrayList<BubbleListModel>
     }
 
     private fun initTitle() {
@@ -135,7 +148,7 @@ class NavigationTripFragment : ScopedFragment() {
             else -> null
         }
 
-        var availabilityResource: TextView? = when (navigationMethod){
+        var availabilityResource: TextView? = when (navigationMethod) {
             TransportMode.DRIVING -> view?.findViewById(R.id.tv_availability_car)
             TransportMode.BICYCLING -> view?.findViewById(R.id.tv_availability_bike)
             TransportMode.WALKING -> view?.findViewById(R.id.tv_availability_bike)
@@ -143,7 +156,7 @@ class NavigationTripFragment : ScopedFragment() {
         }
 
         availabilityResource?.text = infoNavigation.infoTransportTime.availability.name
-        textResource?.text =  infoNavigation.fullText()
+        textResource?.text = infoNavigation.fullText()
         totTimeResource?.text = infoNavigation.totalTimeText()
     }
 

@@ -2,6 +2,7 @@ package com.example.smartparking.ui.parking.navigation.result
 
 import android.app.Application
 import android.content.ContentValues.TAG
+import android.text.BoringLayout
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -27,6 +28,7 @@ import kotlin.time.Duration.Companion.seconds
 class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
 
     private var _gpsOrigin: MutableLiveData<String> = MutableLiveData<String>()
+    private var _isLocationClicked: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     private var _navigationDataAll: MutableLiveData<NavigationWay> =
         MutableLiveData<NavigationWay>()
     private var navigationWay: NavigationWay = NavigationWay()
@@ -65,6 +67,7 @@ class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
             Log.d(TAG, "car ${navigationWay.driving}")
 
         })
+        _isLocationClicked.value = false
     }
 
 
@@ -74,7 +77,11 @@ class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
         navigation: NavigationDetails
     ) {
         GlobalScope.launch(Dispatchers.Main) {
+            if(_isLocationClicked.value == false){
             _gpsOrigin.value = locationProvider.getPreferredLocation()
+            }else{
+                _gpsOrigin.value = "45.48604068760021,9.203313200746269"
+            }
             requestDirectionDataCar.origins = _gpsOrigin.value!!
             requestDirectionDataBike.origins = _gpsOrigin.value!!
             Log.d(TAG, "Current Location: ${_gpsOrigin.value!!}")
@@ -119,8 +126,12 @@ class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
 
 
     fun getLocationString(): String {
-        return if (!locationProvider.isGpsPosition()) {
-            _gpsOrigin.value!!
+        if (!locationProvider.isGpsPosition()) {
+            return _gpsOrigin.value!!
+        }
+        Log.d(TAG, "location clicked ${_isLocationClicked.value}")
+        return if (_isLocationClicked.value == true){
+            "Milano Centrale"
         } else "Current Location"
     }
 
@@ -130,6 +141,14 @@ class NavigationResultViewModel(app: Application) : AndroidViewModel(app) {
         }
         set(value) {
             _gpsOrigin = value
+        }
+
+    internal var isLocationClicked: MutableLiveData<Boolean>
+        get() {
+            return _isLocationClicked
+        }
+        set(value) {
+            _isLocationClicked = value
         }
 
     internal var navigationDataAll: MutableLiveData<NavigationWay>

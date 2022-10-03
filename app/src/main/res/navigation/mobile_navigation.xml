@@ -35,7 +35,9 @@
         tools:layout="@layout/navigation_trip_fragment" >
         <argument
             android:name="tripDetails"
-            app:argType="com.example.smartparking.data.TripDetails" />
+            app:argType="com.example.smartparking.data.TripDetails"
+            app:nullable="true"
+            android:defaultValue="@null"/>
         <action
             android:id="@+id/actionBackNavigation"
             app:destination="@id/navigationChoiceFragment" />

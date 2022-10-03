@@ -10,8 +10,6 @@ class NavigationTripViewModel(app: Application) : AndroidViewModel(app) {
 
     private var _tripDetails : MutableLiveData<TripDetails> = MutableLiveData<TripDetails>()
 
-
-
     internal var tripDetails : MutableLiveData<TripDetails>
         get() {return  _tripDetails}
         set(value) {_tripDetails = value}

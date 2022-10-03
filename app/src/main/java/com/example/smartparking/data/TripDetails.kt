@@ -13,5 +13,6 @@ import java.util.ArrayList
 data class TripDetails(
     val infoNavigation: @RawValue Any? = null,
     val selectedLesson: @RawValue Any? = null,
-    val bubbleStops: @RawValue Any? = null
+    val bubbleStops: @RawValue Any? = null,
+    val startLocation: String
 ) : Parcelable

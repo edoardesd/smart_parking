@@ -15,18 +15,33 @@ class InfoTransportTime {
     var totalTime: Duration = 0.seconds
     var walkTime: Duration = setWalkTime()
     var totalSlots: Int = slotsPerParking[parkingLot]!!
-    var freeSlots: Int = 2
+    var freeSlots: Int = freePerParking[parkingLot]!!
     var availability : ParkingAvailability = setAvailability()
     var parkingTime: Duration = setParkTime()
     var startTime: MyDate? = null
 
-    private fun setAvailability(): ParkingAvailability{
-        val parkPercentage: Float = (freeSlots/totalSlots).toFloat()
+    private fun updateSlots(){
+        totalSlots = slotsPerParking[parkingLot]!!
+        freeSlots = freePerParking[parkingLot]!!
+    }
 
+    fun setAvailability(): ParkingAvailability{
+        updateSlots()
+        var parkPercentage = 1.0F
+        if (transportMode == TransportMode.DRIVING) {
+            parkPercentage = (freeSlots / totalSlots).toFloat()
+            if(parkingLot == ParkingLots.BONARDI) {return ParkingAvailability.MEDIUM}
+        }
+        else{
+            totalSlots = 30
+            freeSlots = totalSlots - 3
+        }
+
+        Log.d(TAG, "free, total percentage ${freeSlots} $totalSlots $parkPercentage")
         if (parkPercentage >= 0.9){
             return ParkingAvailability.HIGH
         }
-        if (parkPercentage < 0.90 || parkPercentage >=30){
+        if (parkPercentage < 0.90 && parkPercentage >=0.3){
             return ParkingAvailability.MEDIUM
         }
         return ParkingAvailability.LOW

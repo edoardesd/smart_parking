@@ -37,6 +37,7 @@ class InfoText(){
     }
 
     private fun setTextAvailable(){
+        infoTransportTime.availability = infoTransportTime.setAvailability()
         textAvailable = "(${infoTransportTime.freeSlots}/${infoTransportTime.totalSlots} available) "
     }
 

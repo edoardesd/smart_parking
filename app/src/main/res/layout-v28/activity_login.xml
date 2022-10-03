@@ -249,17 +249,14 @@
     </RelativeLayout>
 
 
-
-
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/abr_aunica"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:layout_marginTop="512dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/ll_credentials">
 
         <TextView
             android:layout_width="match_parent"

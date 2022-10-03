@@ -1,16 +1,21 @@
 package com.example.smartparking.data.recycleList
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.util.Log
 import com.example.smartparking.R
 import com.example.smartparking.data.LessonTime
 import com.example.smartparking.internal.ParkingLots
+import com.example.smartparking.internal.UserType
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListModel
 import java.util.*
 
 class LessonProvider {
 
     private var listLessons = ArrayList<LessonListModel>()
+    private var userType: UserType = UserType.STUDENT
+    private var loadedImg: Int = R.drawable.bonardi_student
+
 
     fun getAllLessonsLocal(): ArrayList<LessonListModel>{
 
@@ -21,7 +26,7 @@ class LessonProvider {
             "room iiiC | building 11".uppercase(),
             "Zucchi Cino Paolo",
             LessonTime(datetimeStart, datetimeEnd),
-            R.drawable.bonardi_student_1,
+            loadedImg,
         parkingPlace = ParkingLots.BONARDI,
         coordinates = "45.479743760897044, 9.227082475795326"))
 
@@ -31,7 +36,7 @@ class LessonProvider {
             "room 3.0.1 | building 3".uppercase(),
             "Costa Giuliana",
             LessonTime(datetimeStart2, datetimeEnd2),
-            R.drawable.bonardi_student_1,
+            loadedImg,
             parkingPlace = ParkingLots.BONARDI,
             coordinates = "45.479743760897044, 9.227082475795326"))
 
@@ -41,7 +46,7 @@ class LessonProvider {
             "room b.6.3 | building 14".uppercase(),
             "Fernandez Elorza Hector Daniel",
             LessonTime(datetimeStart3, datetimeEnd3),
-            R.drawable.bonardi_student_1,
+            loadedImg,
             parkingPlace = ParkingLots.BONARDI,
             coordinates = "45.479743760897044, 9.227082475795326"))
 
@@ -51,7 +56,7 @@ class LessonProvider {
             "room e.p.1 | building 32.2".uppercase(),
             "Braga Daniele Maria",
             LessonTime(datetimeStart4, datetimeEnd4),
-            R.drawable.bonardi_student_1,
+            R.drawable.ponzio_student,
             parkingPlace = ParkingLots.PONZIO,
             coordinates = "45.479743760897044, 9.227082475795326"))
 
@@ -59,7 +64,7 @@ class LessonProvider {
             "room 20.s.1 | building 20".uppercase(),
             "Di Nitto Elisabetta",
             LessonTime(datetimeStart2, datetimeEnd2),
-            R.drawable.bonardi_student_1,
+            R.drawable.ponzio_student,
             parkingPlace = ParkingLots.PONZIO,
             coordinates = "45.479743760897044, 9.227082475795326"))
 
@@ -67,18 +72,14 @@ class LessonProvider {
             "room 20.s.1 | building 20".uppercase(),
             "Cesana Matteo",
             LessonTime(datetimeStart2, datetimeEnd2),
-            R.drawable.bonardi_student_1,
+            R.drawable.ponzio_student,
             parkingPlace = ParkingLots.PONZIO,
             coordinates = "45.479743760897044, 9.227082475795326"))
 
-
-
         return listLessons
-
     }
 
     private fun getTime (year: Int, month: Int, day: Int, hourStart: Int, hourEnd: Int): Pair<Date, Date> {
-
         var start = Date(year, month, day)
         var end = Date(year, month, day)
 
@@ -89,6 +90,4 @@ class LessonProvider {
 
         return start to end
     }
-
-
 }

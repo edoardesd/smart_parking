@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -44,6 +45,7 @@ class NavigationResultFragment : ScopedFragment() {
     private lateinit var navDetails: NavigationDetails
     private val navigationResultViewModel: NavigationResultViewModel by viewModels()
     private var mapsButton: Button? = null
+    private var locationButton: TextView? = null
     private var carButton: LinearLayout? = null
     private var bikeButton: LinearLayout? = null
 
@@ -53,18 +55,18 @@ class NavigationResultFragment : ScopedFragment() {
     private var selectedBubbles = ArrayList<BubbleListModel>()
     private lateinit var loadingDialog: LoadingDialog
     private lateinit var originPosition: String
-    private lateinit var bubbleAdapter: BubbleSelectedAdapter
-    private lateinit var selectedLesson: LessonListModel
-    private lateinit var startTime: MyDate
-    private lateinit var infoCar: InfoText
-    private lateinit var infoBike: InfoText
+        private lateinit var bubbleAdapter: BubbleSelectedAdapter
+        private lateinit var selectedLesson: LessonListModel
+        private lateinit var startTime: MyDate
+        private lateinit var infoCar: InfoText
+        private lateinit var infoBike: InfoText
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.navigation_result_fragment, container, false)
+        override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
+            binding =
+                DataBindingUtil.inflate(inflater, R.layout.navigation_result_fragment, container, false)
         return binding.root
     }
 
@@ -97,7 +99,10 @@ class NavigationResultFragment : ScopedFragment() {
 //        initMapsButton(navDetails)
         initBubbleSelected()
         initNavigationButtons()
+        initSwitchLocation()
     }
+
+
 
     private fun initTitle() {
         if (activity != null) {
@@ -139,9 +144,16 @@ class NavigationResultFragment : ScopedFragment() {
     private fun sendNavigationDetails(view: View, transportMode: TransportMode) {
         // pass data to trip fragment
         globalDestinationInfo = getInfoText(transportMode)
-        val tripDetail = TripDetails(getInfoText(transportMode), selectedLesson, selectedBubbles)
+
+        val tripDetail = TripDetails(getInfoText(transportMode), selectedLesson, selectedBubbles, getStartLocation())
         val actionDetail = NavigationResultFragmentDirections.actionToTrip(tripDetail)
         Navigation.findNavController(view).navigate(actionDetail)
+    }
+
+    private fun getStartLocation(): String {
+        return if(navigationResultViewModel.isLocationClicked.value == true) {StartLocation.CENTRALE.name.lowercase()
+        }
+        else StartLocation.BOVISA.name.lowercase()
     }
 
     private fun getInfoText(transportMode: TransportMode): InfoText {
@@ -149,6 +161,15 @@ class NavigationResultFragment : ScopedFragment() {
             TransportMode.DRIVING -> infoCar
             TransportMode.BICYCLING -> infoBike
             TransportMode.WALKING -> infoCar
+        }
+    }
+
+    private fun initSwitchLocation() {
+        locationButton = view?.findViewById(R.id.tv_current_location)
+        locationButton?.setOnClickListener{
+            navigationResultViewModel.isLocationClicked.value = !navigationResultViewModel.isLocationClicked.value!!
+//            tv_current_location.text = "Milano Centrale"
+            bindUI(navDetails)
         }
     }
 
@@ -197,6 +218,9 @@ class NavigationResultFragment : ScopedFragment() {
 
             })
 
+
+        Log.d(TAG, "location clicked fragment ${navigationResultViewModel.isLocationClicked.value}")
+
         navigationResultViewModel.gpsOrigin.observe(viewLifecycleOwner,
             Observer { gpsPos ->
                 originPosition = gpsPos
@@ -207,21 +231,25 @@ class NavigationResultFragment : ScopedFragment() {
     private fun setExpandTextCar(googleResult: Duration?) {
         infoCar = navigationResultViewModel.infoTextCar.value!!
         infoCar.infoTransportTime.startTime = startTime
-        setBoxColor(ll_car_button, infoCar.infoTransportTime.availability)
+        infoCar.infoTransportTime.parkingLot = selectedLesson.parkingPlace
         infoCar.infoTransportTime.transportTime = googleResult!!
         tv_car_result.text = infoCar.totalTimeText()
         tv_car_text.text = infoCar.fullText()
+        setBoxColor(ll_car_button, infoCar.infoTransportTime.availability)
+
         tv_availability_car.text = infoCar.infoTransportTime.availability.name.uppercase()
     }
 
     private fun setExpandTextBike(googleResult: Duration?) {
         infoBike = navigationResultViewModel.infoTextBike.value!!
-        setBoxColor(ll_bike_button, infoBike.infoTransportTime.availability)
         infoBike.infoTransportTime.transportMode = TransportMode.BICYCLING
+        infoBike.infoTransportTime.parkingLot = selectedLesson.parkingPlace
         infoBike.infoTransportTime.startTime = startTime
         infoBike.infoTransportTime.transportTime = googleResult!!
         tv_bike_result.text = infoBike.totalTimeText()
         tv_bike_text.text = infoBike.fullText()
+        setBoxColor(ll_bike_button, infoBike.infoTransportTime.availability)
+
         tv_availability_bike.text = infoBike.infoTransportTime.availability.name.uppercase()
     }
 

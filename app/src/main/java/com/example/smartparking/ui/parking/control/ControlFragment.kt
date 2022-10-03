@@ -69,6 +69,7 @@ class ControlFragment : ScopedFragment() {
         if (globalIsParking) {
             destinationInfo = globalDestinationInfo
             initProgressBar(requireContext())
+            controlViewModel.initializePark()
             initStream()
             initUI()
             Log.d(TAG, "global ${destinationInfo.infoTransportTime.transportMode}")
@@ -81,10 +82,7 @@ class ControlFragment : ScopedFragment() {
         tv_parking_name.text = "Parking Via ${destinationInfo.infoTransportTime.parkingLot.name.lowercase().capitalize()}"
         tv_parking_availability.text = "${destinationInfo.infoTransportTime.availability.name.lowercase().capitalize()} parking availability"
         tv_parked_here.text = "You parked here ${(3..15).random()} minutes ago."
-        when (destinationInfo.infoTransportTime.parkingLot){
-            ParkingLots.BONARDI -> tv_building_park.text = "BUILDING 14"
-            ParkingLots.PONZIO -> tv_building_park.text = "BUILDING 20"
-        }
+
         when (destinationInfo.infoTransportTime.transportMode){
             TransportMode.DRIVING -> iv_transport_type.setImageResource(R.drawable.ic_car_blue)
             TransportMode.BICYCLING -> iv_transport_type.setImageResource(R.drawable.ic_bike_blue)
@@ -109,9 +107,11 @@ class ControlFragment : ScopedFragment() {
     }
 
     private fun initStream() {
+        controlViewModel.updateImage(destinationInfo.infoTransportTime.parkingLot)
         controlViewModel.bitmap.observe(viewLifecycleOwner, Observer { bitmap ->
             if (bitmap == null) return@Observer
             loadingDialog.dismiss()
+//            controlViewModel.updateImage(destinationInfo.infoTransportTime.parkingLot)
             iv_parking_pic.setImageBitmap(bitmap)
         })
     }

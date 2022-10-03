@@ -35,6 +35,9 @@ const val PREDICTION_TAG = "prediction"
 class ControlViewModel(app: Application) : AndroidViewModel(app) {
 
     private var _bitmap: MutableLiveData<Bitmap> = MutableLiveData<Bitmap>()
+    private var _bitmapPonzio: MutableLiveData<Bitmap> = MutableLiveData<Bitmap>()
+    private lateinit var bitPonzio: Bitmap
+    private lateinit var bitBonardi: Bitmap
     private var _slotsPrediction: MutableLiveData<Int> = MutableLiveData<Int>()
     private val context = getApplication<Application>().applicationContext
     private val uniqueID: String = "parking" + UUID.randomUUID().toString()
@@ -47,47 +50,57 @@ class ControlViewModel(app: Application) : AndroidViewModel(app) {
     )
     private val mqttManager: MQTTManager = MQTTManager(connectionParams, context)
     private lateinit var selectedParking: String
+    private lateinit var oldSelectedParking: String
     private lateinit var destinationInfo: InfoText
 
 
     init {
-        if(SmartParkingApplication.isDestinationInitialized()){
-            destinationInfo = globalDestinationInfo
-            selectedParking = when(destinationInfo.infoTransportTime.parkingLot){
-                ParkingLots.BONARDI -> "dastu"
-                ParkingLots.PONZIO -> "deib"
-            }
-            currentTopics = arrayOf("$BASE_TOPIC$selectedParking/image", "$BASE_TOPIC$selectedParking/prediction")
+        if (SmartParkingApplication.isDestinationInitialized()) {
+            initializePark()
+//            currentTopics = arrayOf("$BASE_TOPIC$selectedParking/image", "$BASE_TOPIC$selectedParking/prediction")
         }
-            mqttManager.connect()
-            mqttManager.getMQTTClient().setCallback(object : MqttCallbackExtended {
-                override fun connectComplete(b: Boolean, s: String) {
-                    Log.d(TAG, "Connection completed $s")
-                    mqttManager.subscribe(connectionParams.topic, connectionParams.qos)
+        mqttManager.connect()
+        mqttManager.getMQTTClient().setCallback(object : MqttCallbackExtended {
+            override fun connectComplete(b: Boolean, s: String) {
+                Log.d(TAG, "Connection completed $s")
+                mqttManager.subscribe(connectionParams.topic, connectionParams.qos)
 
-                }
+            }
 
-                override fun connectionLost(cause: Throwable?) {
-                    Log.d(TAG, "Connection lost ${cause.toString()}")
-                }
+            override fun connectionLost(cause: Throwable?) {
+                Log.d(TAG, "Connection lost ${cause.toString()}")
+            }
 
-                override fun messageArrived(topic: String, mqttMessage: MqttMessage) {
-                    Log.d(TAG, "Received message from topic: $topic")
+            override fun messageArrived(topic: String, mqttMessage: MqttMessage) {
+                Log.d(TAG, "Received message from topic: $topic")
 
-                    selectMessageToParse(topic, mqttMessage)
-                }
+                selectMessageToParse(topic, mqttMessage)
+            }
 
-                override fun deliveryComplete(iMqttDeliveryToken: IMqttDeliveryToken) {
-                }
-            })
+            override fun deliveryComplete(iMqttDeliveryToken: IMqttDeliveryToken) {
+            }
+        })
+    }
+
+    fun initializePark() {
+        destinationInfo = globalDestinationInfo
+        selectedParking = when (destinationInfo.infoTransportTime.parkingLot) {
+            ParkingLots.BONARDI -> "dastu"
+            ParkingLots.PONZIO -> "deib"
+        }
+        Log.d(TAG, "Selected parking $selectedParking")
     }
 
     private fun selectMessageToParse(topic: String, mqttMessage: MqttMessage) {
         if (topic.contains(IMAGE_TAG)) {
-            if (topic.contains(selectedParking)) {
-                Log.d(TAG, "Selected: $topic")
-                decodeMessage(mqttMessage)
+            if (topic.contains("deib")) {
+                bitPonzio = decodeMessage(mqttMessage)
             }
+
+            if (topic.contains("dastu")) {
+                bitBonardi = decodeMessage(mqttMessage)
+            }
+            updateImage(destinationInfo.infoTransportTime.parkingLot)
         }
 
         if (topic.contains(PREDICTION_TAG)) {
@@ -97,33 +110,43 @@ class ControlViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    private fun decodeMessage(message: MqttMessage?) {
-        val messageJson = Gson().fromJson(message.toString(), MQTTMessage::class.java)
-        val decodedImageBytes: ByteArray
-        try {
-            decodedImageBytes = Base64.decode(messageJson.image.toByteArray(), Base64.DEFAULT)
-        } catch (e: UnsupportedEncodingException) {
-            Log.d(TAG, "This is not a base64 data", e)
-            return
-        } catch (e: IllegalArgumentException) {
-            Log.d(TAG, "This is not a base64 data", e)
-            return
+    fun updateImage(parkingLots: ParkingLots) {
+        when(parkingLots){
+            ParkingLots.BONARDI -> if (::bitBonardi.isInitialized) {
+                _bitmap.value = bitBonardi
+            }
+            ParkingLots.PONZIO ->  if (::bitPonzio.isInitialized) {
+                _bitmap.value = bitPonzio
+            }
         }
+    }
+
+    private fun decodeMessage(message: MqttMessage?): Bitmap {
+        val messageJson = Gson().fromJson(message.toString(), MQTTMessage::class.java)
+        val decodedImageBytes = Base64.decode(messageJson.image.toByteArray(), Base64.DEFAULT)
+//        try {
+//            decodedImageBytes = Base64.decode(messageJson.image.toByteArray(), Base64.DEFAULT)
+//        } catch (e: UnsupportedEncodingException) {
+//            Log.d(TAG, "This is not a base64 data", e)
+//        } catch (e: IllegalArgumentException) {
+//            Log.d(TAG, "This is not a base64 data", e)
+//        }
 
         Log.d(TAG, "Image decoded.")
         val tmpBitmap: Bitmap =
             BitmapFactory.decodeByteArray(decodedImageBytes, 0, decodedImageBytes.size)
 
-        _bitmap.value = tmpBitmap
+//        _bitmap.value = tmpBitmap
+        return tmpBitmap
     }
 
-    fun getSelectedParking(parkingName: String) {
-        selectedParking = parkingName.lowercase()
-        mqttManager.unsubscribe(currentTopics)
-        currentTopics =
-            arrayOf("$BASE_TOPIC$selectedParking/image", "$BASE_TOPIC$selectedParking/prediction")
-        mqttManager.subscribe(currentTopics, intArrayOf(2, 2))
-    }
+//    fun getSelectedParking(parkingName: String) {
+//        selectedParking = parkingName.lowercase()
+//        mqttManager.unsubscribe(currentTopics)
+//        currentTopics =
+//            arrayOf("$BASE_TOPIC$selectedParking/image", "$BASE_TOPIC$selectedParking/prediction")
+//        mqttManager.subscribe(currentTopics, intArrayOf(2, 2))
+//    }
 
     internal var bitmap: MutableLiveData<Bitmap>
         get() {
@@ -131,6 +154,14 @@ class ControlViewModel(app: Application) : AndroidViewModel(app) {
         }
         set(value) {
             _bitmap = value
+        }
+
+    internal var bitmapPonzio: MutableLiveData<Bitmap>
+        get() {
+            return _bitmapPonzio
+        }
+        set(value) {
+            _bitmapPonzio = value
         }
 
     internal var slotsPrediction: MutableLiveData<Int>
