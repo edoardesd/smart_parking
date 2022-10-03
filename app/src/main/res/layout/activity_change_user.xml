@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="200dp"
+    android:paddingBottom="200dp"
+    tools:context=".ui.login.ChangeUserActivity">
+
+    <Button
+        android:id="@+id/btn_student_architecture"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Architecture Student"
+        app:layout_constraintBottom_toTopOf="@+id/btn_student_engineering"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_student_engineering"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Engineering Student"
+        app:layout_constraintBottom_toTopOf="@+id/btn_prof_architecture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_student_architecture" />
+
+    <Button
+        android:id="@+id/btn_prof_architecture"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Architecture Professor"
+        app:layout_constraintBottom_toTopOf="@+id/btn_prof_engineering"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_student_engineering" />
+
+    <Button
+        android:id="@+id/btn_prof_engineering"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Engineering Professor"
+        app:layout_constraintBottom_toTopOf="@+id/btn_guest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_prof_architecture" />
+
+    <Button
+        android:id="@+id/btn_guest"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Guest"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_prof_engineering" />
+</androidx.constraintlayout.widget.ConstraintLayout>

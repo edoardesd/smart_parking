@@ -52,8 +52,8 @@ class LoginActivity : AppCompatActivity() {
 
                                 globalIsLoggedIn = true
                                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                                intent.flags =
-                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                                intent.flags =
+//                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 intent.putExtra(
                                     "user_id",
                                     FirebaseAuth.getInstance().currentUser!!.uid

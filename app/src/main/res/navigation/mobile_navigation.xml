@@ -54,6 +54,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_welcomeActivity"
             app:destination="@id/welcomeActivity" />
+        <action
+            android:id="@+id/action_settingsFragment_to_changeUserActivity"
+            app:destination="@id/changeUserActivity" />
     </fragment>
 
     <fragment
@@ -73,4 +76,9 @@
         android:name="com.example.smartparking.ui.login.WelcomeActivity"
         android:label="activity_welcome"
         tools:layout="@layout/activity_welcome" />
+    <activity
+        android:id="@+id/changeUserActivity"
+        android:name="com.example.smartparking.ui.login.ChangeUserActivity"
+        android:label="activity_change_user"
+        tools:layout="@layout/activity_change_user" />
 </navigation>

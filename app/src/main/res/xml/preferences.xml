@@ -1,40 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:title="Home Location">
+    <PreferenceCategory android:title="Home Location">
         <SwitchPreference
-            android:key="USE_DEVICE_LOCATION"
-            android:title="Use device location"
-            android:summary="Allow the app to get your location"
             android:defaultValue="true"
-            android:disableDependentsState="true"/>
+            android:disableDependentsState="true"
+            android:key="USE_DEVICE_LOCATION"
+            android:summary="Allow the app to get your location"
+            android:title="Use device location" />
 
         <EditTextPreference
-            android:key="CUSTOM_LOCATION"
-            android:title="Location"
-            android:summary="The location where you start your trip"
             android:defaultValue="Milan"
-            android:dependency="USE_DEVICE_LOCATION"/>
+            android:dependency="USE_DEVICE_LOCATION"
+            android:key="CUSTOM_LOCATION"
+            android:summary="The location where you start your trip"
+            android:title="Location" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="Units">
+    <PreferenceCategory android:title="Units">
         <ListPreference
-            android:key="UNIT_SYSTEM"
-            android:title="Unit system"
-            android:summary="%s"
             android:defaultValue="METRIC"
             android:entries="@array/unitSystemEntries"
-            android:entryValues="@array/unitSystemValues"/>
+            android:entryValues="@array/unitSystemValues"
+            android:key="UNIT_SYSTEM"
+            android:summary="%s"
+            android:title="Unit system" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="Others">
-    <Preference
-        android:title="Log out"
-        android:key="log_out_button"
-        android:summary="Log out from Smart Parking" />
+    <PreferenceCategory android:title="Others">
+        <Preference
+            android:key="switch_user_button"
+            android:summary=""
+            android:title="Change User" />
+
+        <Preference
+            android:key="log_out_button"
+            android:summary="Log out from Smart Parking"
+            android:title="Log out" />
     </PreferenceCategory>
 
 </PreferenceScreen>

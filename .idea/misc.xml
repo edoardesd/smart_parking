@@ -40,6 +40,7 @@
         <entry key="app/src/main/res/drawable/shape_credentials.xml" value="0.161" />
         <entry key="app/src/main/res/font/montserrat_font.xml" value="0.3875" />
         <entry key="app/src/main/res/layout-v28/activity_login.xml" value="0.3984156290690104" />
+        <entry key="app/src/main/res/layout/activity_change_user.xml" value="0.19067977768277042" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3507965087890625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16604766845703126" />
         <entry key="app/src/main/res/layout/activity_user_selection.xml" value="0.1314125566617094" />
