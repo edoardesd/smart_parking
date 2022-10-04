@@ -81,4 +81,9 @@
         android:name="com.example.smartparking.ui.login.ChangeUserActivity"
         android:label="activity_change_user"
         tools:layout="@layout/activity_change_user" />
+    <fragment
+        android:id="@+id/bubbleFragment"
+        android:name="com.example.smartparking.ui.bubble.BubbleFragment"
+        android:label="fragment_bubble"
+        tools:layout="@layout/fragment_bubble" />
 </navigation>

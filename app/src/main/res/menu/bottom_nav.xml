@@ -11,7 +11,7 @@
         android:icon="@drawable/ic_control"
         android:title="Monitor"/>
     <item
-        android:id="@+id/bubblesFragment"
+        android:id="@+id/bubbleFragment"
         android:icon="@drawable/ic_profile"
         android:title="Bubble"/>
     <item
