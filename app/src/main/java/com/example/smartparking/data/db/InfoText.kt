@@ -57,6 +57,7 @@ class InfoText(){
     }
 
     private fun setTextAvgPark(){
+        infoTransportTime.setParkTime()
         textAvgPark = "\nAverage parking time: ${infoTransportTime.parkingTime.inWholeMinutes.toInt()} minutes."
     }
 

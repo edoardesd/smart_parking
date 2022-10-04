@@ -3,6 +3,8 @@ package com.example.smartparking.data.db
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.smartparking.data.MyDate
+import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalParkingFreeBonardi
+import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalParkingFreePonzio
 import com.example.smartparking.internal.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -22,7 +24,10 @@ class InfoTransportTime {
 
     private fun updateSlots(){
         totalSlots = slotsPerParking[parkingLot]!!
-        freeSlots = freePerParking[parkingLot]!!
+        freeSlots = when(parkingLot){
+            ParkingLots.BONARDI -> globalParkingFreeBonardi
+            ParkingLots.PONZIO -> globalParkingFreePonzio
+        }
     }
 
     fun setAvailability(): ParkingAvailability{
@@ -91,7 +96,7 @@ class InfoTransportTime {
                 }
             }
             ParkingAvailability.HIGH ->  when (transportMode) {
-                TransportMode.DRIVING -> (2..5).random()
+                TransportMode.DRIVING -> (1..3).random()
                 TransportMode.BICYCLING -> (1..2).random()
                 TransportMode.WALKING -> 0
             }

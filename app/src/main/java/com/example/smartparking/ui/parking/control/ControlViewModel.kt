@@ -12,8 +12,7 @@ import com.example.smartparking.data.db.InfoText
 import com.example.smartparking.data.db.SmartParkingApplication
 import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalDestinationInfo
 import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalIsParking
-import com.example.smartparking.data.network.MQTTConnectionParams
-import com.example.smartparking.data.network.MQTTManager
+import com.example.smartparking.data.network.*
 import com.example.smartparking.data.network.MQTTMessage.MQTTMessage
 import com.example.smartparking.internal.ParkingLots
 import com.google.gson.Gson
@@ -21,15 +20,15 @@ import org.eclipse.paho.client.mqttv3.*
 import java.io.UnsupportedEncodingException
 import java.util.*
 
-
-const val serverURI = "tcp://broker.hivemq.com:1883"
-const val TOPIC_IMAGE = "smart/parking/polimi/+/image"
-const val TOPIC_PREDICTION = "smart/parking/polimi/+/prediction"
-const val BASE_TOPIC = "smart/parking/polimi/"
+//
+//const val serverURI = "tcp://broker.hivemq.com:1883"
+//const val TOPIC_IMAGE = "smart/parking/polimi/+/image"
+//const val TOPIC_PREDICTION = "smart/parking/polimi/+/prediction"
+//const val BASE_TOPIC = "smart/parking/polimi/"
 
 const val STARTUP_PARKING = "deib"
-const val IMAGE_TAG = "image"
-const val PREDICTION_TAG = "prediction"
+//const val IMAGE_TAG = "image"
+//const val PREDICTION_TAG = "prediction"
 
 
 class ControlViewModel(app: Application) : AndroidViewModel(app) {
@@ -44,15 +43,14 @@ class ControlViewModel(app: Application) : AndroidViewModel(app) {
     private var currentTopics =
         arrayOf("$BASE_TOPIC+/image", "$BASE_TOPIC+/prediction")
     private val connectionParams = MQTTConnectionParams(
-        uniqueID, serverURI,
+        uniqueID, SERVER_URI_MQTT,
         currentTopics,
         intArrayOf(2, 2)
     )
     private val mqttManager: MQTTManager = MQTTManager(connectionParams, context)
     private lateinit var selectedParking: String
-    private lateinit var oldSelectedParking: String
+//    private lateinit var oldSelectedParking: String
     private lateinit var destinationInfo: InfoText
-
 
     init {
         if (SmartParkingApplication.isDestinationInitialized()) {
