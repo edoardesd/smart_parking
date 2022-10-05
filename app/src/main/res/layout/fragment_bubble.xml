@@ -9,24 +9,27 @@
         android:layout_width="match_parent"
         android:layout_height="290dp"
         android:orientation="vertical"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="24dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_profile_pic"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@drawable/ic_walk_blue"/>
 
         <TextView
+            android:id="@+id/tv_name_surname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name Surname"
             style="@style/Theme.SmartParking.textTitle"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="16dp"/>
 
         <TextView
+            android:id="@+id/tv_person_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10410164"
@@ -34,6 +37,7 @@
             style="@style/Theme.SmartParking.textStandard"/>
 
         <TextView
+            android:id="@+id/tv_email_bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="name.surname@polimi.it"
@@ -43,7 +47,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="270dp"
+        android:layout_marginTop="250dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -59,7 +63,7 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/ic_car_blue"
+                android:src="@drawable/ic_calendar_orange"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="16dp"/>
 
@@ -80,8 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Look up for your next appointments"
-                    style="@style/Theme.SmartParking.textStandard"
-                    android:textSize="14dp"/>
+                    style="@style/Theme.SmartParking.textStandard"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -98,7 +101,7 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/ic_car_blue"
+                android:src="@drawable/ic_vehicles_orange"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="16dp"/>
 
@@ -119,8 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Check and register your means of transportation"
-                    style="@style/Theme.SmartParking.textStandard"
-                    android:textSize="14dp"/>
+                    style="@style/Theme.SmartParking.textStandard"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -137,7 +139,7 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/ic_car_blue"
+                android:src="@drawable/ic_stops_orange"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="16dp"/>
 
@@ -158,8 +160,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Select your favourite places"
-                    style="@style/Theme.SmartParking.textStandard"
-                    android:textSize="14dp"/>
+                    style="@style/Theme.SmartParking.textStandard"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -176,7 +177,7 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/ic_car_blue"
+                android:src="@drawable/ic_explore_orange"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="16dp"/>
 
@@ -197,11 +198,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Discover the different features of your campus"
-                    style="@style/Theme.SmartParking.textStandard"
-                    android:textSize="14dp"/>
+                    style="@style/Theme.SmartParking.textStandard"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_career"
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:layout_marginTop="4dp"
@@ -214,7 +215,7 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/ic_car_blue"
+                android:src="@drawable/ic_career_orange"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="16dp"/>
 
@@ -235,8 +236,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Check your study plan"
-                    style="@style/Theme.SmartParking.textStandard"
-                    android:textSize="14dp"/>
+                    style="@style/Theme.SmartParking.textStandard"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

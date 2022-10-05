@@ -7,7 +7,7 @@ class SmartParkingApplication: Application() {
     companion object {
         var globalIsParking: Boolean = false
         var globalIsLoggedIn: Boolean = false
-        var globalUserType: UserType = UserType.STUDENT_ARCHITECTURE
+        var globalUserType: UserType = UserType.PROF_ENGINEERING
         var globalParkingFreePonzio: Int = 0
         var globalParkingFreeBonardi: Int = 0
 

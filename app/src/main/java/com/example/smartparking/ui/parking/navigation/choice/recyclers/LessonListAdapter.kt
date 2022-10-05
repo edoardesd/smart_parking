@@ -9,12 +9,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
 import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalUserType
 import com.example.smartparking.internal.UserType
+import kotlinx.coroutines.NonDisposableHandle.parent
 import java.text.SimpleDateFormat
 
 internal class LessonListAdapter(private var lessonList: List<LessonListModel>) :
@@ -61,6 +63,10 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>) 
         holder.prof.text = lesson.prof
         if (globalUserType == UserType.GUEST) {
             holder.guestDetails.text = lesson.guestDetails
+            holder.title.setTextColor(ContextCompat.getColor(holder.title.context ,R.color.mediumGray5G))
+            holder.description.setTextColor(ContextCompat.getColor(holder.description.context ,R.color.mediumGray5G))
+            holder.prof.setTextColor(ContextCompat.getColor(holder.prof.context ,R.color.mediumGray5G))
+            holder.guestDetails.setTextColor(ContextCompat.getColor(holder.guestDetails.context ,R.color.mediumGray5G))
         } else {
             holder.dateTime.text =
                 sdfStart.format(lesson.lessonTime.startDate) + "-" + sdfEnd.format(lesson.lessonTime.endDate)
@@ -80,9 +86,24 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>) 
 
         if (lessonList[position].isSelected) {
             holder.lessonClickable.setBackgroundResource(R.drawable.lesson_selected)
+            if (globalUserType == UserType.GUEST){
+                holder.title.setTextColor(ContextCompat.getColor(holder.title.context ,R.color.white))
+                holder.description.setTextColor(ContextCompat.getColor(holder.description.context ,R.color.white))
+                holder.prof.setTextColor(ContextCompat.getColor(holder.prof.context ,R.color.white))
+                holder.guestDetails.setTextColor(ContextCompat.getColor(holder.guestDetails.context ,R.color.white))
+            }
             _recyclerView?.smoothScroll(position)
         } else {
+            if (globalUserType == UserType.GUEST){
+                holder.lessonClickable.setBackgroundResource(R.drawable.lesson_search)
+                holder.title.setTextColor(ContextCompat.getColor(holder.title.context ,R.color.mediumGray5G))
+                holder.description.setTextColor(ContextCompat.getColor(holder.description.context ,R.color.mediumGray5G))
+                holder.prof.setTextColor(ContextCompat.getColor(holder.prof.context ,R.color.mediumGray5G))
+                holder.guestDetails.setTextColor(ContextCompat.getColor(holder.guestDetails.context ,R.color.mediumGray5G))
+
+            }else{
             holder.lessonClickable.setBackgroundResource(R.drawable.lesson)
+            }
         }
 
         if (lessonList.all { !it.isSelected }) {
