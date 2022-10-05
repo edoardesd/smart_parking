@@ -90,6 +90,9 @@
             android:id="@+id/iv_maps_preview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/bovisa_bonardi_bicycling" />
     </LinearLayout>
 

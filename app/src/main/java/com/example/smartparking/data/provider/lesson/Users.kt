@@ -1,4 +1,4 @@
-package com.example.smartparking.data.recycleList
+package com.example.smartparking.data.provider.lesson
 
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListModel
 import java.util.ArrayList

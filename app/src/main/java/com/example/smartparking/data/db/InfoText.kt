@@ -68,7 +68,7 @@ class InfoText(){
 
         return sdf.format(date)
     }
-    private fun updateAll(){
+    fun updateAll(){
         setTextRide()
         setTextPark()
         setTextAvailable()
@@ -79,12 +79,12 @@ class InfoText(){
     }
 
     fun totalTimeText(): Spanned? {
-        updateAll()
+//        updateAll()
         return Html.fromHtml(textTotal)
     }
 
     fun fullText(): String{
-        updateAll()
+//        updateAll()
         return textRide +
                 textPark +
                 textAvailable +

@@ -13,17 +13,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
+import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalUserType
+import com.example.smartparking.internal.UserType
 import java.text.SimpleDateFormat
 
-internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
-        RecyclerView.Adapter<LessonListAdapter.MyViewHolder>(){
+internal class LessonListAdapter(private var lessonList: List<LessonListModel>) :
+    RecyclerView.Adapter<LessonListAdapter.MyViewHolder>() {
 
-    private var _lessonSelected: MutableLiveData<LessonListModel?> = MutableLiveData<LessonListModel?>()
+    private var _lessonSelected: MutableLiveData<LessonListModel?> =
+        MutableLiveData<LessonListModel?>()
     private var _recyclerView: RecyclerView? = null
     private var scrollPosition = 0
 
 
-    internal inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
+    internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var title: TextView = view.findViewById(R.id.tv_lesson_name)
         var description: TextView = view.findViewById(R.id.tv_room_details)
         var prof: TextView = view.findViewById(R.id.tv_prof_name)
@@ -31,6 +34,7 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
         var preview: ImageView = view.findViewById(R.id.iv_bubble_preview)
         var lessonClickable: LinearLayout = view.findViewById(R.id.ll_lesson_clickable)
         var expandedLayout: ConstraintLayout = view.findViewById(R.id.expanded_layout)
+        var guestDetails: TextView = view.findViewById(R.id.tv_time_details)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -54,11 +58,16 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
         val sdfEnd = SimpleDateFormat("HH:mm")
         holder.title.text = lesson.title
         holder.description.text = lesson.description
-        holder.prof.text = "Prof." + lesson.prof
-        holder.dateTime.text = sdfStart.format(lesson.lessonTime.startDate) + "-" + sdfEnd.format(lesson.lessonTime.endDate)
+        holder.prof.text = lesson.prof
+        if (globalUserType == UserType.GUEST) {
+            holder.guestDetails.text = lesson.guestDetails
+        } else {
+            holder.dateTime.text =
+                sdfStart.format(lesson.lessonTime.startDate) + "-" + sdfEnd.format(lesson.lessonTime.endDate)
+        }
         holder.preview.setImageResource(lesson.preview)
 
-        holder.expandedLayout.visibility = if(lesson.isSelected) View.VISIBLE else View.GONE
+        holder.expandedLayout.visibility = if (lesson.isSelected) View.VISIBLE else View.GONE
 
         holder.lessonClickable.setOnClickListener {
             lessonList[position].isSelected = !lesson.isSelected
@@ -69,36 +78,40 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
             notifyDataSetChanged()
         }
 
-        if(lessonList[position].isSelected){
+        if (lessonList[position].isSelected) {
             holder.lessonClickable.setBackgroundResource(R.drawable.lesson_selected)
             _recyclerView?.smoothScroll(position)
-        }
-        else{
+        } else {
             holder.lessonClickable.setBackgroundResource(R.drawable.lesson)
         }
 
-        if (lessonList.all { !it.isSelected }){
+        if (lessonList.all { !it.isSelected }) {
             _lessonSelected.value = null
             _recyclerView?.smoothScroll(scrollPosition)
         }
     }
 
-    private fun RecyclerView.smoothScroll(toPos: Int, duration: Int = 200, onFinish: () -> Unit = {}) {
+    private fun RecyclerView.smoothScroll(
+        toPos: Int,
+        duration: Int = 200,
+        onFinish: () -> Unit = {}
+    ) {
         try {
-            val smoothScroller: RecyclerView.SmoothScroller = object : LinearSmoothScroller(context) {
-                override fun getVerticalSnapPreference(): Int {
-                    return SNAP_TO_END
-                }
+            val smoothScroller: RecyclerView.SmoothScroller =
+                object : LinearSmoothScroller(context) {
+                    override fun getVerticalSnapPreference(): Int {
+                        return SNAP_TO_END
+                    }
 
-                override fun calculateTimeForScrolling(dx: Int): Int {
-                    return duration
-                }
+                    override fun calculateTimeForScrolling(dx: Int): Int {
+                        return duration
+                    }
 
-                override fun onStop() {
-                    super.onStop()
-                    onFinish.invoke()
+                    override fun onStop() {
+                        super.onStop()
+                        onFinish.invoke()
+                    }
                 }
-            }
             smoothScroller.targetPosition = toPos
             layoutManager?.startSmoothScroll(smoothScroller)
         } catch (e: Exception) {
@@ -108,7 +121,7 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
 
     private fun resetSelection(position: Int) {
         for ((index, les) in lessonList.withIndex()) {
-            if (index != position){
+            if (index != position) {
                 les.isSelected = false
             }
         }
@@ -116,7 +129,11 @@ internal class LessonListAdapter(private var lessonList: List<LessonListModel>):
 
     override fun getItemCount() = lessonList.count()
 
-    internal var lessonSelected : MutableLiveData<LessonListModel?>
-        get() {return _lessonSelected }
-        set(value) { _lessonSelected = value}
+    internal var lessonSelected: MutableLiveData<LessonListModel?>
+        get() {
+            return _lessonSelected
+        }
+        set(value) {
+            _lessonSelected = value
+        }
 }

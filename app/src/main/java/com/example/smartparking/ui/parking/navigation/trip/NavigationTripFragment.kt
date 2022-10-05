@@ -2,6 +2,8 @@ package com.example.smartparking.ui.parking.navigation.trip
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -16,6 +19,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartparking.R
+import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.TripDetails
 import com.example.smartparking.data.db.InfoText
 import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalIsParking
@@ -37,6 +41,7 @@ class NavigationTripFragment : ScopedFragment() {
     private lateinit var tripDetailsLocal: TripDetails
     private lateinit var bubbleAdapter: BubbleSelectedAdapter
     private lateinit var binding: NavigationTripFragmentBinding
+    private var mapsButton: ImageView? = null
 
     private lateinit var selectedLesson: LessonListModel
     private var selectedBubbles = ArrayList<BubbleListModel>()
@@ -66,7 +71,6 @@ class NavigationTripFragment : ScopedFragment() {
         //activate parking
         globalIsParking = true
 
-
         val bottomNavigationView: BottomNavigationView =
             activity?.findViewById(R.id.bottom_nav) as BottomNavigationView
         bottomNavigationView.menu.findItem(R.id.navigationChoiceFragment).isChecked = true
@@ -78,6 +82,38 @@ class NavigationTripFragment : ScopedFragment() {
         initLeaveButton()
         initMonitorButton()
         initImage()
+        initMapsButton()
+
+    }
+
+    private fun initMapsButton() {
+        mapsButton = view?.findViewById(R.id.iv_maps_preview)
+        mapsButton?.setOnClickListener {
+            val builder = Uri.Builder()
+            builder.scheme("https")
+                .authority("www.google.com")
+                .path("maps/dir/")
+                .appendQueryParameter("api", "1")
+                .appendQueryParameter("origin", tripDetailsLocal.startLocation)
+                .appendQueryParameter(
+                    "destination",
+                    selectedLesson.coordinates
+                )
+                .appendQueryParameter("travelmode", navigationMethod?.name?.lowercase())
+                .appendQueryParameter("arrival_time", infoNavigation.infoTransportTime.startTime?.epoch)
+                .appendQueryParameter("traffic_mode", "pessimistic")
+
+            val addressUri = builder.build()
+
+            Log.d(TAG, "My url $addressUri")
+
+            val intent = Intent(Intent.ACTION_VIEW, addressUri)
+            intent.setPackage("com.google.android.apps.maps")
+            intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity")
+
+//            intent.setPackage("com.android.chrome")
+            startActivity(intent)
+        }
     }
 
     private fun initImage() {

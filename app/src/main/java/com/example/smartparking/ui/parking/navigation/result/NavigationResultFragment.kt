@@ -44,7 +44,7 @@ class NavigationResultFragment : ScopedFragment() {
     private lateinit var binding: NavigationResultFragmentBinding
     private lateinit var navDetails: NavigationDetails
     private val navigationResultViewModel: NavigationResultViewModel by viewModels()
-    private var mapsButton: Button? = null
+//    private var mapsButton: Button? = null
     private var locationButton: TextView? = null
     private var carButton: LinearLayout? = null
     private var bikeButton: LinearLayout? = null
@@ -55,18 +55,21 @@ class NavigationResultFragment : ScopedFragment() {
     private var selectedBubbles = ArrayList<BubbleListModel>()
     private lateinit var loadingDialog: LoadingDialog
     private lateinit var originPosition: String
-        private lateinit var bubbleAdapter: BubbleSelectedAdapter
-        private lateinit var selectedLesson: LessonListModel
-        private lateinit var startTime: MyDate
-        private lateinit var infoCar: InfoText
-        private lateinit var infoBike: InfoText
+    private lateinit var bubbleAdapter: BubbleSelectedAdapter
+    private lateinit var selectedLesson: LessonListModel
+    private lateinit var startTime: MyDate
+    private lateinit var infoCar: InfoText
+    private lateinit var infoBike: InfoText
 
-        override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            binding =
-                DataBindingUtil.inflate(inflater, R.layout.navigation_result_fragment, container, false)
+    private lateinit var showTextCar: String
+    private lateinit var showTextBike: String
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.navigation_result_fragment, container, false)
         return binding.root
     }
 
@@ -101,7 +104,6 @@ class NavigationResultFragment : ScopedFragment() {
         initNavigationButtons()
         initSwitchLocation()
     }
-
 
 
     private fun initTitle() {
@@ -145,15 +147,20 @@ class NavigationResultFragment : ScopedFragment() {
         // pass data to trip fragment
         globalDestinationInfo = getInfoText(transportMode)
 
-        val tripDetail = TripDetails(getInfoText(transportMode), selectedLesson, selectedBubbles, getStartLocation())
+        val tripDetail = TripDetails(
+            globalDestinationInfo,
+            selectedLesson,
+            selectedBubbles,
+            getStartLocation()
+        )
         val actionDetail = NavigationResultFragmentDirections.actionToTrip(tripDetail)
         Navigation.findNavController(view).navigate(actionDetail)
     }
 
     private fun getStartLocation(): String {
-        return if(navigationResultViewModel.isLocationClicked.value == true) {StartLocation.CENTRALE.name.lowercase()
-        }
-        else StartLocation.BOVISA.name.lowercase()
+        return if (navigationResultViewModel.isLocationClicked.value == true) {
+            StartLocation.CENTRALE.name.lowercase()
+        } else StartLocation.BOVISA.name.lowercase()
     }
 
     private fun getInfoText(transportMode: TransportMode): InfoText {
@@ -166,39 +173,15 @@ class NavigationResultFragment : ScopedFragment() {
 
     private fun initSwitchLocation() {
         locationButton = view?.findViewById(R.id.tv_current_location)
-        locationButton?.setOnClickListener{
-            navigationResultViewModel.isLocationClicked.value = !navigationResultViewModel.isLocationClicked.value!!
+        locationButton?.setOnClickListener {
+            navigationResultViewModel.isLocationClicked.value =
+                !navigationResultViewModel.isLocationClicked.value!!
 //            tv_current_location.text = "Milano Centrale"
             bindUI(navDetails)
         }
     }
 
-    private fun initMapsButton(navDetails: NavigationDetails) {
-//        mapsButton = view?.findViewById(R.id.btn_googleMaps)
-        mapsButton?.setOnClickListener {
-            val builder = Uri.Builder()
-            builder.scheme("https")
-                .authority("www.google.com")
-                .path("maps/dir/")
-                .appendQueryParameter("api", "1")
-                .appendQueryParameter("origin", originPosition)
-                .appendQueryParameter(
-                    "destination",
-                    requestDirectionDataCar.destinations
-                )
-                .appendQueryParameter("travelmode", "driving")
-                .appendQueryParameter("arrival_time", startTime.epoch)
-                .appendQueryParameter("traffic_mode", "pessimistic")
 
-            val addressUri = builder.build()
-
-            Log.d(TAG, "My url $addressUri")
-
-            val intent = Intent(Intent.ACTION_VIEW, addressUri)
-            intent.setPackage("com.android.chrome")
-            startActivity(intent)
-        }
-    }
 
     private fun bindUI(navDetails: NavigationDetails) = launch {
         navigationResultViewModel.getNavigationData(
@@ -233,8 +216,10 @@ class NavigationResultFragment : ScopedFragment() {
         infoCar.infoTransportTime.startTime = startTime
         infoCar.infoTransportTime.parkingLot = selectedLesson.parkingPlace
         infoCar.infoTransportTime.transportTime = googleResult!!
+        infoCar.updateAll()
+        showTextCar = infoCar.fullText()
         tv_car_result.text = infoCar.totalTimeText()
-        tv_car_text.text = infoCar.fullText()
+        tv_car_text.text = showTextCar
         setBoxColor(ll_car_button, infoCar.infoTransportTime.availability)
 
         tv_availability_car.text = infoCar.infoTransportTime.availability.name.uppercase()
@@ -246,8 +231,10 @@ class NavigationResultFragment : ScopedFragment() {
         infoBike.infoTransportTime.parkingLot = selectedLesson.parkingPlace
         infoBike.infoTransportTime.startTime = startTime
         infoBike.infoTransportTime.transportTime = googleResult!!
+        infoBike.updateAll()
+        showTextBike = infoBike.fullText()
         tv_bike_result.text = infoBike.totalTimeText()
-        tv_bike_text.text = infoBike.fullText()
+        tv_bike_text.text = showTextBike
         setBoxColor(ll_bike_button, infoBike.infoTransportTime.availability)
 
         tv_availability_bike.text = infoBike.infoTransportTime.availability.name.uppercase()

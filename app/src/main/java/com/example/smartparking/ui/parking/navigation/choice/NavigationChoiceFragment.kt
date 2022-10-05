@@ -19,10 +19,10 @@ import com.example.smartparking.data.LessonTime
 import com.example.smartparking.data.MyDate
 import com.example.smartparking.data.NavigationDetails
 import com.example.smartparking.data.db.LessonDetails
-import com.example.smartparking.data.recycleList.BubbleProvider
-import com.example.smartparking.data.recycleList.LessonProvider
+import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalUserType
 import com.example.smartparking.databinding.NavigationChoiceFragmentBinding
 import com.example.smartparking.internal.LoadingDialog
+import com.example.smartparking.internal.UserType
 import com.example.smartparking.ui.MainActivity
 import com.example.smartparking.ui.base.ScopedFragment
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.*
@@ -33,6 +33,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.navigation_choice_fragment.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -94,7 +95,17 @@ class NavigationChoiceFragment : ScopedFragment() {
         initTimePicker()
         initDatePicker()
         initGoButton()
+        if(globalUserType == UserType.GUEST){
+            initGuest()
+        }
 //        initTextView()
+
+    }
+
+    private fun initGuest() {
+        tv_bubble_stops.text = "Bubble stops"
+        tv_destinations.text = "Popular destinations"
+        tv_destinations_subtext.text = "Tap a place in the campus"
 
     }
 

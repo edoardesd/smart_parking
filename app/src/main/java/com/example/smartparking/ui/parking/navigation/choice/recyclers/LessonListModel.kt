@@ -11,6 +11,7 @@ class LessonListModel (val title:String,
                        val preview:Int,
                        val parkingPlace: ParkingLots = ParkingLots.PONZIO,
                        val coordinates: String = "",
+                       val guestDetails: String = "",
                        var isSelected: Boolean = false) {
 
     fun lessonToString(): String {

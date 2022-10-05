@@ -6,28 +6,19 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel;
 import com.example.smartparking.data.db.RoomDetails
 import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalParkingFreeBonardi
 import com.example.smartparking.data.db.SmartParkingApplication.Companion.globalParkingFreePonzio
 import com.example.smartparking.data.network.*
-import com.example.smartparking.data.network.MQTTMessage.MQTTMessage
-import com.example.smartparking.data.network.choice.DatabaseNetworkDataSourceImpl
-import com.example.smartparking.data.recycleList.BubbleProvider
-import com.example.smartparking.data.recycleList.LessonProvider
-import com.example.smartparking.internal.ParkingLots
+import com.example.smartparking.data.provider.bubble.BubbleProvider
+import com.example.smartparking.data.provider.lesson.LessonProvider
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListModel
-import com.google.gson.Gson
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.coroutines.coroutineContext
 
 class NavigationChoiceViewModel(app: Application) : AndroidViewModel(app) {
 

@@ -1,4 +1,4 @@
-package com.example.smartparking.data.recycleList
+package com.example.smartparking.data.provider.bubble
 
 import com.example.smartparking.R
 import com.example.smartparking.internal.CrowdLevel
@@ -6,20 +6,17 @@ import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleLis
 import java.util.ArrayList
 import kotlin.time.Duration.Companion.minutes
 
-class BubbleProvider {
+class ProfArchitectureBubble: BubbleInterface {
+    override var listBubbles =  ArrayList<BubbleListModel>()
 
-    private var listBubbles = ArrayList<BubbleListModel>()
-
-    fun getAllBubblesLocal(): ArrayList<BubbleListModel>{
-
-        listBubbles.add(BubbleListModel("Bar", R.drawable.bar, CrowdLevel.values().random(), 4.minutes))
+    override fun getMyBubbles(): ArrayList<BubbleListModel> {
+        listBubbles.add(BubbleListModel("Model Lab", R.drawable.lab, CrowdLevel.values().random(), 4.minutes))
         listBubbles.add(BubbleListModel("Library", R.drawable.library, CrowdLevel.values().random(), 8.minutes))
-        listBubbles.add(BubbleListModel("Microwaves", R.drawable.microwaves, CrowdLevel.values().random(), 2.minutes))
+        listBubbles.add(BubbleListModel("Microwaves", R.drawable.microwaves, CrowdLevel.values().random(), 1.minutes))
         listBubbles.add(BubbleListModel("Park", R.drawable.park, CrowdLevel.values().random(), 8.minutes))
         listBubbles.add(BubbleListModel("Study Room", R.drawable.study_room, CrowdLevel.values().random(), 9.minutes))
         listBubbles.add(BubbleListModel("Toilets", R.drawable.toilets, CrowdLevel.values().random(), 3.minutes))
-        listBubbles.add(BubbleListModel("Study Room", R.drawable.study_room, CrowdLevel.values().random(), 1.minutes))
-        listBubbles.add(BubbleListModel("Toilets", R.drawable.toilets, CrowdLevel.values().random(), 2.minutes))
+        listBubbles.add(BubbleListModel("Poliprint", R.drawable.print, CrowdLevel.values().random(), 5.minutes))
 
         return listBubbles
     }
