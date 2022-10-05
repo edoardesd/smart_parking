@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
@@ -23,7 +22,8 @@ internal class SearchAdapter(private var lessonSearch: List<LessonListModel>):
     internal inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
         var title: TextView = view.findViewById(R.id.search_lesson_name)
         var description: TextView = view.findViewById(R.id.search_room_details)
-        var dateTime: TextView = view.findViewById(R.id.search_time_details)
+        var roomDetails: TextView = view.findViewById(R.id.search_time_details)
+        var roomType: TextView = view.findViewById(R.id.search_room_type)
         var searchClickable: LinearLayout = view.findViewById(R.id.ll_search_clickable)
 //        var expandedLayout: ConstraintLayout = view.findViewById(R.id.expanded_layout)
     }
@@ -47,7 +47,8 @@ internal class SearchAdapter(private var lessonSearch: List<LessonListModel>):
         val lesson = lessonSearch[position]
         holder.title.text = lesson.title
         holder.description.text = lesson.description
-        holder.dateTime.text = lesson.lessonTime.startDate.toString()
+        holder.roomType.text = lesson.prof
+        holder.roomDetails.text = lesson.guestDetails
 
         holder.searchClickable.setOnClickListener {
             lessonSearch[position].isSelected = true

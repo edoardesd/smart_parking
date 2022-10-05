@@ -48,6 +48,7 @@ class InfoText(){
     }
 
     private fun setTextLeave(){
+        infoTransportTime.setTotalTime()
         textLeave = "Leave at ${calculateLeaveTime()?.let { fromEpochToHour(it) }}."
     }
 

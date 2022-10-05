@@ -43,16 +43,16 @@
             android:textSize="11sp"
             android:fontFamily="@font/montserrat"/>
 
-        <TextView android:id="@+id/search_prof_name"
-            android:textSize="11sp"
-            android:textColor="@color/mediumGray5G"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="44dp"
+        <TextView
+            android:id="@+id/search_room_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="prof name"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="44dp"
             android:fontFamily="@font/montserrat"
-            />
+            android:text="prof name"
+            android:textColor="@color/mediumGray5G"
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/search_time_details"

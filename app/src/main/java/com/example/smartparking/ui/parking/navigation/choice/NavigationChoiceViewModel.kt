@@ -12,6 +12,7 @@ import com.example.smartparking.data.db.SmartParkingApplication.Companion.global
 import com.example.smartparking.data.network.*
 import com.example.smartparking.data.provider.bubble.BubbleProvider
 import com.example.smartparking.data.provider.lesson.LessonProvider
+import com.example.smartparking.data.provider.search.SearchProvider
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.BubbleListModel
 import com.example.smartparking.ui.parking.navigation.choice.recyclers.LessonListModel
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
@@ -30,6 +31,8 @@ class NavigationChoiceViewModel(app: Application) : AndroidViewModel(app) {
         MutableLiveData<ArrayList<BubbleListModel>>()
     private var _bubblesSelected: MutableLiveData<ArrayList<BubbleListModel>> =
         MutableLiveData<ArrayList<BubbleListModel>>()
+    private var _places: MutableLiveData<ArrayList<LessonListModel>> =
+        MutableLiveData<ArrayList<LessonListModel>>()
 
     private val context = getApplication<Application>().applicationContext
     private val uniqueID: String = "parking" + UUID.randomUUID().toString()
@@ -74,14 +77,14 @@ class NavigationChoiceViewModel(app: Application) : AndroidViewModel(app) {
 
         val internalLesson = LessonProvider()
         var internalBubbles = BubbleProvider()
+        var internalPlaces = SearchProvider()
         _lessons.value = internalLesson.getAllLessonsLocal()
         _bubbles.value = internalBubbles.getAllBubblesLocal()
+        _places.value = internalPlaces.getAllPlacesLocal()
 
     }
 
     private fun selectMessageToParse(topic: String, mqttMessage: MqttMessage) {
-//        val messageJson = Gson().fromJson(mqttMessage.toString(), MQTTMessage::class.java)
-
         if (topic.contains(PREDICTION_TAG)) {
             with(topic) {
                 when {
@@ -99,14 +102,6 @@ class NavigationChoiceViewModel(app: Application) : AndroidViewModel(app) {
 
     }
 
-
-//    internal fun getSelectedLocation(index: Int): RoomDetails {
-//        if (_rooms.value?.get(index) != null) {
-//            return _rooms.value?.get(index) ?: RoomDetails()
-//        }
-//        return RoomDetails()
-//    }
-
     internal var rooms: MutableLiveData<ArrayList<RoomDetails>>
         get() {
             return _rooms
@@ -121,6 +116,14 @@ class NavigationChoiceViewModel(app: Application) : AndroidViewModel(app) {
         }
         set(value) {
             _lessons = value
+        }
+
+    internal var places: MutableLiveData<ArrayList<LessonListModel>>
+        get() {
+            return _places
+        }
+        set(value) {
+            _places = value
         }
 
     internal var bubbles: MutableLiveData<ArrayList<BubbleListModel>>

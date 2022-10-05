@@ -53,7 +53,7 @@ class NavigationChoiceFragment : ScopedFragment() {
     private lateinit var recyclerLessons: RecyclerView
     private lateinit var recyclerSearch: RecyclerView
     private var date = MyDate()
-    private lateinit var datetime: Date
+//    private lateinit var datetime: Date
     private var lessonSelected: LessonListModel? = null
 
     private var selectedIndex : Int = 0
@@ -81,14 +81,9 @@ class NavigationChoiceFragment : ScopedFragment() {
         binding.navigationChoiceViewModel = navigationChoiceViewModel
 
         setHasOptionsMenu(true)
-//
-//        if (SmartParkingApplication.globalIsParking) {
-//            Navigation.findNavController(requireView()).navigate(R.id.navigationTripFragment)
-//        }
 
         initTitle()
         initProgressBar(requireContext())
-
         initBubbleView()
         initLessonView()
         initSearchView()
@@ -110,18 +105,28 @@ class NavigationChoiceFragment : ScopedFragment() {
     }
 
     private fun initSearchView() {
-        var datetime = Date(2022, 8, 22)
-        datetime.hours = 10
-        datetime.minutes = 15
 
-        searchLesson.add(LessonListModel("Room G.2", "Building 11 - Architettura","Aula didattica | disegno", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Room C", "Building 11 - Architettura", "Aula didattica | platea frontale",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Room 16B.1.1", "Building 16B", "Aula didattica | disegno",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Room B.2.4", "Building 14 - NAVE", "Aula didattica | disegno",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Room L.26.16", "Building 26", "Aula didattica | platea frontale",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Place 6", "room 23", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        searchLesson.add(LessonListModel("Place 7", "room 45", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
-        displayLesson.addAll(searchLesson)
+        navigationChoiceViewModel.places.observe(viewLifecycleOwner,
+            androidx.lifecycle.Observer { placeList ->
+                if (placeList == null) return@Observer
+
+                searchLesson.clear()
+                searchLesson.addAll(placeList)
+                displayLesson.addAll(placeList)
+            })
+//        var datetime = Date(2022, 8, 22)
+//        datetime.hours = 10
+//        datetime.minutes = 15
+//
+//
+//        searchLesson.add(LessonListModel("Room G.2", "Building 11 - Architettura","Aula didattica | disegno", LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+//        searchLesson.add(LessonListModel("Room C", "Building 11 - Architettura", "Aula didattica | platea frontale",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+//        searchLesson.add(LessonListModel("Room 16B.1.1", "Building 16B", "Aula didattica | disegno",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+//        searchLesson.add(LessonListModel("Room B.2.4", "Building 14 - NAVE", "Aula didattica | disegno",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+//        searchLesson.add(LessonListModel("Room L.26.16", "Building 26", "Aula didattica | platea frontale",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+//        searchLesson.add(LessonListModel("Place 6", "room 23", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+//        searchLesson.add(LessonListModel("Place 7", "room 45", "carlo",LessonTime(datetime, datetime), R.drawable.ic_map_indoor_background))
+//        displayLesson.addAll(searchLesson)
 
 
         searchAdapter = SearchAdapter(searchLesson)
@@ -138,6 +143,8 @@ class NavigationChoiceFragment : ScopedFragment() {
             listLessons.add(0, search)
             recyclerLessons?.adapter!!.notifyDataSetChanged()
             recyclerSearch.isInvisible = true
+            lessonSelected = search
+//            setSelectedTimeDate(lessonSelected!!)
             searchView.clearFocus()
         })
     }
@@ -205,32 +212,32 @@ class NavigationChoiceFragment : ScopedFragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun getAllLessons(database : FirebaseFirestore): ArrayList<LessonDetails> {
-        var lessonsArrayList : ArrayList<LessonDetails> = arrayListOf<LessonDetails>()
-
-        database.collection("lessons").get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val building = document.data.getValue("building").toString()
-                    val image = document.data.getValue("image").toString()
-                    val lesson = document.data.getValue("lesson").toString()
-                    val parking = document.data.getValue("parking").toString()
-                    val professor = document.data.getValue("professor").toString()
-                    val room = document.data.getValue("room").toString()
-
-                    val lessonItem = LessonDetails(building, image, lesson, parking, professor, room)
-                    lessonsArrayList.add(lessonItem)
-                    loadingDialog.dismiss()
-                    Log.d(TAG, "dismiss all lessons")
-                }
-                Log.d(TAG, "Rooms: $lessonsArrayList")
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents: ", exception)
-            }
-
-        return lessonsArrayList
-    }
+//    private fun getAllLessons(database : FirebaseFirestore): ArrayList<LessonDetails> {
+//        var lessonsArrayList : ArrayList<LessonDetails> = arrayListOf<LessonDetails>()
+//
+//        database.collection("lessons").get()
+//            .addOnSuccessListener { result ->
+//                for (document in result) {
+//                    val building = document.data.getValue("building").toString()
+//                    val image = document.data.getValue("image").toString()
+//                    val lesson = document.data.getValue("lesson").toString()
+//                    val parking = document.data.getValue("parking").toString()
+//                    val professor = document.data.getValue("professor").toString()
+//                    val room = document.data.getValue("room").toString()
+//
+//                    val lessonItem = LessonDetails(building, image, lesson, parking, professor, room)
+//                    lessonsArrayList.add(lessonItem)
+//                    loadingDialog.dismiss()
+//                    Log.d(TAG, "dismiss all lessons")
+//                }
+//                Log.d(TAG, "Rooms: $lessonsArrayList")
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.d(TAG, "Error getting documents: ", exception)
+//            }
+//
+//        return lessonsArrayList
+//    }
 
     private fun initBubbleView(){
         navigationChoiceViewModel.bubbles.observe(viewLifecycleOwner,
@@ -276,7 +283,7 @@ class NavigationChoiceFragment : ScopedFragment() {
         //capture lesson change
         lessonAdapter.lessonSelected.observe(viewLifecycleOwner, androidx.lifecycle.Observer { lesson ->
             if (lesson == null) {
-                lessonSelected= null
+                lessonSelected = null
                 return@Observer}
             lessonSelected = lesson
 
