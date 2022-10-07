@@ -68,7 +68,7 @@
         <entry key="app/src/main/res/layout/loading_item.xml" value="0.23229166666666667" />
         <entry key="app/src/main/res/layout/navigation_choice_fragment.xml" value="0.19669647216796876" />
         <entry key="app/src/main/res/layout/navigation_result_fragment.xml" value="0.2582290649414063" />
-        <entry key="app/src/main/res/layout/navigation_trip_fragment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/navigation_trip_fragment.xml" value="0.269256591796875" />
         <entry key="app/src/main/res/layout/row_lesson.xml" value="0.20396423339843753" />
         <entry key="app/src/main/res/layout/row_search.xml" value="0.4254295854703031" />
         <entry key="app/src/main/res/layout/search_toolbar.xml" value="0.2932877297990594" />
@@ -76,6 +76,7 @@
         <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.23229166666666667" />
         <entry key="app/src/main/res/menu/menu_item.xml" value="0.23625640869140596" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1655" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_map_indoor.xml" value="0.161" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_map_indoor_round.xml" value="0.161" />
         <entry key="app/src/main/res/xml/preferences.xml" value="0.24003623188405798" />

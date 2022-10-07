@@ -4,7 +4,7 @@
     <item
         android:id="@+id/navigationChoiceFragment"
         android:icon="@drawable/ic_explore"
-        android:title="Navigate"
+        android:title="Parking"
         />
     <item
         android:id="@+id/controlDisabledFragment"
@@ -17,5 +17,5 @@
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
-        android:title="Profile"/>
+        android:title="Settings"/>
 </menu>

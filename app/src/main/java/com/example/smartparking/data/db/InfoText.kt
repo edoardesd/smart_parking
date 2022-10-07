@@ -49,7 +49,7 @@ class InfoText(){
 
     private fun setTextLeave(){
         infoTransportTime.setTotalTime()
-        textLeave = "Leave at ${calculateLeaveTime()?.let { fromEpochToHour(it) }}."
+        textLeave = "<font color='#F29F05'>Leave at ${calculateLeaveTime()?.let { fromEpochToHour(it) }}.</font><br>"
     }
 
     private fun calculateLeaveTime(): Long? {
@@ -59,7 +59,7 @@ class InfoText(){
 
     private fun setTextAvgPark(){
         infoTransportTime.setParkTime()
-        textAvgPark = "\nAverage parking time: ${infoTransportTime.parkingTime.inWholeMinutes.toInt()} minutes."
+        textAvgPark = "Average parking time: ${infoTransportTime.parkingTime.inWholeMinutes.toInt()} minutes."
     }
 
     private fun fromEpochToHour(epoch: Long): String {

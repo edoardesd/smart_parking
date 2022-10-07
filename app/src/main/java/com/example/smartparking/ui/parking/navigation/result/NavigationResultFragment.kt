@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -219,7 +220,7 @@ class NavigationResultFragment : ScopedFragment() {
         infoCar.updateAll()
         showTextCar = infoCar.fullText()
         tv_car_result.text = infoCar.totalTimeText()
-        tv_car_text.text = showTextCar
+        tv_car_text.text = Html.fromHtml(showTextCar)
         setBoxColor(ll_car_button, infoCar.infoTransportTime.availability)
 
         tv_availability_car.text = infoCar.infoTransportTime.availability.name.uppercase()
@@ -234,7 +235,7 @@ class NavigationResultFragment : ScopedFragment() {
         infoBike.updateAll()
         showTextBike = infoBike.fullText()
         tv_bike_result.text = infoBike.totalTimeText()
-        tv_bike_text.text = showTextBike
+        tv_bike_text.text = Html.fromHtml(showTextBike)
         setBoxColor(ll_bike_button, infoBike.infoTransportTime.availability)
 
         tv_availability_bike.text = infoBike.infoTransportTime.availability.name.uppercase()
