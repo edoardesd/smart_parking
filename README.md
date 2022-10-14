@@ -28,3 +28,14 @@ It is developed as native Android app in Android Studio Bumblebee (2021.1.1) usi
 - Pixel 3a API 29 (emulator)
 - Pixel 4 API 32 (device)
 - Poco 5G API 32 (device)
+
+## Screenshots
+![parking screen](screen_parking.png "screenshot parking")
+![selection screen](screen_selection.png "screenshot selection")
+
+## Backend
+The app is helped by firestore + a custom node.js/pythonserver that
+- Read the stream from the smart camera (opencv2 library)
+- Save a subset of the stream
+- Perform occupancy estimation on the parking lots
+- Publish the parking image on a MQTT topic
